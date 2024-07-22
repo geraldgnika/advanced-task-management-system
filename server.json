@@ -1,4 +1,38 @@
 {
-  "users": [],
+  "users": [
+    {
+      "id": "_0e8jjql",
+      "full_name": "Gerald Nika",
+      "username": "gerald_nika",
+      "password": "123456",
+      "role": "projectManager",
+      "permissions": {
+        "canManageTasks": true,
+        "canViewInsights": true
+      }
+    },
+    {
+      "id": "_gpmhcxf",
+      "full_name": "Andi Nika",
+      "username": "andi_nika",
+      "password": "123456",
+      "role": "teamLead",
+      "permissions": {
+        "canManageTasks": true,
+        "canViewInsights": true
+      }
+    },
+    {
+      "id": "_qnb5eo9",
+      "full_name": "Gerardo Tatzati",
+      "username": "gerardo_tatzati",
+      "password": "123456",
+      "role": "developer",
+      "permissions": {
+        "canManageTasks": true,
+        "canViewInsights": false
+      }
+    }
+  ],
   "tasks": []
 }

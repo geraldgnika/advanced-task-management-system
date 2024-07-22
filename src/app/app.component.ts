@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'advanced-task-management-system';
+  title = 'Advanced Task Management System';
 }
