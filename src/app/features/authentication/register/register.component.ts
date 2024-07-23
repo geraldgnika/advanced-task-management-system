@@ -27,12 +27,6 @@ export class RegisterComponent implements OnDestroy {
 		private router: Router,
 		private authenticationService: AuthenticationService
 	) {
-		this.router.events.subscribe((event) => {
-			if (event instanceof NavigationStart) {
-				this.store.dispatch(clearAuthenticationError());
-			}
-		});
-
 		this.registerForm = this.formBuilder.group({
 			full_name: ['', Validators.required],
 			username: ['', Validators.required],
@@ -62,6 +56,8 @@ export class RegisterComponent implements OnDestroy {
 	}
 
 	ngOnDestroy(): void {
+		this.store.dispatch(clearAuthenticationError());
+		
 		if (this.error$) {
 			this.error$ = of(null);
 		}

@@ -15,7 +15,6 @@ export const logout = createAction('[Authentication] Logout');
 export const logoutSuccess = createAction('[Authentication] Logout Success');
 export const logoutFailure = createAction('[Authentication] Logout Failure', props<{ error: any }>());
 
-// Clear Authentication Error
 export const clearAuthenticationError = createAction(
     '[Authentication] Clear Authentication Error'
 );

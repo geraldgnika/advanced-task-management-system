@@ -26,12 +26,6 @@ export class LoginComponent implements OnDestroy {
     private store: Store<AppState>,
     private router: Router
   ) {
-    this.router.events.subscribe(event => {
-      if (event instanceof NavigationStart) {
-        this.store.dispatch(clearAuthenticationError());
-      }
-    });
-    
     this.loginForm = this.formBuilder.group({
       username: ['', Validators.required],
       password: ['', Validators.required]
@@ -54,6 +48,8 @@ export class LoginComponent implements OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.store.dispatch(clearAuthenticationError());
+    
     if (this.error$) {
       this.error$ = of(null);
     }
