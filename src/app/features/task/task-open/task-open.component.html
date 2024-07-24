@@ -36,7 +36,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="description-area">
+			<div *ngIf="task.description" class="description-area">
 				<p class="text-justify">{{ task.description }}</p>
 			</div>
 			<div class="row mt-2">
