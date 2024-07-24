@@ -15,6 +15,7 @@ import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { AuthenticationEffects } from './shared/_store/authentication/authentication.effects';
 import { reducers } from './shared/_store/_common/reducers';
 import { authenticationInterceptor } from './core/interceptors/authentication.interceptor';
+import { TaskEffects } from './shared/_store/task/task.effects';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,7 @@ import { authenticationInterceptor } from './core/interceptors/authentication.in
     SharedModule,
     FeaturesModule,
     StoreModule.forRoot(reducers),
-    EffectsModule.forRoot([AuthenticationEffects]),
+    EffectsModule.forRoot([AuthenticationEffects, TaskEffects]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production })
   ],
   providers: [

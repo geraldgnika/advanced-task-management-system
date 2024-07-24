@@ -1,1 +1,220 @@
-<p>task-list works!</p>
+<div class="w-full d-inline-flex mb-4">
+	<h2 class="mr-auto">Task List</h2>
+	<button
+		type="button"
+		class="btn btn-primary btn-md mb-4"
+		(click)="goToCreate()"
+	>
+		Create New Task
+	</button>
+</div>
+
+<div class="input-group mb-3">
+	<div class="btn-group border-color">
+		<div class="dropdown">
+			<button
+				class="btn btn-link dropdown-toggle"
+				type="button"
+				data-bs-toggle="dropdown"
+				aria-expanded="false"
+			>
+				👁 Status
+			</button>
+			<ul class="dropdown-menu">
+				<li>
+					<a class="dropdown-item cursor-pointer" (click)="showPending()"
+						>Show Pending</a
+					>
+				</li>
+				<li>
+					<a class="dropdown-item cursor-pointer" (click)="showDoing()"
+						>Show Doing</a
+					>
+				</li>
+				<li>
+					<a class="dropdown-item cursor-pointer" (click)="showCompleted()"
+						>Show Completed</a
+					>
+				</li>
+				<li>
+					<a class="dropdown-item cursor-pointer" (click)="showAll()">Show All</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<div class="btn-group border-color">
+		<div class="dropdown">
+			<button
+				class="btn btn-link dropdown-toggle"
+				type="button"
+				data-bs-toggle="dropdown"
+				aria-expanded="false"
+			>
+				👁 Priority
+			</button>
+			<ul class="dropdown-menu">
+				<li>
+					<a class="dropdown-item cursor-pointer" (click)="showLow()"
+						>Low Priority</a
+					>
+				</li>
+				<li>
+					<a class="dropdown-item cursor-pointer" (click)="showMedium()"
+						>Medium Priority</a
+					>
+				</li>
+				<li>
+					<a class="dropdown-item cursor-pointer" (click)="showHigh()"
+						>High Priority</a
+					>
+				</li>
+				<li>
+					<a class="dropdown-item cursor-pointer" (click)="showAll()">Show All</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<input
+		type="text"
+		class="form-control"
+		id="basic-url"
+		aria-describedby="basic-addon3"
+		[(ngModel)]="searchTerm"
+		(input)="searchTasks()"
+		placeholder="⌕  Search tasks..."
+	/>
+	<div class="btn-group border-color">
+		<div class="dropdown">
+			<button
+				class="btn btn-link dropdown-toggle"
+				type="button"
+				data-bs-toggle="dropdown"
+				aria-expanded="false"
+			>
+				↑↓ Sort
+			</button>
+			<ul class="dropdown-menu">
+				<li>
+					<a class="dropdown-item cursor-pointer" (click)="sortTasks('title', true)"
+						>Sort by Title ↑</a
+					>
+				</li>
+				<li>
+					<a class="dropdown-item cursor-pointer" (click)="sortTasks('title', false)"
+						>Sort by Title ↓</a
+					>
+				</li>
+				<li>
+					<a
+						class="dropdown-item cursor-pointer"
+						(click)="sortTasks('dueDate', true)"
+						>Sort by Due Date ↑</a
+					>
+				</li>
+				<li>
+					<a
+						class="dropdown-item cursor-pointer"
+						(click)="sortTasks('dueDate', false)"
+						>Sort by Due Date ↓</a
+					>
+				</li>
+				<li>
+					<a
+						class="dropdown-item cursor-pointer"
+						(click)="sortTasks('createdDate', true)"
+						>Sort by Created Date ↑</a
+					>
+				</li>
+				<li>
+					<a
+						class="dropdown-item cursor-pointer"
+						(click)="sortTasks('createdDate', false)"
+						>Sort by Created Date ↓</a
+					>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+
+<ul class="list-group">
+	<ng-container *ngIf="tasks$ | async as tasks">
+		<div *ngIf="tasks.length !== 0; else noResults">
+			<li *ngFor="let task of tasks" class="list-group-item li-item" ngClass="p-0">
+				@defer (on viewport) {
+				<div class="padding-box">
+					<div class="d-inline-flex w-full">
+						<div class="mr-auto padding-three">
+							<a class="link-open" (click)="openTask(task.id)"
+								><span class="task-title fw-medium" [innerHTML]="task.title"></span
+							></a>
+							<span class="text-muted"> - by {{ task.username! | formatUsername }}</span>
+						</div>
+						<i
+							class="bi bi-pencil btn-list btn-edit"
+							(click)="goToTaskUpdate(task.id)"
+						></i>
+						<i
+							class="bi bi-archive btn-list btn-delete"
+							(click)="deleteTask(task.id, task.title)"
+						></i>
+					</div>
+					<div class="d-inline-flex w-full mt-2">
+						<div class="d-inline-flex col-md-2">
+							<label><span class="fw-medium">Status:</span></label>
+							<div class="d-flex align-items-center">
+								<div
+									class="status-circle"
+									[ngClass]="{
+										'status-circle-pending': task.status === 'pending',
+										'status-circle-doing': task.status === 'doing',
+										'status-circle-completed': task.status === 'completed'
+									}"
+								></div>
+								<span>{{ task.status | capitalizeFirstLetter }}</span>
+							</div>
+						</div>
+						<div class="d-inline-flex col-md-2">
+							<label><span class="fw-medium">Priority:</span></label>
+							<div class="d-flex align-items-center">
+								<div
+									class="status-circle"
+									[ngClass]="{
+										'status-circle-low': task.priority === 'low',
+										'status-circle-medium': task.priority === 'medium',
+										'status-circle-high': task.priority === 'high'
+									}"
+								></div>
+								<span>{{ task.priority | capitalizeFirstLetter }}</span>
+							</div>
+						</div>
+						<div class="d-inline-flex col-md-2">
+							<label><span class="fw-medium">Due Date:</span></label>
+							<div class="d-flex align-items-center">
+								<span>{{ task.dueDate }}</span>
+							</div>
+						</div>
+						<div class="d-inline-flex col-md-5">
+							<div class="d-flex align-items-center">
+								<span *ngIf="task.assignedTo && task.assignedTo.length > 0">
+									<span class="fw-medium">Assigned to</span> {{ task.assignedTo[0] | formatUsername }}
+									<span *ngIf="task.assignedTo.length > 1">and {{ task.assignedTo.length - 1 }} more</span>
+								</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				} @placeholder() {
+				<div class="loading-placeholder"></div>
+				} @loading {
+				<div class="loading-placeholder">Loading tasks...</div>
+				} @error {
+				<div class="loading-placeholder">Could not load tasks...</div>
+				}
+			</li>
+		</div>
+		<ng-template #noResults>
+			<p class="text-center my-5">No tasks found.</p>
+		</ng-template>
+	</ng-container>
+</ul>

@@ -84,3 +84,9 @@ img {
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
 }
+
+h1, h2, h3, h4, h5, h6, p {
+  overflow-x: hidden;
+    overflow-y: hidden;
+    overflow-wrap: break-word;
+}

@@ -5,7 +5,7 @@ import * as UserActions from '../../../shared/_store/authentication/authenticati
 import { AppState } from '../../../shared/_store/_common/app.state';
 import { Observable, of } from 'rxjs';
 import { selectCurrentAuthenticationError } from '../../../shared/_store/authentication/authentication.selectors';
-import { NavigationStart, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { LoginPayload } from '../../../core/types/payloads/authentication/login-payload.interface';
 import { clearAuthenticationError } from '../../../shared/_store/authentication/authentication.actions';
 

@@ -1,0 +1,12 @@
+.assignToDiv {
+	max-height: 200px;
+	overflow-y: auto;
+	border: 1px solid #ccc;
+	padding: 10px;
+	background-color: white;
+	border-radius: 7px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	padding-left: 15px;
+	padding-right: 15px;
+}

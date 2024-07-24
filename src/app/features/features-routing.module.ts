@@ -9,6 +9,7 @@ const routes: Routes = [
   { path: '', component: LoginComponent, title: 'Login', canActivate: [slashRoute] },
   { path: 'landing', loadChildren: () => import('./landing/landing.module').then(m => m.LandingModule), canActivate: [isAuthenticatedGuard] },
   { path: 'authentication', loadChildren: () => import('./authentication/authentication.module').then(m => m.AuthenticationModule), canActivate: [isNotAuthenticatedGuard] },
+  { path: 'task', loadChildren: () => import('./task/task.module').then(m => m.TaskModule), canActivate: [isAuthenticatedGuard] },
   { path: '**', redirectTo: '' }
 ];
 

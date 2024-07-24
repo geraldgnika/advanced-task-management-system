@@ -34,5 +34,90 @@
       }
     }
   ],
-  "tasks": []
+  "tasks": [
+    {
+      "id": "tufmwtr",
+      "title": "Fix Django REST Serializers",
+      "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+      "status": "pending",
+      "priority": "low",
+      "createdDate": "2024-07-24",
+      "updatedDate": "2024-07-24",
+      "dueDate": "2024-07-25",
+      "assignedTo": [
+        "gerald_nika"
+      ],
+      "comments": [
+        {
+          "id": "99oa5xs",
+          "body": "def",
+          "username": "andi_nika"
+        },
+        {
+          "id": "99oa5xt",
+          "body": "ghi",
+          "username": "gerardo_tatzati"
+        },
+        {
+          "id": "99oa5xv",
+          "body": "mno",
+          "username": "andi_nika"
+        },
+        {
+          "id": "cbxhtaq",
+          "body": "gagagagagagagaga",
+          "username": "gerald_nika"
+        },
+        {
+          "id": "nhs0g16",
+          "body": "dsgfdfgfdgdgfdgfdgdf",
+          "username": "gerald_nika"
+        }
+      ],
+      "attachment": "Firebase Auth Documentation Requirements.docx",
+      "user_id": "_0e8jjql",
+      "username": "gerald_nika"
+    },
+    {
+      "id": "51ve60i",
+      "title": "Add Laravel Providers",
+      "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+      "status": "doing",
+      "priority": "medium",
+      "createdDate": "2024-07-24",
+      "updatedDate": "2024-07-24",
+      "dueDate": "2024-08-10",
+      "assignedTo": [
+        "gerardo_tatzati",
+        "andi_nika"
+      ],
+      "comments": [
+        {
+          "id": "3ga8fez",
+          "body": "ffff",
+          "username": "andi_nika"
+        }
+      ],
+      "attachment": "Firebase Auth Documentation Requirements.docx",
+      "user_id": "_0e8jjql",
+      "username": "gerald_nika"
+    },
+    {
+      "id": "51ve60i",
+      "title": "Implement Dijkstra Algorithm in C#",
+      "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+      "status": "completed",
+      "priority": "high",
+      "createdDate": "2024-07-24",
+      "updatedDate": "2024-07-24",
+      "dueDate": "2024-08-10",
+      "assignedTo": [
+        "andi_nika"
+      ],
+      "comments": [],
+      "attachment": "",
+      "user_id": "_0e8jjql",
+      "username": "gerald_nika"
+    }
+  ]
 }

@@ -4,8 +4,8 @@ import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { User } from '../types/interfaces/user';
-import { UserRoles } from '../types/enums/user-roles';
-import { UserPermissions } from '../types/enums/user-permissions';
+import { UserRoles } from '../types/enums/authentication/user-roles';
+import { UserPermissions } from '../types/enums/authentication/user-permissions';
 import { RegisterPayload } from '../types/payloads/authentication/register-payload.interface';
 import { LoginPayload } from '../types/payloads/authentication/login-payload.interface';
 
@@ -173,7 +173,7 @@ export class AuthenticationService {
     return currentUser?.permissions[permission] ?? false;
   }
 
-  getUserById(user_id: string): Observable<{ user_id: string, full_name: string }> {
-    return this.http.get<{ user_id: string, full_name: string }>(`${this.apiUrl}/${user_id}`);
+  getUserById(user_id: string): Observable<{ user_id: string, username: string }> {
+    return this.http.get<{ user_id: string, username: string }>(`${this.apiUrl}/${user_id}`);
   }
 }

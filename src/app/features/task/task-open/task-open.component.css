@@ -1,0 +1,86 @@
+.status-circle {
+	width: 11px;
+	height: 11px;
+	margin-top: 1px;
+	border-radius: 50%;
+	margin-right: 5px;
+}
+
+.status-circle-pending {
+	background-color: orange;
+}
+
+.status-circle-doing {
+	background-color: blue;
+}
+
+.status-circle-completed {
+	background-color: green;
+}
+
+.status-circle-low {
+	background-color: blue;
+}
+
+.status-circle-medium {
+	background-color: orange;
+}
+
+.status-circle-high {
+	background-color: red;
+}
+
+.margin-right-20 {
+	margin-right: 20px;
+}
+
+.margin-bottom-15 {
+	margin-bottom: 15px;
+}
+
+.task-wrapper {
+	background-color: white;
+	border-radius: 10px;
+	border: 1px solid rgb(223 223 223);
+	padding-top: 20px;
+	padding-bottom: 25px;
+	padding-left: 32px;
+	padding-right: 32px;
+}
+
+.attachment-box {
+	border: 1px solid #e3e3e3;
+	border-radius: 5px;
+	padding-left: 25px;
+	padding-top: 15px;
+	padding-right: 25px;
+	display: inline-flex;
+	border-left: 0;
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
+}
+
+.btn-del-attachment {
+	padding: 0 !important;
+	font-size: 25px;
+	height: fit-content;
+	line-height: initial;
+	font-family: ui-monospace;
+	margin-top: -2px;
+}
+
+.attachment-img {
+	height: 57px;
+	border-top-left-radius: 5px;
+	border-bottom-left-radius: 5px;
+}
+
+.comments-ul {
+	list-style-type: none;
+    padding-left: 0;
+}
+
+.comment-input-field {
+	border-radius: 6px !important;
+	margin-right: 15px;
+}
