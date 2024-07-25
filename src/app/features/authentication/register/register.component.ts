@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import * as UserActions from '../../../shared/_store/authentication/authentication.actions';
 import { AppState } from '../../../shared/_store/_common/app.state';
 import { Observable, of } from 'rxjs';
-import { selectCurrentAuthenticationError } from '../../../shared/_store/authentication/authentication.selectors';
+import { selectCurrentUserError } from '../../../shared/_store/authentication/authentication.selectors';
 import { Router } from '@angular/router';
 import { RegisterPayload } from '../../../core/types/payloads/authentication/register-payload.interface';
 import { UserRoles } from '../../../core/types/enums/authentication/user-roles';
@@ -34,7 +34,7 @@ export class RegisterComponent implements OnDestroy {
 			role: [UserRoles.Developer, Validators.required],
 		});
 
-		this.error$ = this.store.select(selectCurrentAuthenticationError);
+		this.error$ = this.store.select(selectCurrentUserError);
 	}
 
 	goToLogin(): void {

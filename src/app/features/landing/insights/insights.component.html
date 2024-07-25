@@ -56,7 +56,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr *ngFor="let task of tasks">
+								<tr *ngFor="let task of tasks$ | async">
 									<td>{{ task.id }}</td>
 									<td>{{ task.username }}</td>
 									<td>{{ task.title }}</td>

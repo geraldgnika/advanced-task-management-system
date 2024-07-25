@@ -1,17 +1,11 @@
 import { createReducer, on } from '@ngrx/store';
 import * as TaskActions from './task.actions';
-import { TaskState } from './task.state';
+import { initialTaskState } from './task.state';
 import { Task } from '../../../core/types/interfaces/task';
-
-export const initialTaskState: TaskState = {
-  tasks: [],
-  task: null,
-  loading: false,
-  error: null
-};
 
 export const taskReducer = createReducer(
   initialTaskState,
+  // Load Tasks
   on(TaskActions.loadTasks, state => ({
     ...state,
     loading: true,
@@ -28,6 +22,8 @@ export const taskReducer = createReducer(
     loading: false,
     error
   })),
+
+  // Load Task
   on(TaskActions.loadTask, state => ({
     ...state,
     loading: true,
@@ -44,6 +40,8 @@ export const taskReducer = createReducer(
     loading: false,
     error
   })),
+
+  // Add Task
   on(TaskActions.addTask, state => ({
     ...state,
     loading: true,
@@ -60,6 +58,8 @@ export const taskReducer = createReducer(
     loading: false,
     error
   })),
+
+  // Update Task
   on(TaskActions.updateTask, state => ({
     ...state,
     loading: true,
@@ -76,6 +76,8 @@ export const taskReducer = createReducer(
     loading: false,
     error
   })),
+
+  // Delete Task
   on(TaskActions.deleteTask, state => ({
     ...state,
     loading: true,
@@ -92,6 +94,8 @@ export const taskReducer = createReducer(
     loading: false,
     error
   })),
+
+  // Delete Attachment
   on(TaskActions.deleteAttachment, state => ({
     ...state,
     loading: true,
@@ -113,6 +117,8 @@ export const taskReducer = createReducer(
     loading: false,
     error
   })),
+
+  // Update Attachment
   on(TaskActions.updateAttachment, state => ({
     ...state,
     loading: true,
@@ -134,8 +140,35 @@ export const taskReducer = createReducer(
     loading: false,
     error
   })),
+
+  // Clear Task Add Error
   on(TaskActions.clearTaskAddError, (state) => ({
     ...state,
     error: null
+  })),
+  on(TaskActions.clearTaskAddErrorSuccess, (state) => ({
+    ...state,
+    error: null
+  })),
+  on(TaskActions.clearTaskAddErrorFailure, (state, error) => ({
+    ...state,
+    error
+  })),
+
+  // Load Tasks By Status
+  on(TaskActions.loadTasksByStatus, state => ({
+    ...state,
+    loading: true,
+    error: null
+  })),
+  on(TaskActions.loadTasksByStatusSuccess, (state, { status, tasks }) => ({
+    ...state,
+    [`${status.toLowerCase()}Tasks`]: tasks,
+    error: null
+  })),
+  on(TaskActions.loadTasksByStatusFailure, (state, { status, error }) => ({
+    ...state,
+    [`${status.toLowerCase()}Tasks`]: [],
+    error
   }))
 );

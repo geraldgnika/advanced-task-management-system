@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import * as UserActions from '../../../shared/_store/authentication/authentication.actions';
 import { AppState } from '../../../shared/_store/_common/app.state';
 import { Observable, of } from 'rxjs';
-import { selectCurrentAuthenticationError } from '../../../shared/_store/authentication/authentication.selectors';
+import { selectCurrentUserError } from '../../../shared/_store/authentication/authentication.selectors';
 import { Router } from '@angular/router';
 import { LoginPayload } from '../../../core/types/payloads/authentication/login-payload.interface';
 import { clearAuthenticationError } from '../../../shared/_store/authentication/authentication.actions';
@@ -31,7 +31,7 @@ export class LoginComponent implements OnDestroy {
       password: ['', Validators.required]
     });
 
-    this.error$ = this.store.select(selectCurrentAuthenticationError);
+    this.error$ = this.store.select(selectCurrentUserError);
   }
 
   goToRegister() : void {

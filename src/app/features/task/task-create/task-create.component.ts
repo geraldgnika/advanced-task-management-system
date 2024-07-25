@@ -6,9 +6,10 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../../../shared/_store/_common/app.state';
 import { TaskService } from '../../../core/_services/task.service';
 import * as TaskActions from '../../../shared/_store/task/task.actions';
+import * as AuthenticationActions from '../../../shared/_store/authentication/authentication.actions';
+import * as AuthenticationSelectors from '../../../shared/_store/authentication/authentication.selectors';
 import { Observable, of, switchMap } from 'rxjs';
 import { User } from '../../../core/types/interfaces/user';
-import { AuthenticationService } from '../../../core/_services/authentication.service';
 import { Task } from '../../../core/types/interfaces/task';
 import { Comment } from '../../../core/types/interfaces/comment';
 import { TaskStatus } from '../../../core/types/enums/task/task-status';
@@ -22,8 +23,8 @@ import { TaskPriority } from '../../../core/types/enums/task/task-priority';
 })
 export class TaskCreateComponent implements OnInit {
   taskForm: FormGroup;
-  currentUser$: Observable<User | null> = this.authenticationService.getCurrentUserObservable();
-  allUsers: User[] = [];
+  currentUser$: Observable<User | null> = of();
+  allUsers$!: Observable<User[]>;
   taskPriorities: { value: string, label: string }[];
   taskStatuses: { value: string, label: string }[];
   usn: string = "";
@@ -34,7 +35,6 @@ export class TaskCreateComponent implements OnInit {
     private _location: Location,
     private taskService: TaskService,
     private router: Router,
-    private authenticationService: AuthenticationService,
     private cdr: ChangeDetectorRef
   ) {
     this.taskForm = this.fb.group({
@@ -52,6 +52,9 @@ export class TaskCreateComponent implements OnInit {
       user_id: [''],
       username: ['']
     });
+
+    this.currentUser$ = this.store.select('authentication', 'user');
+    this.store.dispatch(AuthenticationActions.loadCurrentUser());
 
     this.currentUser$.subscribe((user) => {
       if (user) {
@@ -80,10 +83,10 @@ export class TaskCreateComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.authenticationService.getUsers().subscribe(users => {
-      this.allUsers = users;
-      this.cdr.detectChanges();
-    });
+    this.store.dispatch(AuthenticationActions.loadUsers());
+    this.allUsers$ = this.store.select(AuthenticationSelectors.selectAllUsers);
+
+    this.cdr.detectChanges();
   }
 
   @ViewChild('commentsTextarea') commentsTextarea!: ElementRef;

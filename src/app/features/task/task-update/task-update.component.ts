@@ -1,14 +1,19 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { AppState } from '../../../shared/_store/_common/app.state';
-import { TaskService } from '../../../core/_services/task.service';
 import * as TaskActions from '../../../shared/_store/task/task.actions';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { User } from '../../../core/types/interfaces/user';
-import { AuthenticationService } from '../../../core/_services/authentication.service';
+import * as AuthenticationActions from '../../../shared/_store/authentication/authentication.actions';
+import * as AuthenticationSelectors from '../../../shared/_store/authentication/authentication.selectors';
 import { Task } from '../../../core/types/interfaces/task';
 import { TaskStatus } from '../../../core/types/enums/task/task-status';
 import { TaskPriority } from '../../../core/types/enums/task/task-priority';
@@ -21,19 +26,17 @@ import { TaskPriority } from '../../../core/types/enums/task/task-priority';
 })
 export class TaskUpdateComponent implements OnInit {
   taskForm: FormGroup;
-  currentUser$: Observable<User | null> = this.authenticationService.getCurrentUserObservable();
-  allUsers: User[] = [];
-  taskPriorities: { value: string, label: string }[];
-  taskStatuses: { value: string, label: string }[];
+  currentUser$: Observable<User | null> = of();
+  allUsers$!: Observable<User[]>;
+  taskPriorities: { value: string; label: string }[];
+  taskStatuses: { value: string; label: string }[];
   task: Task | undefined;
 
   constructor(
     private fb: FormBuilder,
     private store: Store<AppState>,
     private _location: Location,
-    private taskService: TaskService,
     private router: Router,
-    private authenticationService: AuthenticationService,
     private cdr: ChangeDetectorRef,
     private route: ActivatedRoute
   ) {
@@ -50,30 +53,33 @@ export class TaskUpdateComponent implements OnInit {
       comments: this.fb.array([]),
       attachment: [''],
       user_id: [''],
-      username: ['']
+      username: [''],
     });
+
+    this.currentUser$ = this.store.select('authentication', 'user');
+    this.store.dispatch(AuthenticationActions.loadCurrentUser());
 
     this.currentUser$.subscribe((user) => {
       if (user) {
         this.taskForm.patchValue({
           user_id: user.id,
-          username: user.username
+          username: user.username,
         });
       }
     });
 
     this.taskPriorities = Object.values(TaskPriority)
-      .filter(value => typeof value === 'string')
-      .map(value => ({
+      .filter((value) => typeof value === 'string')
+      .map((value) => ({
         value,
-        label: value.charAt(0).toUpperCase() + value.slice(1)
+        label: value.charAt(0).toUpperCase() + value.slice(1),
       }));
 
     this.taskStatuses = Object.values(TaskStatus)
-      .filter(value => typeof value === 'string')
-      .map(value => ({
+      .filter((value) => typeof value === 'string')
+      .map((value) => ({
         value,
-        label: value.charAt(0).toUpperCase() + value.slice(1)
+        label: value.charAt(0).toUpperCase() + value.slice(1),
       }));
   }
 
@@ -85,10 +91,10 @@ export class TaskUpdateComponent implements OnInit {
   ngOnInit(): void {
     this.patchTaskValues();
 
-    this.authenticationService.getUsers().subscribe(users => {
-      this.allUsers = users;
-      this.cdr.detectChanges();
-    });
+    this.store.dispatch(AuthenticationActions.loadUsers());
+    this.allUsers$ = this.store.select(AuthenticationSelectors.selectAllUsers);
+
+    this.cdr.detectChanges();
   }
 
   saveTask(): void {
@@ -98,16 +104,15 @@ export class TaskUpdateComponent implements OnInit {
       ...this.taskForm.value,
       updatedDate: currentDate,
       comments: this.task ? this.task.comments : [],
-      attachment: this.task ? this.task.attachment : ''
+      attachment: this.task ? this.task.attachment : '',
     };
 
     const task: Task = {
       ...this.task,
-      ...updatedFields
+      ...updatedFields,
     };
 
-        this.store.dispatch(TaskActions.updateTask({ task }));
-
+    this.store.dispatch(TaskActions.updateTask({ task }));
 
     this.store.dispatch(TaskActions.loadTasks());
     this.router.navigate(['task/list']);
@@ -119,10 +124,10 @@ export class TaskUpdateComponent implements OnInit {
 
   patchTaskValues(): void {
     const taskId = this.route.snapshot.params['id'];
-  
-    this.store.pipe(select(state => state.tasks.tasks)).subscribe(tasks => {
-      this.task = tasks.find(task => task.id === taskId);
-  
+
+    this.store.pipe(select((state) => state.tasks.tasks)).subscribe((tasks) => {
+      this.task = tasks.find((task) => task.id === taskId);
+
       if (this.task) {
         this.taskForm.patchValue({
           id: this.task.id,
@@ -133,13 +138,13 @@ export class TaskUpdateComponent implements OnInit {
           createdDate: this.task.createdDate,
           updatedDate: this.task.updatedDate,
           dueDate: this.task.dueDate,
-          user_id: this.task.user_id
+          user_id: this.task.user_id,
         });
 
         const assignedToArray = this.taskForm.get('assignedTo') as FormArray;
         assignedToArray.clear();
-        
-        this.task.assignedTo.forEach(userId => {
+
+        this.task.assignedTo.forEach((userId) => {
           assignedToArray.push(this.fb.control(userId));
         });
       }
@@ -148,8 +153,10 @@ export class TaskUpdateComponent implements OnInit {
 
   toggleAssignedTo(username: string): void {
     const assignedToArray = this.taskForm.get('assignedTo') as FormArray;
-    const index = assignedToArray.controls.findIndex(control => control.value === username);
-  
+    const index = assignedToArray.controls.findIndex(
+      (control) => control.value === username
+    );
+
     if (index === -1) {
       assignedToArray.push(this.fb.control(username));
     } else {

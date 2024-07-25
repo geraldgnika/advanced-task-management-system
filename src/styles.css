@@ -4,6 +4,10 @@ body {
   background-color: #bb82761c !important;
 }
 
+.container {
+  max-width: 1400px !important;
+}
+
 .wrapper {
   padding-bottom: 10rem !important;
 }

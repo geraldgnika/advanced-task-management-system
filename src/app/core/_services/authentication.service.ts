@@ -176,4 +176,8 @@ export class AuthenticationService {
   getUserById(user_id: string): Observable<{ user_id: string, username: string }> {
     return this.http.get<{ user_id: string, username: string }>(`${this.apiUrl}/${user_id}`);
   }
+
+  getUser(user_id: string): Observable<User> {
+    return this.http.get<User>(`${this.apiUrl}/${user_id}`);
+  }
 }

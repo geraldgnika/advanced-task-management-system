@@ -9,16 +9,17 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { Store } from '@ngrx/store';
 import * as TaskActions from '../../../shared/_store/task/task.actions';
-import { Observable } from 'rxjs';
+import { map, Observable, of, Subscription } from 'rxjs';
 import { AppState } from '../../../shared/_store/_common/app.state';
 import {
 	selectSelectedTask,
-	selectTasksError,
-	selectTasksLoading,
+	selectAllTasksError,
+	selectAllTasksLoading,
 } from '../../../shared/_store/task/task.selectors';
-import { AuthenticationService } from '../../../core/_services/authentication.service';
+import * as AuthenticationActions from '../../../shared/_store/authentication/authentication.actions';
 import { Task } from '../../../core/types/interfaces/task';
 import { TaskService } from '../../../core/_services/task.service';
+import { User } from '../../../core/types/interfaces/user';
 
 @Component({
 	selector: 'app-task-open',
@@ -31,11 +32,14 @@ export class TaskOpenComponent implements OnInit {
 	loading$: Observable<boolean> | undefined;
 	error$: Observable<any> | undefined;
 	task!: Task;
+	user!: User;
 	newComment: string = '';
-	usn = this.authenticationService.getCurrentUser().username;
+	currentUser$: Observable<User | null> = of();
 	showMentionBox: boolean = false;
 	filteredUsernames: string[] = [];
+	allUsers$: Observable<User[]> | undefined;
 	allUsernames: string[] = [];
+	allUsersSubscription: Subscription | undefined;
 	@ViewChild('commentInput') commentInput!: ElementRef<HTMLInputElement>;
 
 	constructor(
@@ -43,16 +47,26 @@ export class TaskOpenComponent implements OnInit {
 		private router: Router,
 		private _location: Location,
 		private store: Store<AppState>,
-		public authenticationService: AuthenticationService,
 		private taskService: TaskService
-	) {}
+	) {
+		this.currentUser$ = this.store.select('authentication', 'user');
+    	this.store.dispatch(AuthenticationActions.loadCurrentUser());
+	}
 
 	ngOnInit(): void {
 		this.getTask();
 
-		this.authenticationService.getUsers().subscribe((users) => {
-			this.allUsernames = users.map((user) => user.username);
-		});
+		this.allUsers$ = this.store.select('authentication', 'users');
+
+		this.allUsersSubscription = this.allUsers$
+		  .pipe(
+			map(users => users.map(user => user.username))
+		  )
+		  .subscribe(usernames => {
+			this.allUsernames = usernames;
+		  });
+	
+		this.store.dispatch(AuthenticationActions.loadUsers());
 	}
 
 	getTask() {
@@ -60,8 +74,8 @@ export class TaskOpenComponent implements OnInit {
 		this.store.dispatch(TaskActions.loadTask({ id: taskId }));
 
 		this.task$ = this.store.select(selectSelectedTask);
-		this.loading$ = this.store.select(selectTasksLoading);
-		this.error$ = this.store.select(selectTasksError);
+		this.loading$ = this.store.select(selectAllTasksLoading);
+		this.error$ = this.store.select(selectAllTasksError);
 	}
 
 	deleteTask(): void {
@@ -206,6 +220,15 @@ export class TaskOpenComponent implements OnInit {
 			this.task = task;
 		});
 
+		this.currentUser$!.subscribe((user) => {
+			if (!user) {
+				console.error('User not found');
+				return;
+			}
+
+			this.user = user;
+		});
+
 		const updatedTask: Task = {
 			...this.task,
 			comments: [
@@ -213,7 +236,7 @@ export class TaskOpenComponent implements OnInit {
 				{
 					id: this.taskService.generateRandomId(),
 					body: this.newComment,
-					username: this.authenticationService.getCurrentUser().username,
+					username: this.user.username,
 				},
 			],
 		};

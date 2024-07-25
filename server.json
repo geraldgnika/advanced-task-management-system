@@ -39,7 +39,7 @@
       "id": "tufmwtr",
       "title": "Fix Django REST Serializers",
       "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-      "status": "reviewing",
+      "status": "pending",
       "priority": "low",
       "createdDate": "2024-07-24",
       "updatedDate": "2024-07-24",
@@ -82,11 +82,6 @@
           "id": "yl921v1",
           "body": "dfs @andi_nika and",
           "username": "gerald_nika"
-        },
-        {
-          "id": "9gbu261",
-          "body": "@gerald_nika ",
-          "username": "gerald_nika"
         }
       ],
       "attachment": "Firebase Auth Documentation Requirements.docx",
@@ -97,7 +92,7 @@
       "id": "51ve60i",
       "title": "Add Laravel Providers",
       "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-      "status": "pending",
+      "status": "reviewing",
       "priority": "medium",
       "createdDate": "2024-07-24",
       "updatedDate": "2024-07-24",
@@ -158,6 +153,48 @@
         {
           "id": "w35b6gv",
           "body": "esfsde @gerald_nika sdfdsdf",
+          "username": "gerald_nika"
+        }
+      ],
+      "attachment": "",
+      "user_id": "_0e8jjql",
+      "username": "gerald_nika"
+    },
+    {
+      "id": "cny955p",
+      "title": "sdfds",
+      "description": "",
+      "status": "reviewing",
+      "priority": "low",
+      "createdDate": "2024-07-25",
+      "updatedDate": "2024-07-25",
+      "dueDate": "2024-07-26",
+      "assignedTo": [
+        "andi_nika"
+      ],
+      "comments": [],
+      "attachment": "",
+      "user_id": "_0e8jjql",
+      "username": "gerald_nika"
+    },
+    {
+      "id": "fgv8i07",
+      "title": "aaa",
+      "description": "",
+      "status": "pending",
+      "priority": "low",
+      "createdDate": "2024-07-25",
+      "updatedDate": "2024-07-25",
+      "dueDate": "2024-07-26",
+      "assignedTo": [
+        "gerardo_tatzati",
+        "gerald_nika",
+        "andi_nika"
+      ],
+      "comments": [
+        {
+          "id": "bwatkan",
+          "body": "@andi_nika lorem ipsum dolor sit amet",
           "username": "gerald_nika"
         }
       ],

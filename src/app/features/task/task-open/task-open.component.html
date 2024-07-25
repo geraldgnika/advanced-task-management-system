@@ -105,7 +105,7 @@
 		</div>
 	</div>
 	<div class="row mt-3">
-		<div class="col-md-8 m-auto task-wrapper">
+		<div class="col-md-8 m-auto comments-wrapper">
 			<h5 class="mb-3">Comments:</h5>
 			<div class="w-full">
 				<div class="input-group mb-3">
@@ -132,7 +132,7 @@
 								>
 								<span [innerHTML]="highlightUsername(comment.body)"></span>
 							</p>
-							<button *ngIf="usn === comment.username" class="btn btn-link btn-del-attachment" (click)="deleteComment(comment.id)">&times;</button>
+							<button *ngIf="(currentUser$ | async)?.username === comment.username" class="btn btn-link btn-del-attachment" (click)="deleteComment(comment.id)">&times;</button>
 						</div>
 					</li>
 				</ul>

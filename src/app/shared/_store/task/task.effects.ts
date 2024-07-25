@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, exhaustMap, map, mergeMap } from 'rxjs/operators';
+import { catchError, concatMap, exhaustMap, map, mergeMap, switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import * as TaskActions from './task.actions';
 import { TaskService } from '../../../core/_services/task.service';
@@ -9,6 +9,7 @@ import { TaskService } from '../../../core/_services/task.service';
 export class TaskEffects {
   constructor(private actions$: Actions, private taskService: TaskService) {}
 
+  // Load Taska
   loadTasks$ = createEffect(() =>
     this.actions$.pipe(
       ofType(TaskActions.loadTasks),
@@ -23,6 +24,7 @@ export class TaskEffects {
     )
   );
 
+  // Load Task
   loadTask$ = createEffect(() =>
     this.actions$.pipe(
       ofType(TaskActions.loadTask),
@@ -35,6 +37,7 @@ export class TaskEffects {
     )
   );
 
+  // Add Task
   addTask$ = createEffect(() =>
     this.actions$.pipe(
       ofType(TaskActions.addTask),
@@ -47,6 +50,7 @@ export class TaskEffects {
     )
   );
 
+  // Update Task
   updateTask$ = createEffect(() =>
     this.actions$.pipe(
       ofType(TaskActions.updateTask),
@@ -59,6 +63,7 @@ export class TaskEffects {
     )
   );
 
+  // Delete Task
   deleteTask$ = createEffect(() =>
     this.actions$.pipe(
       ofType(TaskActions.deleteTask),
@@ -71,6 +76,7 @@ export class TaskEffects {
     )
   );
 
+  // Delete Attachment
   deleteAttachment$ = createEffect(() =>
     this.actions$.pipe(
       ofType(TaskActions.deleteAttachment),
@@ -83,6 +89,7 @@ export class TaskEffects {
     )
   );
 
+  // Update Attachment
   updateAttachment$ = createEffect(() =>
     this.actions$.pipe(
       ofType(TaskActions.updateAttachment),
@@ -90,6 +97,19 @@ export class TaskEffects {
         this.taskService.updateAttachment(action.task, action.filename).pipe(
           map((task) => TaskActions.updateAttachmentSuccess({ task, filename: action.filename })),
           catchError((error) => of(TaskActions.updateAttachmentFailure({ error })))
+        )
+      )
+    )
+  );
+  
+  // Load Tasks By Status
+  loadTasksByStatus$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(TaskActions.loadTasksByStatus),
+      concatMap(action =>
+        this.taskService.getTasksByStatus(action.status).pipe(
+          map(tasks => TaskActions.loadTasksByStatusSuccess({ status: action.status, tasks })),
+          catchError(error => of(TaskActions.loadTasksByStatusFailure({ status: action.status, error })))
         )
       )
     )

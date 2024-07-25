@@ -1,13 +1,15 @@
 import { User } from "../../../core/types/interfaces/user";
 
 export interface AuthenticationState {
-  currentAuthentication: User | any;
+  users: User[];
+  user: User | any;
   loading: boolean;
   error: string | null;
 }
 
 export const initialAuthenticationState: AuthenticationState = {
-  currentAuthentication: null,
+  users: [],
+  user: null,
   loading: false,
   error: null,
 };

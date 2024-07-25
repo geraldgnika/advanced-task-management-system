@@ -29,7 +29,7 @@
         <div class="mb-3 assignToDiv border rounded p-3">
           <label for="assignedTo" class="form-label">Assign To:</label>
           <div style="max-height: 200px; overflow-y: auto;">
-            <div *ngFor="let user of allUsers" class="form-check">
+            <div *ngFor="let user of allUsers$ | async" class="form-check">
               <input type="checkbox"
                      class="form-check-input"
                      [value]="user.username"
