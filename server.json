@@ -39,7 +39,7 @@
       "id": "tufmwtr",
       "title": "Fix Django REST Serializers",
       "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-      "status": "pending",
+      "status": "reviewing",
       "priority": "low",
       "createdDate": "2024-07-24",
       "updatedDate": "2024-07-24",
@@ -72,6 +72,16 @@
           "id": "nhs0g16",
           "body": "dsgfdfgfdgdgfdgfdgdf",
           "username": "gerald_nika"
+        },
+        {
+          "id": "96b28x2",
+          "body": "hey @gerald_nika how are you doing with the task i gave you last week?",
+          "username": "gerald_nika"
+        },
+        {
+          "id": "yl921v1",
+          "body": "dfs @andi_nika and",
+          "username": "gerald_nika"
         }
       ],
       "attachment": "Firebase Auth Documentation Requirements.docx",
@@ -82,7 +92,7 @@
       "id": "51ve60i",
       "title": "Add Laravel Providers",
       "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-      "status": "doing",
+      "status": "pending",
       "priority": "medium",
       "createdDate": "2024-07-24",
       "updatedDate": "2024-07-24",
@@ -96,6 +106,11 @@
           "id": "3ga8fez",
           "body": "ffff",
           "username": "andi_nika"
+        },
+        {
+          "id": "1wmkhc8",
+          "body": "sdfds",
+          "username": "gerald_nika"
         }
       ],
       "attachment": "Firebase Auth Documentation Requirements.docx",
@@ -103,7 +118,7 @@
       "username": "gerald_nika"
     },
     {
-      "id": "51ve60i",
+      "id": "51ve60u",
       "title": "Implement Dijkstra Algorithm in C#",
       "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
       "status": "completed",
@@ -114,7 +129,33 @@
       "assignedTo": [
         "andi_nika"
       ],
-      "comments": [],
+      "comments": [
+        {
+          "id": "o56fho8",
+          "body": "dsfsd",
+          "username": "gerald_nika"
+        },
+        {
+          "id": "d9yycmm",
+          "body": "dfsdf",
+          "username": "gerald_nika"
+        },
+        {
+          "id": "knhwsf5",
+          "body": "sdfdsf",
+          "username": "gerald_nika"
+        },
+        {
+          "id": "kq6imjq",
+          "body": "sdffds",
+          "username": "gerald_nika"
+        },
+        {
+          "id": "w35b6gv",
+          "body": "esfsde @gerald_nika sdfdsdf",
+          "username": "gerald_nika"
+        }
+      ],
       "attachment": "",
       "user_id": "_0e8jjql",
       "username": "gerald_nika"

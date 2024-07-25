@@ -1,0 +1,73 @@
+<li class="list-group-item li-item" >
+@defer (on viewport) {
+    <div class="padding-box">
+        <div class="d-inline-flex w-full">
+            <div class="mr-auto padding-three">
+                <a class="link-open" (click)="onOpenTask(task.id)"
+                    ><span class="task-title fw-medium" [innerHTML]="task.title"></span
+                ></a>
+                <span class="text-muted"> - by {{ task.username! | formatUsername }}</span>
+            </div>
+            <i
+                class="bi bi-pencil btn-list btn-edit"
+                (click)="onEditTask(task.id)"
+            ></i>
+            <i
+                class="bi bi-archive btn-list btn-delete"
+                (click)="onDeleteTask(task.id, task.title)"
+            ></i>
+        </div>
+        <div class="d-inline-flex w-full mt-2">
+            <div class="d-inline-flex col-md-2">
+                <label><span class="fw-medium">Status:</span></label>
+                <div class="d-flex align-items-center">
+                    <div
+                        class="status-circle"
+                        [ngClass]="{
+                            'status-circle-pending': task.status === 'pending',
+                            'status-circle-doing': task.status === 'doing',
+                            'status-circle-reviewing': task.status === 'reviewing',
+                            'status-circle-completed': task.status === 'completed'
+                        }"
+                    ></div>
+                    <span>{{ task.status | capitalizeFirstLetter }}</span>
+                </div>
+            </div>
+            <div class="d-inline-flex col-md-2">
+                <label><span class="fw-medium">Priority:</span></label>
+                <div class="d-flex align-items-center">
+                    <div
+                        class="status-circle"
+                        [ngClass]="{
+                            'status-circle-low': task.priority === 'low',
+                            'status-circle-medium': task.priority === 'medium',
+                            'status-circle-high': task.priority === 'high'
+                        }"
+                    ></div>
+                    <span>{{ task.priority | capitalizeFirstLetter }}</span>
+                </div>
+            </div>
+            <div class="d-inline-flex col-md-2">
+                <label><span class="fw-medium">Due Date:</span></label>
+                <div class="d-flex align-items-center">
+                    <span>{{ task.dueDate }}</span>
+                </div>
+            </div>
+            <div class="d-inline-flex col-md-5">
+                <div class="d-flex align-items-center">
+                    <span *ngIf="task.assignedTo && task.assignedTo.length > 0">
+                        <span class="fw-medium">Assigned to</span> {{ task.assignedTo[0] | formatUsername }}
+                        <span *ngIf="task.assignedTo.length > 1">and {{ task.assignedTo.length - 1 }} more</span>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    } @placeholder() {
+    <div class="loading-placeholder"></div>
+    } @loading {
+    <div class="loading-placeholder">Loading tasks...</div>
+    } @error {
+    <div class="loading-placeholder">Could not load tasks...</div>
+    }
+</li>

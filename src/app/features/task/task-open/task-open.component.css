@@ -14,6 +14,10 @@
 	background-color: blue;
 }
 
+.status-circle-reviewing {
+	background-color: brown;
+}
+
 .status-circle-completed {
 	background-color: green;
 }
@@ -83,4 +87,38 @@
 .comment-input-field {
 	border-radius: 6px !important;
 	margin-right: 15px;
+}
+
+.mention-box {
+	position: absolute;
+    background-color: white;
+    border: 1px solid #dfdfdf;
+	top: 46px;
+    left: 1px;
+    width: -webkit-fill-available;
+    height: auto;
+    min-height: auto;
+    max-height: 25vh;
+    border-radius: 6px !important;
+    z-index: 999;
+	overflow-y: auto;
+}
+
+.mention-li {
+	background-color: #ebebeb;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    border-radius: 5px;
+    padding: 10px;
+    cursor: pointer;
+    color: black;
+}
+
+.mention-ul {
+	list-style-type: none;
+	margin: 0;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }

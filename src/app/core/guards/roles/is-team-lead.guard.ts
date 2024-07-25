@@ -6,8 +6,9 @@ export const isTeamLeadGuard: CanActivateFn = (route, state) => {
   const authenticationService = inject(AuthenticationService);
   const router = inject(Router);
   const isTeamLead = authenticationService.isTeamLead();
+  const isLoggedIn = authenticationService.isLoggedIn();
 
-  if (isTeamLead) {
+  if (isLoggedIn && isTeamLead) {
     return true;
   } else {
     router.navigate(['/']);

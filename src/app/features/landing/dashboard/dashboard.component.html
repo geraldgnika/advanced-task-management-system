@@ -1,1 +1,35 @@
-<p>dashboard works!</p>
+<div class="dashboard">
+	<div class="view-switcher w-fit mb-4">
+		<button class="btn btn-sm" [ngClass]="{ 'btn-primary': currentView === 'board', 'btn-light': currentView !== 'board' }" (click)="switchToBoardView()">
+			Board View
+		  </button>
+		<button class="btn btn-sm" [ngClass]="{ 'btn-primary': currentView === 'list', 'btn-light': currentView !== 'list' }" (click)="switchToListView()">
+		  List View
+		</button>
+		<button class="btn btn-sm" [ngClass]="{ 'btn-primary': currentView === 'grid', 'btn-light': currentView !== 'grid' }" (click)="switchToGridView()">
+		  Grid View
+		</button>
+		<button class="btn btn-sm" [ngClass]="{ 'btn-primary': currentView === 'calendar', 'btn-light': currentView !== 'calendar' }" (click)="switchToCalendarView()">
+		  Calendar View
+		</button>
+	  </div>
+
+	<div class="view-container">
+		<app-task-list
+			*ngIf="currentView === 'list'"
+			[viewMode]="'list'"
+		></app-task-list>
+		<app-task-list
+			*ngIf="currentView === 'grid'"
+			[viewMode]="'grid'"
+		></app-task-list>
+		<app-task-list
+			*ngIf="currentView === 'calendar'"
+			[viewMode]="'calendar'"
+		></app-task-list>
+		<app-task-list
+			*ngIf="currentView === 'board'"
+			[viewMode]="'board'"
+		></app-task-list>
+	</div>
+</div>

@@ -1,1 +1,76 @@
-<p>insights works!</p>
+<div class="container-fluid">
+	<div class="row mt-4">
+		<div class="col-md-6">
+			<div class="card">
+				<h3 class="card-header text-center">Task Status Distribution</h3>
+				<div class="card-body">
+					<div class="chart-container">
+						<canvas id="statusPieChart"></canvas>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-6">
+			<div class="card">
+				<h3 class="card-header text-center">Task Priority Distribution</h3>
+				<div class="card-body">
+					<div class="chart-container">
+						<canvas id="priorityPieChart"></canvas>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row mt-4">
+		<div class="col">
+			<div class="card">
+				<h3 class="card-header text-center">Task Assignment by Team Members</h3>
+				<div class="card-body">
+					<div class="chart-container">
+						<canvas id="taskAssignmentBarChart" class="chart"></canvas>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row mt-4">
+		<div class="col">
+			<div class="card">
+				<h3 class="card-header text-center">Task List</h3>
+				<div class="card-body">
+					<div class="table-responsive">
+						<table class="table table-striped">
+							<thead>
+								<tr>
+									<th>Task ID</th>
+									<th>By</th>
+									<th>Title</th>
+									<th>Status</th>
+									<th>Priority</th>
+									<th>Assigned To</th>
+									<th>Created Date</th>
+									<th>Due Date</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr *ngFor="let task of tasks">
+									<td>{{ task.id }}</td>
+									<td>{{ task.username }}</td>
+									<td>{{ task.title }}</td>
+									<td>{{ task.status }}</td>
+									<td>{{ task.priority }}</td>
+									<td>{{ task.assignedTo.join(", ") }}</td>
+									<td>{{ task.createdDate | date }}</td>
+									<td>{{ task.dueDate | date }}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

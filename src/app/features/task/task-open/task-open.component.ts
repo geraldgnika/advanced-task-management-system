@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { Store } from '@ngrx/store';
@@ -23,6 +23,10 @@ export class TaskOpenComponent implements OnInit {
   task!: Task;
   newComment: string = '';
   usn = this.authenticationService.getCurrentUser().username;
+  showMentionBox: boolean = false;
+  filteredUsernames: string[] = [];
+  allUsernames: string[] = [];
+  @ViewChild('commentInput') commentInput!: ElementRef<HTMLInputElement>;
 
   constructor(
     private route: ActivatedRoute,
@@ -35,6 +39,10 @@ export class TaskOpenComponent implements OnInit {
 
   ngOnInit(): void {
     this.getTask();
+
+    this.authenticationService.getUsers().subscribe(users => {
+      this.allUsernames = users.map(user => user.username);
+    });
   }
 
   getTask() {
@@ -85,27 +93,6 @@ export class TaskOpenComponent implements OnInit {
     }
   }
 
-  deleteComment(commentId: string): void {
-    this.task$!.subscribe(task => {
-      if (!task) {
-        console.error('Task not found');
-        return;
-      }
-
-      this.task = task;
-
-      const updatedComments = task.comments.filter(comment => comment.id !== commentId);
-
-      const updatedTask: Task = {
-        ...task,
-        comments: updatedComments
-      };
-
-      this.store.dispatch(TaskActions.updateTask({ task: updatedTask }));
-      this.store.dispatch(TaskActions.loadTask({ id: this.task.id }));
-    });
-  }
-
   goBack() {
     this._location.back();
   }
@@ -128,6 +115,66 @@ export class TaskOpenComponent implements OnInit {
     }
   }
 
+  handleAtSymbol(event: KeyboardEvent): void {
+    const inputText = (event.target as HTMLInputElement).value;
+    const lastIndex = inputText.lastIndexOf('@');
+    if (lastIndex !== -1) {
+      const prevChar = lastIndex > 0 ? inputText[lastIndex - 1] : '';
+      if (prevChar === ' ' || prevChar === '') {
+        const searchText = inputText.substring(lastIndex + 1);
+        this.filteredUsernames = this.allUsernames.filter(username =>
+          username.toLowerCase().includes(searchText.toLowerCase())
+        );
+        this.showMentionBox = this.filteredUsernames.length > 0;
+      } else {
+        this.showMentionBox = false;
+      }
+    } else {
+      this.showMentionBox = false;
+    }
+  }
+
+  selectUsername(username: string): void {
+    const inputText = this.newComment;
+    const lastIndex = inputText.lastIndexOf('@');
+    if (lastIndex !== -1) {
+      const prevChar = lastIndex > 0 ? inputText[lastIndex - 1] : '';
+      if (prevChar === ' ' || prevChar === '') {
+        const newText = inputText.substring(0, lastIndex) + '@' + username + ' ';
+        this.newComment = newText;
+        this.showMentionBox = false;
+        setTimeout(() => {
+          this.commentInput.nativeElement.focus();
+        });
+      }
+    }
+  }
+
+  highlightUsername(commentBody: string): string {
+    return commentBody.replace(/@(\w+)/g, '<span class="text-primary">@$1</span>');
+  }
+
+  deleteComment(commentId: string): void {
+    this.task$!.subscribe(task => {
+      if (!task) {
+        console.error('Task not found');
+        return;
+      }
+
+      this.task = task;
+
+      const updatedComments = task.comments.filter(comment => comment.id !== commentId);
+
+      const updatedTask: Task = {
+        ...task,
+        comments: updatedComments
+      };
+
+      this.store.dispatch(TaskActions.updateTask({ task: updatedTask }));
+      this.store.dispatch(TaskActions.loadTask({ id: this.task.id }));
+    });
+  }
+
   postComment(): void {
     this.task$!.subscribe(task => {
       if (!task) {
@@ -137,21 +184,23 @@ export class TaskOpenComponent implements OnInit {
 
       this.task = task;
 
-      const updatedTask: Task = {
-        ...task,
-        comments: [
-          ...task.comments,
-          {
-            id: this.taskService.generateRandomId(),
-            body: this.newComment,
-            username: this.authenticationService.getCurrentUser().username
-          }
-        ]
-      };
-
-      this.store.dispatch(TaskActions.updateTask({ task: updatedTask }));
-      this.newComment = '';
-      this.store.dispatch(TaskActions.loadTask({ id: this.task.id }));
+      
     });
+
+    const updatedTask: Task = {
+      ...this.task,
+      comments: [
+        ...this.task.comments,
+        {
+          id: this.taskService.generateRandomId(),
+          body: this.newComment,
+          username: this.authenticationService.getCurrentUser().username
+        }
+      ]
+    };
+
+    this.store.dispatch(TaskActions.updateTask({ task: updatedTask }));
+    this.newComment = '';
+    this.store.dispatch(TaskActions.loadTask({ id: this.task.id }));
   }
 }

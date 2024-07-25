@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { LandingRoutingModule } from './landing-routing.module';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { InsightsComponent } from './insights/insights.component';
+import { TaskModule } from '../task/task.module';
 
 
 
@@ -13,7 +14,8 @@ import { InsightsComponent } from './insights/insights.component';
   ],
   imports: [
     CommonModule,
-    LandingRoutingModule
+    LandingRoutingModule,
+    TaskModule
   ]
 })
 export class LandingModule { }

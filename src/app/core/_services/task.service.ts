@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { catchError, forkJoin, map, Observable, switchMap } from 'rxjs';
+import { catchError, forkJoin, map, Observable, of, switchMap } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { AuthenticationService } from './authentication.service';
 import { Task } from '../types/interfaces/task';
@@ -17,6 +17,16 @@ export class TaskService {
     private authenticationService: AuthenticationService
   ) {}
 
+  getTasksByStatus(status: string): Observable<Task[]> {
+    return this.getTasks().pipe(
+      map(tasks => tasks.filter(task => task.status === status))
+    );
+  }
+
+  updateTaskStatus(taskId: string, newStatus: string): Observable<Task> {
+    return this.http.put<Task>(`${this.apiUrl}/${taskId}/status`, { status: newStatus });
+  }
+  
   generateUniqueId(): Observable<string> {
     return this.fetchExistingTaskIds().pipe(
       map(existingIds => {

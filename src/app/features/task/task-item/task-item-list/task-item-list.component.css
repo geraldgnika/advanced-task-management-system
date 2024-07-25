@@ -1,0 +1,108 @@
+.padding-three {
+	padding-top: 3px;
+}
+
+.loading-placeholder {
+	background: linear-gradient(to right, #f0f0f0 10%, #e0e0e0 50%, #f0f0f0 90%);
+	background-size: 200% auto;
+	border-radius: 5px;
+	padding-top: 3px;
+	width: -webkit-fill-available;
+	height: 44px;
+	animation: slide 1.5s infinite;
+}
+
+@keyframes slide {
+	0% {
+		background-position: 100% 0;
+	}
+	100% {
+		background-position: -100% 0;
+	}
+}
+
+.btn-list {
+	margin-right: 15px;
+	font-size: 19px;
+	cursor: pointer;
+}
+
+.btn-open {
+	color: rgb(41, 110, 201);
+}
+
+.btn-edit {
+	color: rgb(73, 73, 73);
+}
+
+.btn-delete {
+	color: rgb(120, 45, 45);
+	margin-right: 0 !important;
+}
+
+.mright-15 {
+	margin-right: 15px;
+}
+
+.padding-box {
+	padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 13px;
+    padding-bottom: 16px;
+}
+
+.border-color {
+	border: 1px solid #dee2e6;
+}
+
+.link-open {
+	cursor: pointer;
+	color: #1b82d3;
+}
+
+.li-item {
+	margin-bottom: 10px;
+    border-radius: 6px;
+    border: 1px solid #d9d9d9;
+}
+
+.task-title {
+	color: #2c1b1b;
+}
+
+.status-circle {
+	width: 11px;
+	height: 11px;
+	margin-top: 1px;
+	border-radius: 50%;
+	margin-right: 5px;
+	margin-left: 8px;
+}
+
+.status-circle-pending {
+	background-color: orange;
+}
+
+.status-circle-doing {
+	background-color: blue;
+}
+
+.status-circle-reviewing {
+	background-color: brown;
+}
+
+.status-circle-completed {
+	background-color: green;
+}
+
+.status-circle-low {
+	background-color: blue;
+}
+
+.status-circle-medium {
+	background-color: orange;
+}
+
+.status-circle-high {
+	background-color: red;
+}

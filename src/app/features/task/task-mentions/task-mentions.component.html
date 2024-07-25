@@ -1,0 +1,19 @@
+<div class="container mt-4">
+    <h3 class="mb-4"><span class="cursor-pointer" (click)="goBack()">&larr;&nbsp;</span>Comment Mentions</h3>
+    <ng-container *ngIf="mentionedComments.length > 0; else noMentions">
+      <div class="list-group">
+        <a *ngFor="let comment of mentionedComments" (click)="openTask(comment.taskId)" class="list-group-item list-group-item-action cursor-pointer padbox">
+          <div class="d-flex w-100 justify-content-between">
+            <h5 class="mb-1">{{ comment.taskTitle }}</h5>
+            <small>{{ comment.username | formatUsername }} mentioned you</small>
+          </div>
+          <p class="mb-1">{{ comment.commentBody }}</p>
+        </a>
+      </div>
+    </ng-container>
+    
+    <ng-template #noMentions>
+      <p class="text-center">No mentions found.</p>
+    </ng-template>
+  </div>
+  

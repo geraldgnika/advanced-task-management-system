@@ -6,10 +6,12 @@ import { TaskUpdateComponent } from './task-update/task-update.component';
 import { TaskOpenComponent } from './task-open/task-open.component';
 import { tasksResolver } from '../../core/resolvers/task/tasks.resolver';
 import { taskResolver } from '../../core/resolvers/task/task.resolver';
+import { TaskMentionsComponent } from './task-mentions/task-mentions.component';
 
 const routes: Routes = [
   { path: 'list', component: TaskListComponent, title: 'Task List', resolve: { tasks: tasksResolver } },
   { path: 'create', component: TaskCreateComponent, title: 'Add Task' },
+  { path: 'mentions', component: TaskMentionsComponent, title: 'Mentions' },
   { path: 'update/:id', component: TaskUpdateComponent, title: 'Update Task', resolve: { task: taskResolver } },
   { path: 'open/:id', component: TaskOpenComponent, title: 'View Task', resolve: { task: taskResolver } }
 ];

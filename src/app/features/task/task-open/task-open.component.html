@@ -15,6 +15,7 @@
 							[ngClass]="{
 								'status-circle-pending': task.status === 'pending',
 								'status-circle-doing': task.status === 'doing',
+								'status-circle-reviewing': task.status === 'reviewing',
 								'status-circle-completed': task.status === 'completed'
 							}"
 						></div>
@@ -108,7 +109,15 @@
 			<h5 class="mb-3">Comments:</h5>
 			<div class="w-full">
 				<div class="input-group mb-3">
-					<input type="text" class="form-control comment-input-field" placeholder="Write your comment here..." aria-label="Write your comment here..." aria-describedby="button-addon2" [(ngModel)]="newComment">
+					<input type="text" #commentInput class="form-control comment-input-field" placeholder="Write your comment here..." aria-label="Write your comment here..." aria-describedby="button-addon2" [(ngModel)]="newComment" (keyup)="handleAtSymbol($event)">
+					<div class="mention-box" *ngIf="showMentionBox && filteredUsernames.length > 0">
+						<ul class="mention-ul">
+							<li class="mention-li" *ngFor="let username of filteredUsernames"
+								(click)="selectUsername(username)">
+								{{ username | formatUsername }}
+							</li>
+						</ul>
+					</div>
 					<div class="input-group-append">
 						<button class="btn btn-outline-secondary" type="button" id="button-addon2" (click)="postComment()">Post</button>
 					</div>
@@ -120,7 +129,8 @@
 						<div class="d-inline-flex w-full">
 							<p class="mr-auto">
 								<span class="fw-medium">{{ (comment.username | formatUsername) + ": " }}</span
-								>{{ comment.body }}
+								>
+								<span [innerHTML]="highlightUsername(comment.body)"></span>
 							</p>
 							<button *ngIf="usn === comment.username" class="btn btn-link btn-del-attachment" (click)="deleteComment(comment.id)">&times;</button>
 						</div>

@@ -1,15 +1,4 @@
-<div class="w-full d-inline-flex mb-4">
-	<h2 class="mr-auto">Task List</h2>
-	<button
-		type="button"
-		class="btn btn-primary btn-md mb-4"
-		(click)="goToCreate()"
-	>
-		Create New Task
-	</button>
-</div>
-
-<div class="input-group mb-3">
+<div class="input-group mb-3" *ngIf="viewMode === 'task-component'">
 	<div class="btn-group border-color">
 		<div class="dropdown">
 			<button
@@ -29,6 +18,11 @@
 				<li>
 					<a class="dropdown-item cursor-pointer" (click)="showDoing()"
 						>Show Doing</a
+					>
+				</li>
+				<li>
+					<a class="dropdown-item cursor-pointer" (click)="showReviewing()"
+						>Show Reviewing</a
 					>
 				</li>
 				<li>
@@ -81,7 +75,7 @@
 		aria-describedby="basic-addon3"
 		[(ngModel)]="searchTerm"
 		(input)="searchTasks()"
-		placeholder="⌕  Search tasks..."
+		placeholder="⌕  Search tasks by title, description, creator username, or assigned usernames..."
 	/>
 	<div class="btn-group border-color">
 		<div class="dropdown">
@@ -135,84 +129,63 @@
 			</ul>
 		</div>
 	</div>
+	<div class="btn-group border-color">
+		<button class="btn btn-link" type="button" (click)="downloadCSV()">
+			⬇️ Download CSV
+		</button>
+	</div>
 </div>
 
 <ul class="list-group">
 	<ng-container *ngIf="tasks$ | async as tasks">
-		<div *ngIf="tasks.length !== 0; else noResults">
-			<li *ngFor="let task of tasks" class="list-group-item li-item" ngClass="p-0">
-				@defer (on viewport) {
-				<div class="padding-box">
-					<div class="d-inline-flex w-full">
-						<div class="mr-auto padding-three">
-							<a class="link-open" (click)="openTask(task.id)"
-								><span class="task-title fw-medium" [innerHTML]="task.title"></span
-							></a>
-							<span class="text-muted"> - by {{ task.username! | formatUsername }}</span>
-						</div>
-						<i
-							class="bi bi-pencil btn-list btn-edit"
-							(click)="goToTaskUpdate(task.id)"
-						></i>
-						<i
-							class="bi bi-archive btn-list btn-delete"
-							(click)="deleteTask(task.id, task.title)"
-						></i>
-					</div>
-					<div class="d-inline-flex w-full mt-2">
-						<div class="d-inline-flex col-md-2">
-							<label><span class="fw-medium">Status:</span></label>
-							<div class="d-flex align-items-center">
-								<div
-									class="status-circle"
-									[ngClass]="{
-										'status-circle-pending': task.status === 'pending',
-										'status-circle-doing': task.status === 'doing',
-										'status-circle-completed': task.status === 'completed'
-									}"
-								></div>
-								<span>{{ task.status | capitalizeFirstLetter }}</span>
-							</div>
-						</div>
-						<div class="d-inline-flex col-md-2">
-							<label><span class="fw-medium">Priority:</span></label>
-							<div class="d-flex align-items-center">
-								<div
-									class="status-circle"
-									[ngClass]="{
-										'status-circle-low': task.priority === 'low',
-										'status-circle-medium': task.priority === 'medium',
-										'status-circle-high': task.priority === 'high'
-									}"
-								></div>
-								<span>{{ task.priority | capitalizeFirstLetter }}</span>
-							</div>
-						</div>
-						<div class="d-inline-flex col-md-2">
-							<label><span class="fw-medium">Due Date:</span></label>
-							<div class="d-flex align-items-center">
-								<span>{{ task.dueDate }}</span>
-							</div>
-						</div>
-						<div class="d-inline-flex col-md-5">
-							<div class="d-flex align-items-center">
-								<span *ngIf="task.assignedTo && task.assignedTo.length > 0">
-									<span class="fw-medium">Assigned to</span> {{ task.assignedTo[0] | formatUsername }}
-									<span *ngIf="task.assignedTo.length > 1">and {{ task.assignedTo.length - 1 }} more</span>
-								</span>
-							</div>
-						</div>
+		<ng-container *ngIf="tasks.length !== 0; else noResults">
+			<ng-container *ngIf="viewMode === 'task-component'">
+				<div *ngFor="let task of tasks">
+					<app-task-item-list
+						[task]="task"
+						(openTask)="openTask($event)"
+						(editTask)="goToTaskUpdate($event)"
+						(deleteTask)="deleteTask($event.id, $event.title)"
+					></app-task-item-list>
+				</div>
+			</ng-container>
+
+			<ng-container *ngIf="viewMode === 'list'">
+				<div *ngFor="let task of tasks">
+					<app-task-item-list
+						[task]="task"
+						(openTask)="openTask($event)"
+						(editTask)="goToTaskUpdate($event)"
+						(deleteTask)="deleteTask($event.id, $event.title)"
+					></app-task-item-list>
+				</div>
+			</ng-container>
+
+			<ng-container *ngIf="viewMode === 'grid'">
+				<div class="row">
+					<div class="col-md-4" *ngFor="let task of tasks">
+						<app-task-item-grid
+							[task]="task"
+							(openTask)="openTask($event)"
+							(editTask)="goToTaskUpdate($event)"
+							(deleteTask)="deleteTask($event.id, $event.title)"
+						></app-task-item-grid>
 					</div>
 				</div>
-				} @placeholder() {
-				<div class="loading-placeholder"></div>
-				} @loading {
-				<div class="loading-placeholder">Loading tasks...</div>
-				} @error {
-				<div class="loading-placeholder">Could not load tasks...</div>
-				}
-			</li>
-		</div>
+			</ng-container>
+
+			<ng-container *ngIf="viewMode === 'calendar'">
+				<app-task-item-calendar
+					[tasks]="tasks"
+					(openTask)="openTask($event)"
+				></app-task-item-calendar>
+			</ng-container>
+
+			<ng-container *ngIf="viewMode === 'board'">
+				<app-task-item-board (openTask)="openTask($event)"></app-task-item-board>
+			</ng-container>
+		</ng-container>
+
 		<ng-template #noResults>
 			<p class="text-center my-5">No tasks found.</p>
 		</ng-template>

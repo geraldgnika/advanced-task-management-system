@@ -16,6 +16,7 @@ import { AuthenticationEffects } from './shared/_store/authentication/authentica
 import { reducers } from './shared/_store/_common/reducers';
 import { authenticationInterceptor } from './core/interceptors/authentication.interceptor';
 import { TaskEffects } from './shared/_store/task/task.effects';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { TaskEffects } from './shared/_store/task/task.effects';
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production })
   ],
   providers: [
-    provideHttpClient(withInterceptors([ authenticationInterceptor ]))
+    provideHttpClient(withInterceptors([ authenticationInterceptor ])),
+    provideAnimationsAsync()
   ],
   bootstrap: [AppComponent]
 })
