@@ -41,6 +41,7 @@ export class TaskOpenComponent implements OnInit {
 	allUsernames: string[] = [];
 	allUsersSubscription: Subscription | undefined;
 	@ViewChild('commentInput') commentInput!: ElementRef<HTMLInputElement>;
+	newId!: string;
 
 	constructor(
 		private route: ActivatedRoute,
@@ -229,12 +230,20 @@ export class TaskOpenComponent implements OnInit {
 			this.user = user;
 		});
 
-		const updatedTask: Task = {
+		this.taskService.generateUniqueCommentId().subscribe(newId => {
+			if (!newId) {
+				return;
+			}
+
+			this.newId = newId;
+		});
+
+		const updatedTask = {
 			...this.task,
 			comments: [
 				...this.task.comments,
 				{
-					id: this.taskService.generateRandomId(),
+					id: this.newId,
 					body: this.newComment,
 					username: this.user.username,
 				},
