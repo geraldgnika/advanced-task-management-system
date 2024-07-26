@@ -5,7 +5,7 @@
 				<h3 class="card-header text-center">Task Status Distribution</h3>
 				<div class="card-body">
 					<div class="chart-container">
-						<canvas id="statusPieChart"></canvas>
+						<app-status-distribution idChart='status-distribution' [tasks$]="tasks$"></app-status-distribution>
 					</div>
 				</div>
 			</div>
@@ -16,7 +16,7 @@
 				<h3 class="card-header text-center">Task Priority Distribution</h3>
 				<div class="card-body">
 					<div class="chart-container">
-						<canvas id="priorityPieChart"></canvas>
+						<app-priority-distribution idChart='priority-distribution' [tasks$]="tasks$"></app-priority-distribution>
 					</div>
 				</div>
 			</div>
@@ -29,7 +29,7 @@
 				<h3 class="card-header text-center">Task Assignment by Team Members</h3>
 				<div class="card-body">
 					<div class="chart-container">
-						<canvas id="taskAssignmentBarChart" class="chart"></canvas>
+						<app-task-assignments idChart='task-assignment' [tasks$]="tasks$"></app-task-assignments>
 					</div>
 				</div>
 			</div>
