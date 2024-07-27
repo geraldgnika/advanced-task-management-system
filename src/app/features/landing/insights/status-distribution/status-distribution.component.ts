@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Task } from '../../../../core/types/interfaces/task';
 import { Observable } from 'rxjs';
 import { TaskStatus } from '../../../../core/types/enums/task/task-status';
@@ -7,7 +7,8 @@ import Chart from 'chart.js/auto';
 @Component({
   selector: 'app-status-distribution',
   templateUrl: './status-distribution.component.html',
-  styleUrls: ['./status-distribution.component.css']
+  styleUrls: ['./status-distribution.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StatusDistributionComponent implements AfterViewInit {
   @Input() idChart: string = '';

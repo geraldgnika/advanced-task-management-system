@@ -18,7 +18,7 @@ import { TaskStatus } from '../../../core/types/enums/task/task-status';
   selector: 'app-task-list',
   templateUrl: './task-list.component.html',
   styleUrls: ['./task-list.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TaskListComponent implements OnInit {
   @Input() viewMode: 'list' | 'grid' | 'calendar' | 'board' | 'task-component' =

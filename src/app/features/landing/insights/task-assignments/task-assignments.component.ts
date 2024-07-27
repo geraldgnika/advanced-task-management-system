@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Task } from '../../../../core/types/interfaces/task';
 import { Observable } from 'rxjs';
 import Chart from 'chart.js/auto';
@@ -6,7 +6,8 @@ import Chart from 'chart.js/auto';
 @Component({
   selector: 'app-task-assignments',
   templateUrl: './task-assignments.component.html',
-  styleUrls: ['./task-assignments.component.css']
+  styleUrls: ['./task-assignments.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TaskAssignmentsComponent implements AfterViewInit {
   @Input() idChart: string = '';

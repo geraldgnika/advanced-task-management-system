@@ -23,6 +23,8 @@
 				"build": {
 					"builder": "@angular-devkit/build-angular:application",
 					"options": {
+						"aot": true,
+						"optimization": true,
 						"outputPath": "dist/advanced-task-management-system",
 						"index": "src/index.html",
 						"browser": "src/main.ts",
@@ -98,6 +100,7 @@
 							"@angular/localize/init"
 						],
 						"tsConfig": "tsconfig.spec.json",
+						"karmaConfig": "karma.conf.js",
 						"assets": [
 							{
 								"glob": "**/*",

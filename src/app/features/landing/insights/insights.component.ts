@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Task } from '../../../core/types/interfaces/task';
 import { AppState } from '../../../shared/_store/_common/app.state';
 import * as TaskActions from '../../../shared/_store/task/task.actions';
@@ -9,7 +9,8 @@ import { Observable } from 'rxjs';
 @Component({
   selector: 'app-insights',
   templateUrl: './insights.component.html',
-  styleUrl: './insights.component.css'
+  styleUrl: './insights.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class InsightsComponent implements OnInit {
   constructor(private store: Store<AppState>) {}

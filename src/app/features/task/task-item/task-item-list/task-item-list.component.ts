@@ -1,10 +1,11 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { Task } from '../../../../core/types/interfaces/task';
 
 @Component({
   selector: 'app-task-item-list',
   templateUrl: './task-item-list.component.html',
-  styleUrl: './task-item-list.component.css'
+  styleUrl: './task-item-list.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TaskItemListComponent {
   @Input() task!: Task;

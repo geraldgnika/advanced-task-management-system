@@ -22,7 +22,7 @@ import { TaskPriority } from '../../../core/types/enums/task/task-priority';
   selector: 'app-task-update',
   templateUrl: './task-update.component.html',
   styleUrls: ['./task-update.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TaskUpdateComponent implements OnInit {
   taskForm: FormGroup;

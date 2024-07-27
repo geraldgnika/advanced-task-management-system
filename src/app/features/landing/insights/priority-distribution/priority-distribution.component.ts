@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Task } from '../../../../core/types/interfaces/task';
 import { Observable } from 'rxjs';
 import { TaskPriority } from '../../../../core/types/enums/task/task-priority';
@@ -7,7 +7,8 @@ import Chart from 'chart.js/auto';
 @Component({
   selector: 'app-priority-distribution',
   templateUrl: './priority-distribution.component.html',
-  styleUrls: ['./priority-distribution.component.css']
+  styleUrls: ['./priority-distribution.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PriorityDistributionComponent implements AfterViewInit {
   @Input() idChart: string = '';

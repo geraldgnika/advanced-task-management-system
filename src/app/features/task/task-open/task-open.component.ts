@@ -25,7 +25,7 @@ import { User } from '../../../core/types/interfaces/user';
 	selector: 'app-task-open',
 	templateUrl: './task-open.component.html',
 	styleUrls: ['./task-open.component.css'],
-	changeDetection: ChangeDetectionStrategy.OnPush,
+	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TaskOpenComponent implements OnInit {
 	task$: Observable<Task | null> | undefined;

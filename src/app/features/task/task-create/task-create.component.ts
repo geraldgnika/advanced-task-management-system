@@ -19,7 +19,7 @@ import { TaskPriority } from '../../../core/types/enums/task/task-priority';
   selector: 'app-task-create',
   templateUrl: './task-create.component.html',
   styleUrls: ['./task-create.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TaskCreateComponent implements OnInit {
   taskForm: FormGroup;

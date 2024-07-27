@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Observable, of } from 'rxjs';
 import { Task } from '../../../../core/types/interfaces/task';
@@ -12,6 +12,7 @@ import { TaskState } from '../../../../shared/_store/task/task.state';
   selector: 'app-task-item-board',
   templateUrl: './task-item-board.component.html',
   styleUrls: ['./task-item-board.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TaskItemBoardComponent implements OnInit {
   pendingTasks$: Observable<Task[]> = of();

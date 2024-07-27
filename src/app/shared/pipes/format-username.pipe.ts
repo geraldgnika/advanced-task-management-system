@@ -2,11 +2,17 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({ name: 'formatUsername' })
 export class FormatUsernamePipe implements PipeTransform {
-	transform(username: string): string {
-        if (!username) {
-          return '';
-        }
-    
-        return `@${username.trim()}`;
-      }
+	transform(value: string | null | undefined): string {
+    if (value == null || value === undefined) {
+      return '';
+    }
+
+    let trimmedValue = value.trim().replace(/^@+/, '');
+
+    if (trimmedValue === '') {
+      return '@';
+    }
+
+    return '@' + trimmedValue;
+  }
 }

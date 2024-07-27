@@ -145,7 +145,7 @@ export class AuthenticationService {
   }
 
   isLoggedIn(): boolean {
-    return !!localStorage.getItem('currentUser');
+    return this.currentUserSubject.value !== null;
   }
 
   getCurrentUser(): any {

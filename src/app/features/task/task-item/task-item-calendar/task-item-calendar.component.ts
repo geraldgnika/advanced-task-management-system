@@ -1,10 +1,11 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { Task } from '../../../../core/types/interfaces/task';
 
 @Component({
 	selector: 'app-task-item-calendar',
 	templateUrl: './task-item-calendar.component.html',
 	styleUrl: './task-item-calendar.component.css',
+	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TaskItemCalendarComponent {
 	@Input() tasks!: Task[];

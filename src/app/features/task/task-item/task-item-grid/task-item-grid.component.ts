@@ -1,10 +1,11 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { Task } from '../../../../core/types/interfaces/task';
 
 @Component({
   selector: 'app-task-item-grid',
   templateUrl: './task-item-grid.component.html',
-  styleUrl: './task-item-grid.component.css'
+  styleUrl: './task-item-grid.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TaskItemGridComponent {
   @Input() task!: Task;
