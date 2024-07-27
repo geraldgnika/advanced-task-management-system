@@ -6,7 +6,7 @@
                 <a class="link-open" (click)="onOpenTask(task.id)"
                     ><span class="task-title fw-medium" [innerHTML]="task.title"></span
                 ></a>
-                <span class="text-muted"> - {{ 'BY' | translate }} {{ task.username! | formatUsername }}</span>
+                <span class="text-muted"> - {{ 'BY' | translate }} <span class="text-primary">{{ task.username! | formatUsername }}</span></span>
             </div>
             <i
                 class="bi bi-pencil btn-list btn-edit"
@@ -56,7 +56,7 @@
             <div class="d-inline-flex col-md-5">
                 <div class="d-flex align-items-center">
                     <span *ngIf="task.assignedTo && task.assignedTo.length > 0">
-                        <span class="fw-medium">{{ 'ASSIGNED_TO' | translate }}:</span> {{ task.assignedTo[0] | formatUsername }}
+                        <span class="fw-medium">{{ 'ASSIGNED_TO' | translate }}:</span><span class="text-primary"> {{ task.assignedTo[0] | formatUsername }} </span>
                         <span *ngIf="task.assignedTo.length > 1">{{ 'AND' | translate }} {{ task.assignedTo.length - 1 }} {{ 'MORE' | translate }}</span>
                     </span>
                 </div>

@@ -112,5 +112,7 @@
     "MORE": "weitere",
     "TO": "An",
     "SRCH_PLACEHOLDER": "Aufgaben nach Titel, Beschreibung, Ersteller-Benutzername oder zugewiesenen Benutzernamen suchen...",
-    "TASK_ASSIGNMENTS": "Aufgabenzuweisungen"
+    "TASK_ASSIGNMENTS": "Aufgabenzuweisungen",
+    "CHOOSE_FILE": "Datei auswählen",
+    "NO_FILE_CHOSEN": "Keine Datei ausgewählt"
   }

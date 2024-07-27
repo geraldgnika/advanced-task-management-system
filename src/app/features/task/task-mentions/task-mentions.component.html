@@ -5,7 +5,7 @@
         <a *ngFor="let comment of mentionedComments" (click)="openTask(comment.taskId)" class="list-group-item list-group-item-action cursor-pointer padbox">
           <div class="d-flex w-100 justify-content-between">
             <h5 class="mb-1">{{ comment.taskTitle }}</h5>
-            <small>{{ comment.username | formatUsername }} {{ 'MENT_U' | translate }}</small>
+            <small class="text-primary">{{ comment.username | formatUsername }} {{ 'MENT_U' | translate }}</small>
           </div>
           <p class="mb-1"><i class="text-muted">"{{ comment.commentBody }}"</i></p>
         </a>

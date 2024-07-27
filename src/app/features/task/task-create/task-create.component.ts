@@ -33,6 +33,7 @@ export class TaskCreateComponent implements OnInit, OnDestroy {
   taskStatuses$: Observable<{ value: string; label: string }[]> = of();
   usn: string = "";
   private destroy$ = new Subject<void>();
+  fileName: string = '';
 
   constructor(
     private fb: FormBuilder,
@@ -172,6 +173,7 @@ export class TaskCreateComponent implements OnInit, OnDestroy {
     const inputElement = event.target as HTMLInputElement;
     if (inputElement.files && inputElement.files.length > 0) {
       const file = inputElement.files[0];
+      this.fileName = file.name;
       this.taskForm.patchValue({
         attachment: file.name
       });

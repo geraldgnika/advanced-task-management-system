@@ -36,7 +36,7 @@
                      [checked]="isAssigned(user.username)"
                      (change)="toggleAssignedTo(user.username)"
                      id="user{{ user.id }}">
-              <label class="form-check-label" for="user{{ user.id }}">
+              <label class="form-check-label text-primary" for="user{{ user.id }}">
                 {{ '@' + user.username }}
               </label>
             </div>

@@ -5,10 +5,10 @@
 				<span class="cursor-pointer" (click)="goBack()">&larr;&nbsp;</span
 				>{{ task.title | capitalizeFirstLetter }}
 			</h2>
-			<p class="text-muted">- {{ 'BY' | translate }} {{ task.username! | formatUsername }}</p>
+			<p class="text-muted">- {{ 'BY' | translate }} <span class="text-primary">{{ task.username! | formatUsername }}</span></p>
 			<div class="d-inline-flex w-full margin-bottom-15">
 				<div class="margin-right-20">
-					<label class="fw-medium"><span>{{ 'STATUS' | translateEnum:'status' | translate }}:</span></label>
+					<label class="fw-medium"><span>{{ 'STATUS' | translate }}:</span></label>
 					<div class="d-flex align-items-center">
 						<div
 							class="status-circle"
@@ -19,11 +19,11 @@
 								'status-circle-completed': task.status === 'completed'
 							}"
 						></div>
-						<span>{{ task.status | capitalizeFirstLetter }}</span>
+						<span>{{ task.status | translateEnum:'status' | capitalizeFirstLetter }}</span>
 					</div>
 				</div>
 				<div>
-					<label class="fw-medium"><span>{{ 'PRIORITY' | translateEnum:'priority' | translate }}:</span></label>
+					<label class="fw-medium"><span>{{ 'PRIORITY' | translate }}:</span></label>
 					<div class="d-flex align-items-center">
 						<div
 							class="status-circle"
@@ -33,7 +33,7 @@
 								'status-circle-high': task.priority === 'high'
 							}"
 						></div>
-						<span>{{ task.priority | capitalizeFirstLetter }}</span>
+						<span>{{ task.priority | translateEnum:'priority' | capitalizeFirstLetter }}</span>
 					</div>
 				</div>
 			</div>
@@ -44,26 +44,26 @@
 				<div class="col-md-2">
 					<label class="fw-medium"><span>{{ 'DUE' | translate }}:</span></label>
 					<div class="d-flex align-items-center">
-						<span>{{ task.dueDate }}</span>
+						<span>{{ formatDate(task.dueDate) }}</span>
 					</div>
 				</div>
 				<div class="col-md-2">
 					<label class="fw-medium"><span>{{ 'CREATED' | translate }}:</span></label>
 					<div class="d-flex align-items-center">
-						<span>{{ task.createdDate }}</span>
+						<span>{{ formatDate(task.createdDate) }}</span>
 					</div>
 				</div>
 				<div class="col-md-2">
 					<label class="fw-medium"><span>{{ 'UPDATED' | translate }}:</span></label>
 					<div class="d-flex align-items-center">
-						<span>{{ task.updatedDate }}</span>
+						<span>{{ formatDate(task.updatedDate) }}</span>
 					</div>
 				</div>
 				<div class="col-md-2">
 					<div class="d-flex align-items-center">
 						<span *ngIf="task.assignedTo && task.assignedTo.length > 0">
 							<span class="fw-medium">{{ 'ASSIGNED_TO' | translate }}:</span>
-							{{ task.assignedTo | formatUsernames }}
+							<span class="text-primary"> {{ task.assignedTo | formatUsernames }} </span>
 						</span>
 					</div>
 				</div>
@@ -95,12 +95,16 @@
 			</div>
 			<div class="" *ngIf="!task.attachment">
 				<label for="attachment" class="form-label">{{ 'CHOOSE_ATTCH' | translate }}:</label>
-				<input
-					type="file"
-					id="attachment"
-					(change)="onFileSelected($event)"
-					class="form-control"
-				/>
+  <div class="input-group">
+    <input type="file" class="form-control d-none" id="attachment" (change)="onFileSelected($event)" #fileInput>
+    <label class="input-group-text btn btn-group" for="attachment">
+      {{ 'CHOOSE_FILE' | translate }}
+    </label>
+    <input type="text" class="form-control" [value]="fileName || ('NO_FILE_CHOSEN' | translate)" readonly>
+    <button class="btn btn-group" type="button" (click)="fileInput.click()">
+      <i class="bi bi-folder2-open"></i>
+    </button>
+  </div>
 			</div>
 		</div>
 	</div>
@@ -129,7 +133,7 @@
 					<li *ngFor="let comment of task.comments">
 						<div class="d-inline-flex w-full">
 							<p class="mr-auto">
-								<span class="fw-medium">{{ (comment.username | formatUsername) + ": " }}</span
+								<span class="fw-medium text-primary">{{ (comment.username | formatUsername) + ": " }}</span
 								>
 								<span [innerHTML]="highlightUsername(comment.body)"></span>
 							</p>

@@ -2,7 +2,7 @@
 	<div class="container">
 		<div class="d-flex justify-content-between align-items-center mb-3">
 		  <div class="d-flex align-items-center">
-			<p class="mb-0 me-3 col-md-6">{{ 'LANGUAGE' | translate }}</p>
+			<p class="mb-0 me-0 col-md-6">{{ 'LANGUAGE' | translate }}</p>
 			<select [(ngModel)]="currentLang" (change)="changeLang(currentLang)" class="form-select form-select-sm col-md-6">
 			  <option *ngFor="let lang of languages" [value]="lang.code">
 				{{ lang.name }}

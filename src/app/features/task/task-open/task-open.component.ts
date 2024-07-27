@@ -4,12 +4,13 @@ import {
 	OnInit,
 	ElementRef,
 	ViewChild,
+	OnDestroy,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Location } from '@angular/common';
+import { DatePipe, Location } from '@angular/common';
 import { Store } from '@ngrx/store';
 import * as TaskActions from '../../../shared/_store/task/task.actions';
-import { map, Observable, of, Subscription } from 'rxjs';
+import { map, Observable, of, Subject, Subscription, takeUntil } from 'rxjs';
 import { AppState } from '../../../shared/_store/_common/app.state';
 import {
 	selectSelectedTask,
@@ -20,6 +21,7 @@ import * as AuthenticationActions from '../../../shared/_store/authentication/au
 import { Task } from '../../../core/types/interfaces/task';
 import { TaskService } from '../../../core/_services/task.service';
 import { User } from '../../../core/types/interfaces/user';
+import { LocaleService } from '../../../core/_services/locale.service';
 
 @Component({
 	selector: 'app-task-open',
@@ -27,7 +29,7 @@ import { User } from '../../../core/types/interfaces/user';
 	styleUrls: ['./task-open.component.css'],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TaskOpenComponent implements OnInit {
+export class TaskOpenComponent implements OnInit, OnDestroy {
 	task$: Observable<Task | null> | undefined;
 	loading$: Observable<boolean> | undefined;
 	error$: Observable<any> | undefined;
@@ -42,11 +44,16 @@ export class TaskOpenComponent implements OnInit {
 	allUsersSubscription: Subscription | undefined;
 	@ViewChild('commentInput') commentInput!: ElementRef<HTMLInputElement>;
 	newId!: string;
+	locale: string = "";
+  	private destroy$ = new Subject<void>();
+	  fileName: string = '';
 
 	constructor(
 		private route: ActivatedRoute,
 		private router: Router,
 		private _location: Location,
+		private datePipe: DatePipe,
+    	private localeService: LocaleService,
 		private store: Store<AppState>,
 		private taskService: TaskService
 	) {
@@ -55,6 +62,10 @@ export class TaskOpenComponent implements OnInit {
 	}
 
 	ngOnInit(): void {
+		this.localeService.locale$.pipe(takeUntil(this.destroy$)).subscribe(locale => {
+			this.locale = locale;
+		  });
+		  
 		this.getTask();
 
 		this.allUsers$ = this.store.select('authentication', 'users');
@@ -139,6 +150,7 @@ export class TaskOpenComponent implements OnInit {
 		const inputElement = event.target as HTMLInputElement;
 		if (inputElement.files && inputElement.files.length > 0) {
 			const file = inputElement.files[0];
+			this.fileName = file.name;
 			this.store.dispatch(
 				TaskActions.updateAttachment({ task: this.task, filename: file.name })
 			);
@@ -187,6 +199,21 @@ export class TaskOpenComponent implements OnInit {
 			'<span class="text-primary">@$1</span>'
 		);
 	}
+
+	ngOnDestroy(): void {
+		this.destroy$.next();
+		this.destroy$.complete();
+		if (this.allUsersSubscription) {
+		  this.allUsersSubscription.unsubscribe();
+		}
+	  }
+	
+	  formatDate(date: Date | string): string {
+		if (!(date instanceof Date)) {
+		  date = new Date(date);
+		}
+		return this.datePipe.transform(date, 'mediumDate', '', this.locale) || '';
+	  }
 
 	deleteComment(commentId: string): void {
 		this.task$!.subscribe((task) => {

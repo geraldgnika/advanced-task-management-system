@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -20,6 +20,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { FormsModule } from '@angular/forms';
+import { DatePipe, registerLocaleData } from '@angular/common';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, 'i18n/', '.json');
@@ -29,6 +30,14 @@ export function getTranslatedEnum(value: string, translationKeys: { [key: string
   const key = translationKeys[value];
   return key ? translateService.instant(key) : value;
 }
+
+import localeDe from '@angular/common/locales/de';
+import localeEn from '@angular/common/locales/en';
+import localeSq from '@angular/common/locales/sq';
+
+registerLocaleData(localeDe, 'de-DE');
+registerLocaleData(localeEn, 'en-US');
+registerLocaleData(localeSq, 'sq-AL');
 
 @NgModule({
   declarations: [
@@ -56,6 +65,8 @@ export function getTranslatedEnum(value: string, translationKeys: { [key: string
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production })
   ],
   providers: [
+    DatePipe,
+    { provide: LOCALE_ID, useValue: 'en-US' },
     provideHttpClient(withInterceptors([ authenticationInterceptor ])),
     provideAnimationsAsync()
   ],

@@ -38,7 +38,7 @@
                         </div>
                         <div class="task-title">{{ task.title }}</div>
                         <span *ngIf="task.assignedTo && task.assignedTo.length > 0" class="d-grid">
-                            <span class="task-title">{{ 'TO' | translate }}: {{ task.assignedTo[0] | formatUsername }}</span>
+                            <span class="task-title">{{ 'TO' | translate }}: <span class="text-primary"> {{ task.assignedTo[0] | formatUsername }} </span></span>
                             <span class="task-title" *ngIf="task.assignedTo.length > 1"> {{ 'AND' | translate }} {{ task.assignedTo.length - 1 }} {{ 'MORE' | translate }}</span>
                         </span>
                     </div>
