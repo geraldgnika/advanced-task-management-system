@@ -12,9 +12,9 @@
       }
     },
     {
-      "id": "_dfsdfer",
+      "id": "_5c9zdzu",
       "full_name": "Andi Nika",
-      "username": "nikaandi",
+      "username": "andi_nika",
       "password": "123456",
       "role": "teamLead",
       "permissions": {
@@ -32,18 +32,6 @@
         "canManageTasks": true,
         "canViewInsights": false
       }
-    },
-    {
-      "id": "2d7f",
-      "username": "nikaandi",
-      "password": "123456",
-      "type": "[Authentication] Login"
-    },
-    {
-      "id": "73c9",
-      "username": "nikaandi",
-      "password": "123456",
-      "type": "[Authentication] Login"
     }
   ],
   "tasks": [
@@ -63,7 +51,7 @@
         {
           "id": "99oa5xs",
           "body": "def",
-          "username": "nikaandi"
+          "username": "andi_nika"
         },
         {
           "id": "99oa5xt",
@@ -73,7 +61,7 @@
         {
           "id": "99oa5xv",
           "body": "mno",
-          "username": "nikaandi"
+          "username": "andi_nika"
         },
         {
           "id": "cbxhtaq",
@@ -92,7 +80,7 @@
         },
         {
           "id": "yl921v1",
-          "body": "dfs @nikaandi and",
+          "body": "dfs @andi_nika and",
           "username": "gerald_nika"
         },
         {
@@ -119,13 +107,13 @@
       "dueDate": "2024-08-10",
       "assignedTo": [
         "gerardo_tatzati",
-        "nikaandi"
+        "andi_nika"
       ],
       "comments": [
         {
           "id": "3ga8fez",
           "body": "ffff",
-          "username": "nikaandi"
+          "username": "andi_nika"
         },
         {
           "id": "1wmkhc8",
@@ -147,7 +135,7 @@
       "updatedDate": "2024-07-24",
       "dueDate": "2024-08-10",
       "assignedTo": [
-        "nikaandi"
+        "andi_nika"
       ],
       "comments": [
         {
@@ -190,7 +178,7 @@
       "updatedDate": "2024-07-25",
       "dueDate": "2024-07-26",
       "assignedTo": [
-        "nikaandi"
+        "andi_nika"
       ],
       "comments": [],
       "attachment": "",
@@ -209,12 +197,12 @@
       "assignedTo": [
         "gerardo_tatzati",
         "gerald_nika",
-        "nikaandi"
+        "andi_nika"
       ],
       "comments": [
         {
           "id": "bwatkan",
-          "body": "@nikaandi lorem ipsum dolor sit amet",
+          "body": "@andi_nika lorem ipsum dolor sit amet",
           "username": "gerald_nika"
         }
       ],

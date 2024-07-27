@@ -6,7 +6,10 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "e2e": "protractor",
+    "webdriver-update": "webdriver-manager update",
+    "e2e-test": "ng e2e"
   },
   "private": true,
   "dependencies": {
@@ -33,7 +36,6 @@
     "chart.js": "^4.4.3",
     "http-server": "^14.1.1",
     "json-server": "^1.0.0-beta.1",
-    "protractor": "^7.0.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.3"
@@ -47,11 +49,14 @@
     "@types/jest": "^29.5.12",
     "jasmine": "^5.2.0",
     "jasmine-core": "~5.1.0",
+    "jasmine-spec-reporter": "^7.0.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
+    "protractor": "^7.0.0",
+    "ts-node": "^10.9.2",
     "typescript": "~5.4.2"
   }
 }
