@@ -3,6 +3,7 @@ import { Task } from '../../../../core/types/interfaces/task';
 import { Observable } from 'rxjs';
 import { TaskStatus } from '../../../../core/types/enums/task/task-status';
 import Chart from 'chart.js/auto';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-status-distribution',
@@ -13,6 +14,8 @@ import Chart from 'chart.js/auto';
 export class StatusDistributionComponent implements AfterViewInit {
   @Input() idChart: string = '';
   @Input() tasks$: Observable<Task[]> = new Observable<Task[]>();
+
+  constructor(private translateService: TranslateService) {}
 
   ngAfterViewInit() {
     this.statusPieChart();
@@ -31,7 +34,12 @@ export class StatusDistributionComponent implements AfterViewInit {
         statusCounts[task.status]++;
       });
 
-      const labels = Object.keys(statusCounts);
+      const labels = [
+        this.translateService.instant('TASK_STATUS.PENDING'),
+        this.translateService.instant('TASK_STATUS.DOING'),
+        this.translateService.instant('TASK_STATUS.REVIEWING'),
+        this.translateService.instant('TASK_STATUS.COMPLETED')
+      ];
       const data = Object.values(statusCounts);
 
       if (this.idChart) {

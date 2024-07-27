@@ -5,3 +5,9 @@ export enum TaskStatus {
     Completed = 'completed'
   }
   
+  export const TaskStatusTranslationKeys = {
+    [TaskStatus.Pending]: 'TASK_STATUS.PENDING',
+    [TaskStatus.Doing]: 'TASK_STATUS.DOING',
+    [TaskStatus.Reviewing]: 'TASK_STATUS.REVIEWING',
+    [TaskStatus.Completed]: 'TASK_STATUS.COMPLETED'
+};

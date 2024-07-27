@@ -2,6 +2,7 @@ import { AfterViewInit, ChangeDetectionStrategy, Component, Input } from '@angul
 import { Task } from '../../../../core/types/interfaces/task';
 import { Observable } from 'rxjs';
 import Chart from 'chart.js/auto';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-task-assignments',
@@ -12,6 +13,8 @@ import Chart from 'chart.js/auto';
 export class TaskAssignmentsComponent implements AfterViewInit {
   @Input() idChart: string = '';
   @Input() tasks$: Observable<Task[]> = new Observable<Task[]>();
+
+  constructor(private translateService: TranslateService) {}
 
   ngAfterViewInit() {
     this.taskAssignmentBarChart();
@@ -41,7 +44,7 @@ export class TaskAssignmentsComponent implements AfterViewInit {
               labels: labels,
               datasets: [
                 {
-                  label: 'Task Assignments',
+                  label: this.translateService.instant('TASK_ASSIGNMENTS'),
                   data: data,
                   backgroundColor: 'blue',
                 },

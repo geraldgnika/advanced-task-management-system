@@ -2,7 +2,7 @@
 	<div class="row mt-4">
 		<div class="col-md-6">
 			<div class="card">
-				<h3 class="card-header text-center">Task Status Distribution</h3>
+				<h3 class="card-header text-center">{{ 'T_S_D' | translate }}</h3>
 				<div class="card-body">
 					<div class="chart-container">
 						<app-status-distribution idChart='status-distribution' [tasks$]="tasks$"></app-status-distribution>
@@ -13,7 +13,7 @@
 
 		<div class="col-md-6">
 			<div class="card">
-				<h3 class="card-header text-center">Task Priority Distribution</h3>
+				<h3 class="card-header text-center">{{ 'T_P_D' | translate }}</h3>
 				<div class="card-body">
 					<div class="chart-container">
 						<app-priority-distribution idChart='priority-distribution' [tasks$]="tasks$"></app-priority-distribution>
@@ -26,7 +26,7 @@
 	<div class="row mt-4">
 		<div class="col">
 			<div class="card">
-				<h3 class="card-header text-center">Task Assignment by Team Members</h3>
+				<h3 class="card-header text-center">{{ 'T_A_T_M' | translate }}</h3>
 				<div class="card-body">
 					<div class="chart-container">
 						<app-task-assignments idChart='task-assignment' [tasks$]="tasks$"></app-task-assignments>
@@ -39,20 +39,20 @@
 	<div class="row mt-4">
 		<div class="col">
 			<div class="card">
-				<h3 class="card-header text-center">Task List</h3>
+				<h3 class="card-header text-center">{{ 'T_LIST' | translate }}</h3>
 				<div class="card-body">
 					<div class="table-responsive">
 						<table class="table table-striped">
 							<thead>
 								<tr>
-									<th>Task ID</th>
-									<th>By</th>
-									<th>Title</th>
-									<th>Status</th>
-									<th>Priority</th>
-									<th>Assigned To</th>
-									<th>Created Date</th>
-									<th>Due Date</th>
+									<th>{{ 'T_ID' | translate }}</th>
+									<th>{{ 'BY' | translate }}</th>
+									<th>{{ 'TITLE' | translate }}</th>
+									<th>{{ 'STATUS' | translate }}</th>
+									<th>{{ 'PRIORITY' | translate }}</th>
+									<th>{{ 'ASSIGNED_TO' | translate }}</th>
+									<th>{{ 'CREATED' | translate }}</th>
+									<th>{{ 'DUE' | translate }}</th>
 								</tr>
 							</thead>
 							<tbody>

@@ -1,16 +1,16 @@
 <div class="dashboard">
 	<div class="view-switcher w-fit mb-4">
 		<button class="btn btn-sm" [ngClass]="{ 'btn-primary': currentView === 'board', 'btn-light': currentView !== 'board' }" (click)="switchToBoardView()">
-			Board View
+			{{ 'BOARD' | translate }}
 		  </button>
 		<button class="btn btn-sm" [ngClass]="{ 'btn-primary': currentView === 'list', 'btn-light': currentView !== 'list' }" (click)="switchToListView()">
-		  List View
+			{{ 'LIST' | translate }}
 		</button>
 		<button class="btn btn-sm" [ngClass]="{ 'btn-primary': currentView === 'grid', 'btn-light': currentView !== 'grid' }" (click)="switchToGridView()">
-		  Grid View
+			{{ 'GRID' | translate }}
 		</button>
 		<button class="btn btn-sm" [ngClass]="{ 'btn-primary': currentView === 'calendar', 'btn-light': currentView !== 'calendar' }" (click)="switchToCalendarView()">
-		  Calendar View
+			{{ 'CALENDAR' | translate }}
 		</button>
 	  </div>
 

@@ -7,31 +7,31 @@
 				data-bs-toggle="dropdown"
 				aria-expanded="false"
 			>
-				👁 Status
+				👁 {{ 'STATUS' | translate }}
 			</button>
 			<ul class="dropdown-menu">
 				<li>
 					<a class="dropdown-item cursor-pointer" (click)="showPending()"
-						>Show Pending</a
+						>{{ 'SHOW_PEND' | translate }}</a
 					>
 				</li>
 				<li>
 					<a class="dropdown-item cursor-pointer" (click)="showDoing()"
-						>Show Doing</a
+						>{{ 'SHOW_DO' | translate }}</a
 					>
 				</li>
 				<li>
 					<a class="dropdown-item cursor-pointer" (click)="showReviewing()"
-						>Show Reviewing</a
+						>{{ 'SHOW_REV' | translate }}</a
 					>
 				</li>
 				<li>
 					<a class="dropdown-item cursor-pointer" (click)="showCompleted()"
-						>Show Completed</a
+						>{{ 'SHOW_COM' | translate }}</a
 					>
 				</li>
 				<li>
-					<a class="dropdown-item cursor-pointer" (click)="showAll()">Show All</a>
+					<a class="dropdown-item cursor-pointer" (click)="showAll()">{{ 'SHOW_ALL' | translate }}</a>
 				</li>
 			</ul>
 		</div>
@@ -44,26 +44,26 @@
 				data-bs-toggle="dropdown"
 				aria-expanded="false"
 			>
-				👁 Priority
+				👁 {{ 'PRIORITY' | translate }}
 			</button>
 			<ul class="dropdown-menu">
 				<li>
 					<a class="dropdown-item cursor-pointer" (click)="showLow()"
-						>Low Priority</a
+						>{{ 'LOW_PR' | translate }}</a
 					>
 				</li>
 				<li>
 					<a class="dropdown-item cursor-pointer" (click)="showMedium()"
-						>Medium Priority</a
+						>{{ 'MED_PR' | translate }}</a
 					>
 				</li>
 				<li>
 					<a class="dropdown-item cursor-pointer" (click)="showHigh()"
-						>High Priority</a
+						>{{ 'HIGH_PR' | translate }}</a
 					>
 				</li>
 				<li>
-					<a class="dropdown-item cursor-pointer" (click)="showAll()">Show All</a>
+					<a class="dropdown-item cursor-pointer" (click)="showAll()">{{ 'SHOW_ALL' | translate }}</a>
 				</li>
 			</ul>
 		</div>
@@ -75,7 +75,7 @@
 		aria-describedby="basic-addon3"
 		[(ngModel)]="searchTerm"
 		(input)="searchTasks()"
-		placeholder="⌕  Search tasks by title, description, creator username, or assigned usernames..."
+		placeholder="⌕  {{ 'SRCH_PLACEHOLDER' | translate }}"
 	/>
 	<div class="btn-group border-color">
 		<div class="dropdown">
@@ -85,45 +85,45 @@
 				data-bs-toggle="dropdown"
 				aria-expanded="false"
 			>
-				↑↓ Sort
+				↑↓ {{ 'SORT' | translate }}
 			</button>
 			<ul class="dropdown-menu">
 				<li>
 					<a class="dropdown-item cursor-pointer" (click)="sortTasks('title', true)"
-						>Sort by Title ↑</a
+						>{{ 'SORT_TITLE' | translate }} ↑</a
 					>
 				</li>
 				<li>
 					<a class="dropdown-item cursor-pointer" (click)="sortTasks('title', false)"
-						>Sort by Title ↓</a
+						>{{ 'SORT_TITLE' | translate }} ↓</a
 					>
 				</li>
 				<li>
 					<a
 						class="dropdown-item cursor-pointer"
 						(click)="sortTasks('dueDate', true)"
-						>Sort by Due Date ↑</a
+						>{{ 'SORT_DUE' | translate }} ↑</a
 					>
 				</li>
 				<li>
 					<a
 						class="dropdown-item cursor-pointer"
 						(click)="sortTasks('dueDate', false)"
-						>Sort by Due Date ↓</a
+						>{{ 'SORT_DUE' | translate }} ↓</a
 					>
 				</li>
 				<li>
 					<a
 						class="dropdown-item cursor-pointer"
 						(click)="sortTasks('createdDate', true)"
-						>Sort by Created Date ↑</a
+						>{{ 'SORT_CREA' | translate }} ↑</a
 					>
 				</li>
 				<li>
 					<a
 						class="dropdown-item cursor-pointer"
 						(click)="sortTasks('createdDate', false)"
-						>Sort by Created Date ↓</a
+						>{{ 'SORT_CREA' | translate }} ↓</a
 					>
 				</li>
 			</ul>
@@ -131,7 +131,7 @@
 	</div>
 	<div class="btn-group border-color">
 		<button class="btn btn-link" type="button" (click)="downloadCSV()">
-			⬇️ Download CSV
+			⬇️ {{ 'DOWN_CSV' | translate }}
 		</button>
 	</div>
 </div>
@@ -187,7 +187,7 @@
 		</ng-container>
 
 		<ng-template #noResults>
-			<p class="text-center my-5">No tasks found.</p>
+			<p class="text-center my-5">{{ 'NO_TASKS' | translate }}.</p>
 		</ng-template>
 	</ng-container>
 </ul>

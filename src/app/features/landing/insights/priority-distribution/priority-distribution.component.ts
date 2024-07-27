@@ -3,6 +3,7 @@ import { Task } from '../../../../core/types/interfaces/task';
 import { Observable } from 'rxjs';
 import { TaskPriority } from '../../../../core/types/enums/task/task-priority';
 import Chart from 'chart.js/auto';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-priority-distribution',
@@ -13,6 +14,8 @@ import Chart from 'chart.js/auto';
 export class PriorityDistributionComponent implements AfterViewInit {
   @Input() idChart: string = '';
   @Input() tasks$: Observable<Task[]> = new Observable<Task[]>();
+
+  constructor(private translateService: TranslateService) {}
 
   ngAfterViewInit() {
     this.priorityPieChart();
@@ -30,7 +33,11 @@ export class PriorityDistributionComponent implements AfterViewInit {
         priorityCounts[task.priority]++;
       });
 
-      const labels = Object.keys(priorityCounts);
+      const labels = [
+        this.translateService.instant('TASK_PRIORITY.LOW'),
+        this.translateService.instant('TASK_PRIORITY.MEDIUM'),
+        this.translateService.instant('TASK_PRIORITY.HIGH')
+      ];
       const data = Object.values(priorityCounts);
 
       if (this.idChart) {

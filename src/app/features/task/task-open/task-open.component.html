@@ -5,10 +5,10 @@
 				<span class="cursor-pointer" (click)="goBack()">&larr;&nbsp;</span
 				>{{ task.title | capitalizeFirstLetter }}
 			</h2>
-			<p class="text-muted">- by {{ task.username! | formatUsername }}</p>
+			<p class="text-muted">- {{ 'BY' | translate }} {{ task.username! | formatUsername }}</p>
 			<div class="d-inline-flex w-full margin-bottom-15">
 				<div class="margin-right-20">
-					<label class="fw-medium"><span>Status:</span></label>
+					<label class="fw-medium"><span>{{ 'STATUS' | translateEnum:'status' | translate }}:</span></label>
 					<div class="d-flex align-items-center">
 						<div
 							class="status-circle"
@@ -23,7 +23,7 @@
 					</div>
 				</div>
 				<div>
-					<label class="fw-medium"><span>Priority:</span></label>
+					<label class="fw-medium"><span>{{ 'PRIORITY' | translateEnum:'priority' | translate }}:</span></label>
 					<div class="d-flex align-items-center">
 						<div
 							class="status-circle"
@@ -42,19 +42,19 @@
 			</div>
 			<div class="row mt-2">
 				<div class="col-md-2">
-					<label class="fw-medium"><span>Due:</span></label>
+					<label class="fw-medium"><span>{{ 'DUE' | translate }}:</span></label>
 					<div class="d-flex align-items-center">
 						<span>{{ task.dueDate }}</span>
 					</div>
 				</div>
 				<div class="col-md-2">
-					<label class="fw-medium"><span>Created:</span></label>
+					<label class="fw-medium"><span>{{ 'CREATED' | translate }}:</span></label>
 					<div class="d-flex align-items-center">
 						<span>{{ task.createdDate }}</span>
 					</div>
 				</div>
 				<div class="col-md-2">
-					<label class="fw-medium"><span>Updated:</span></label>
+					<label class="fw-medium"><span>{{ 'UPDATED' | translate }}:</span></label>
 					<div class="d-flex align-items-center">
 						<span>{{ task.updatedDate }}</span>
 					</div>
@@ -62,7 +62,7 @@
 				<div class="col-md-2">
 					<div class="d-flex align-items-center">
 						<span *ngIf="task.assignedTo && task.assignedTo.length > 0">
-							<span class="fw-medium">Assigned to:</span>
+							<span class="fw-medium">{{ 'ASSIGNED_TO' | translate }}:</span>
 							{{ task.assignedTo | formatUsernames }}
 						</span>
 					</div>
@@ -70,17 +70,17 @@
 			</div>
 			<div class="mt-4 float-end w-fit">
 				<button class="btn btn-sm btn-link me-2" (click)="goToTaskUpdate(task.id)">
-					<i class="bi bi-pencil btn-list btn-edit"></i> Update
+					<i class="bi bi-pencil btn-list btn-edit"></i> {{ 'UPDATE' | translate }}
 				</button>
 				<button class="btn btn-sm btn-outline-danger" (click)="deleteTask()">
-					× Delete
+					× {{ 'DELETE' | translate }}
 				</button>
 			</div>
 		</div>
 	</div>
 	<div class="row mt-3">
 		<div class="col-md-8 m-auto task-wrapper">
-			<h5 class="mb-3">Attachment:</h5>
+			<h5 class="mb-3">{{ 'ATTCH' | translate }}:</h5>
 			<div class="d-inline-flex w-full" *ngIf="task.attachment">
 				<img src="./attachment.jpg" class="attachment-img" />
 				<div class="w-full attachment-box">
@@ -94,7 +94,7 @@
 				</div>
 			</div>
 			<div class="" *ngIf="!task.attachment">
-				<label for="attachment" class="form-label">Choose Attachment:</label>
+				<label for="attachment" class="form-label">{{ 'CHOOSE_ATTCH' | translate }}:</label>
 				<input
 					type="file"
 					id="attachment"
@@ -106,11 +106,11 @@
 	</div>
 	<div class="row mt-3">
 		<div class="col-md-8 m-auto comments-wrapper">
-			<h5 class="mb-0">Comments:</h5>
-			<span class="card-subtitle text-muted fs-6"><i>Type {{ '@' }} to start a mention</i></span>
+			<h5 class="mb-0">{{ 'COMM' | translate }}:</h5>
+			<span class="card-subtitle text-muted fs-6"><i>{{ 'TYPE_@' | translate }}</i></span>
 			<div class="w-full mt-3">
 				<div class="input-group mb-3">
-					<input type="text" #commentInput class="form-control comment-input-field" placeholder="Write your comment here..." aria-label="Write your comment here..." aria-describedby="button-addon2" [(ngModel)]="newComment" (keyup)="handleAtSymbol($event)">
+					<input type="text" #commentInput class="form-control comment-input-field" placeholder="{{ 'WRITE_COMM_HERE' | translate }}" aria-label="Write your comment here..." aria-describedby="button-addon2" [(ngModel)]="newComment" (keyup)="handleAtSymbol($event)">
 					<div class="mention-box" *ngIf="showMentionBox && filteredUsernames.length > 0">
 						<ul class="mention-ul">
 							<li class="mention-li" *ngFor="let username of filteredUsernames"
@@ -120,7 +120,7 @@
 						</ul>
 					</div>
 					<div class="input-group-append">
-						<button class="btn btn-outline-secondary" type="button" id="button-addon2" (click)="postComment()">Post</button>
+						<button class="btn btn-outline-secondary" type="button" id="button-addon2" (click)="postComment()">{{ 'POST' | translate }}</button>
 					</div>
 				</div>
 			</div>
@@ -139,7 +139,7 @@
 				</ul>
 			</div>
 			<div class="w-full" *ngIf="task.comments.length === 0">
-				<p class="w-full m-auto text-center">No comments here</p>
+				<p class="w-full m-auto text-center">{{ 'NO_COMM_HERE' | translate }}</p>
 			</div>
 		</div>
 	</div>

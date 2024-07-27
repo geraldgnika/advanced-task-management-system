@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { AuthenticationRoutingModule } from './authentication-routing.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [
@@ -13,6 +14,7 @@ import { AuthenticationRoutingModule } from './authentication-routing.module';
   imports: [
     CommonModule,
     FormsModule,
+    TranslateModule.forChild(),
     ReactiveFormsModule,
     AuthenticationRoutingModule
   ]

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
@@ -12,8 +12,12 @@ import { Observable, of, switchMap } from 'rxjs';
 import { User } from '../../../core/types/interfaces/user';
 import { Task } from '../../../core/types/interfaces/task';
 import { Comment } from '../../../core/types/interfaces/comment';
-import { TaskStatus } from '../../../core/types/enums/task/task-status';
-import { TaskPriority } from '../../../core/types/enums/task/task-priority';
+import { TaskStatus, TaskStatusTranslationKeys } from '../../../core/types/enums/task/task-status';
+import { TaskPriority, TaskPriorityTranslationKeys } from '../../../core/types/enums/task/task-priority';
+import { TranslateService } from '@ngx-translate/core';
+import { getTranslatedEnum } from '../../../app.module';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-task-create',
@@ -21,13 +25,14 @@ import { TaskPriority } from '../../../core/types/enums/task/task-priority';
   styleUrls: ['./task-create.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TaskCreateComponent implements OnInit {
+export class TaskCreateComponent implements OnInit, OnDestroy {
   taskForm: FormGroup;
   currentUser$: Observable<User | null> = of();
   allUsers$!: Observable<User[]>;
-  taskPriorities: { value: string, label: string }[];
-  taskStatuses: { value: string, label: string }[];
+  taskPriorities$: Observable<{ value: string; label: string }[]> = of();
+  taskStatuses$: Observable<{ value: string; label: string }[]> = of();
   usn: string = "";
+  private destroy$ = new Subject<void>();
 
   constructor(
     private fb: FormBuilder,
@@ -35,7 +40,8 @@ export class TaskCreateComponent implements OnInit {
     private _location: Location,
     private taskService: TaskService,
     private router: Router,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private translateService: TranslateService
   ) {
     this.taskForm = this.fb.group({
       id: '',
@@ -67,19 +73,27 @@ export class TaskCreateComponent implements OnInit {
       }
     });
 
-    this.taskPriorities = Object.values(TaskPriority)
-      .filter(value => typeof value === 'string')
-      .map(value => ({
-        value,
-        label: value.charAt(0).toUpperCase() + value.slice(1)
-      }));
+    this.updateTranslations();
 
-    this.taskStatuses = Object.values(TaskStatus)
-      .filter(value => typeof value === 'string')
-      .map(value => ({
-        value,
-        label: value.charAt(0).toUpperCase() + value.slice(1)
-      }));
+  this.translateService.onLangChange
+    .pipe(takeUntil(this.destroy$))
+    .subscribe(() => {
+      this.updateTranslations();
+    });
+  }
+
+  private updateTranslations(): void {
+    this.taskPriorities$ = of(Object.values(TaskPriority).map(value => ({
+      value,
+      label: getTranslatedEnum(value, TaskPriorityTranslationKeys, this.translateService)
+    })));
+  
+    this.taskStatuses$ = of(Object.values(TaskStatus).map(value => ({
+      value,
+      label: getTranslatedEnum(value, TaskStatusTranslationKeys, this.translateService)
+    })));
+  
+    this.cdr.markForCheck();
   }
 
   ngOnInit(): void {
@@ -90,6 +104,11 @@ export class TaskCreateComponent implements OnInit {
   }
 
   @ViewChild('commentsTextarea') commentsTextarea!: ElementRef;
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }  
 
   saveTask(): void {
     const currentDate = new Date().toISOString().slice(0, 10);
@@ -104,6 +123,8 @@ export class TaskCreateComponent implements OnInit {
         const task: Task = {
           ...this.taskForm.value,
           id: taskId,
+          status: this.taskForm.value.status as TaskStatus,
+          priority: this.taskForm.value.priority as TaskPriority,
           comments: []
         };
   

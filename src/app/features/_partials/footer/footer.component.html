@@ -1,4 +1,20 @@
 <div id="footer">
-	&copy; 2024. All rights reserved.
-	Developed by <strong>Gerald Nika</strong> on behalf of LHIND Job Application Proccess.
+	<div class="container">
+		<div class="d-flex justify-content-between align-items-center mb-3">
+		  <div class="d-flex align-items-center">
+			<p class="mb-0 me-3 col-md-6">{{ 'LANGUAGE' | translate }}</p>
+			<select [(ngModel)]="currentLang" (change)="changeLang(currentLang)" class="form-select form-select-sm col-md-6">
+			  <option *ngFor="let lang of languages" [value]="lang.code">
+				{{ lang.name }}
+			  </option>
+			</select>
+		  </div>
+		  <div class="text-end col-md-6">
+			&copy; 2024. {{ 'ALL_RIGHTS' | translate }}
+		  </div>
+		</div>
+		<div class="text-center col-md-12">
+			{{ 'DEV_BY' | translate }} <strong>Gerald Nika</strong> {{ 'ON_BEHALF' | translate }}
+		</div>
+	  </div>
 </div>

@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { Task } from '../../../../core/types/interfaces/task';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
 	selector: 'app-task-item-calendar',
@@ -17,7 +18,7 @@ export class TaskItemCalendarComponent {
 		this.openTask.emit(id);
 	}
 
-	constructor() {
+	constructor(private translate: TranslateService) {
 		this.currentMonth = new Date();
 		this.generateCalendar(this.currentMonth);
 	}
@@ -76,4 +77,9 @@ export class TaskItemCalendarComponent {
 			);
 		});
 	}
+
+	getTranslatedMonth(date: Date): string {
+		const monthKey = date.toLocaleString('default', { month: 'long' }).toUpperCase();
+		return this.translate.instant(monthKey);
+	  }
 }

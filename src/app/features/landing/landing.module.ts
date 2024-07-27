@@ -7,6 +7,7 @@ import { TaskModule } from '../task/task.module';
 import { PriorityDistributionComponent } from './insights/priority-distribution/priority-distribution.component';
 import { StatusDistributionComponent } from './insights/status-distribution/status-distribution.component';
 import { TaskAssignmentsComponent } from './insights/task-assignments/task-assignments.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 
@@ -21,6 +22,7 @@ import { TaskAssignmentsComponent } from './insights/task-assignments/task-assig
   imports: [
     CommonModule,
     LandingRoutingModule,
+    TranslateModule.forChild(),
     TaskModule
   ]
 })

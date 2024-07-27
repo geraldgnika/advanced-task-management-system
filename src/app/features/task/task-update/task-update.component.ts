@@ -3,6 +3,7 @@ import {
   ChangeDetectorRef,
   Component,
   OnInit,
+  OnDestroy
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { Location } from '@angular/common';
@@ -15,8 +16,12 @@ import { User } from '../../../core/types/interfaces/user';
 import * as AuthenticationActions from '../../../shared/_store/authentication/authentication.actions';
 import * as AuthenticationSelectors from '../../../shared/_store/authentication/authentication.selectors';
 import { Task } from '../../../core/types/interfaces/task';
-import { TaskStatus } from '../../../core/types/enums/task/task-status';
-import { TaskPriority } from '../../../core/types/enums/task/task-priority';
+import { TaskStatus, TaskStatusTranslationKeys } from '../../../core/types/enums/task/task-status';
+import { TaskPriority, TaskPriorityTranslationKeys } from '../../../core/types/enums/task/task-priority';
+import { getTranslatedEnum } from '../../../app.module';
+import { TranslateService } from '@ngx-translate/core';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-task-update',
@@ -24,18 +29,20 @@ import { TaskPriority } from '../../../core/types/enums/task/task-priority';
   styleUrls: ['./task-update.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TaskUpdateComponent implements OnInit {
+export class TaskUpdateComponent implements OnInit, OnDestroy {
   taskForm: FormGroup;
   currentUser$: Observable<User | null> = of();
   allUsers$!: Observable<User[]>;
-  taskPriorities: { value: string; label: string }[];
-  taskStatuses: { value: string; label: string }[];
+  taskPriorities$: Observable<{ value: string; label: string }[]> = of();
+taskStatuses$: Observable<{ value: string; label: string }[]> = of();
   task: Task | undefined;
+  private destroy$ = new Subject<void>();
 
   constructor(
     private fb: FormBuilder,
     private store: Store<AppState>,
     private _location: Location,
+    private translateService: TranslateService,
     private router: Router,
     private cdr: ChangeDetectorRef,
     private route: ActivatedRoute
@@ -68,19 +75,27 @@ export class TaskUpdateComponent implements OnInit {
       }
     });
 
-    this.taskPriorities = Object.values(TaskPriority)
-      .filter((value) => typeof value === 'string')
-      .map((value) => ({
-        value,
-        label: value.charAt(0).toUpperCase() + value.slice(1),
-      }));
+    this.updateTranslations();
 
-    this.taskStatuses = Object.values(TaskStatus)
-      .filter((value) => typeof value === 'string')
-      .map((value) => ({
-        value,
-        label: value.charAt(0).toUpperCase() + value.slice(1),
-      }));
+  this.translateService.onLangChange
+    .pipe(takeUntil(this.destroy$))
+    .subscribe(() => {
+      this.updateTranslations();
+    });
+  }
+
+  private updateTranslations(): void {
+    this.taskPriorities$ = of(Object.values(TaskPriority).map(value => ({
+      value,
+      label: getTranslatedEnum(value, TaskPriorityTranslationKeys, this.translateService)
+    })));
+  
+    this.taskStatuses$ = of(Object.values(TaskStatus).map(value => ({
+      value,
+      label: getTranslatedEnum(value, TaskStatusTranslationKeys, this.translateService)
+    })));
+  
+    this.cdr.markForCheck();
   }
 
   isAssigned(username: string): boolean {
@@ -97,6 +112,11 @@ export class TaskUpdateComponent implements OnInit {
     this.cdr.detectChanges();
   }
 
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
   saveTask(): void {
     const currentDate = new Date().toISOString().slice(0, 10);
 
@@ -105,6 +125,8 @@ export class TaskUpdateComponent implements OnInit {
       updatedDate: currentDate,
       comments: this.task ? this.task.comments : [],
       attachment: this.task ? this.task.attachment : '',
+      status: this.taskForm.value.status as TaskStatus,
+      priority: this.taskForm.value.priority as TaskPriority
     };
 
     const task: Task = {

@@ -8,7 +8,7 @@
 								<span class="task-title fw-medium" [innerHTML]="task.title"></span>
 							</a>
 							<span class="text-muted d-block">
-								- by {{ task.username! | formatUsername }}</span
+								- {{ 'BY' | translate }} {{ task.username! | formatUsername }}</span
 							>
 						</div>
 						<i
@@ -22,7 +22,7 @@
 					</div>
 					<div class="row mt-2">
 						<div class="col-md-6">
-							<label><span class="fw-medium">Status:</span></label>
+							<label><span class="fw-medium">{{ 'STATUS' | translate }}:</span></label>
 							<div class="d-flex align-items-center">
 								<div
 									class="status-circle"
@@ -33,11 +33,11 @@
 										'status-circle-completed': task.status === 'completed'
 									}"
 								></div>
-								<span>{{ task.status | capitalizeFirstLetter }}</span>
+								<span>{{ task.status | translateEnum:'status' | capitalizeFirstLetter }}</span>
 							</div>
 						</div>
 						<div class="col-md-6">
-							<label><span class="fw-medium">Priority:</span></label>
+							<label><span class="fw-medium">{{ 'PRIORITY' | translate }}:</span></label>
 							<div class="d-flex align-items-center">
 								<div
 									class="status-circle"
@@ -47,13 +47,13 @@
 										'status-circle-high': task.priority === 'high'
 									}"
 								></div>
-								<span>{{ task.priority | capitalizeFirstLetter }}</span>
+								<span>{{ task.priority | translateEnum:'priority' | capitalizeFirstLetter }}</span>
 							</div>
 						</div>
 					</div>
 					<div class="row mt-2">
 						<div class="col-md-12">
-							<label><span class="fw-medium">Due Date:</span></label>
+							<label><span class="fw-medium">{{ 'DUE' | translate }}:</span></label>
 							<div class="d-flex align-items-center">
 								<span>{{ task.dueDate }}</span>
 							</div>
@@ -63,10 +63,10 @@
 						<div class="col-md-12">
 							<div class="d-flex align-items-center">
 								<span *ngIf="task.assignedTo && task.assignedTo.length > 0">
-									<span class="fw-medium">Assigned to</span>
+									<span class="fw-medium">{{ 'ASSIGNED_TO' | translate }}:</span>
 									{{ task.assignedTo[0] | formatUsername }}
 									<span *ngIf="task.assignedTo.length > 1"
-										>and {{ task.assignedTo.length - 1 }} more</span
+										>{{ 'AND' | translate }} {{ task.assignedTo.length - 1 }} {{ 'MORE' | translate }}</span
 									>
 								</span>
 							</div>

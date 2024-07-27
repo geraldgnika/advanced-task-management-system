@@ -11,12 +11,24 @@ import { environment } from '../environments/environment';
 import { FeaturesModule } from './features/features.module';
 import { HeaderComponent } from './features/_partials/header/header.component';
 import { FooterComponent } from './features/_partials/footer/footer.component';
-import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { HttpClient, provideHttpClient, withInterceptors } from '@angular/common/http';
 import { AuthenticationEffects } from './shared/_store/authentication/authentication.effects';
 import { reducers } from './shared/_store/_common/reducers';
 import { authenticationInterceptor } from './core/interceptors/authentication.interceptor';
 import { TaskEffects } from './shared/_store/task/task.effects';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+import { FormsModule } from '@angular/forms';
+
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http, 'i18n/', '.json');
+}
+
+export function getTranslatedEnum(value: string, translationKeys: { [key: string]: string }, translateService: TranslateService): string {
+  const key = translationKeys[value];
+  return key ? translateService.instant(key) : value;
+}
 
 @NgModule({
   declarations: [
@@ -28,8 +40,17 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
     BrowserModule,
     AppRoutingModule,
     CoreModule,
+    FormsModule,
     SharedModule,
     FeaturesModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      },
+      defaultLanguage: 'en'
+    }),
     StoreModule.forRoot(reducers),
     EffectsModule.forRoot([AuthenticationEffects, TaskEffects]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production })

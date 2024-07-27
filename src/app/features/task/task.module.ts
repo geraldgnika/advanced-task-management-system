@@ -15,6 +15,8 @@ import { TaskItemCalendarComponent } from './task-item/task-item-calendar/task-i
 import { TaskItemBoardComponent } from './task-item/task-item-board/task-item-board.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { TaskMentionsComponent } from './task-mentions/task-mentions.component';
+import { TranslateModule } from '@ngx-translate/core';
+import { TranslateEnumPipe } from '../../shared/pipes/translate-enum.pipe';
 
 @NgModule({
   declarations: [
@@ -28,12 +30,14 @@ import { TaskMentionsComponent } from './task-mentions/task-mentions.component';
     TaskItemListComponent,
     TaskItemGridComponent,
     TaskItemCalendarComponent,
+    TranslateEnumPipe,
     TaskItemBoardComponent,
     TaskMentionsComponent
   ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
+    TranslateModule.forChild(),
     FormsModule,
     TaskRoutingModule,
     DragDropModule

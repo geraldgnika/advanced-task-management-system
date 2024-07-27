@@ -1,8 +1,8 @@
 <div class="calendar card">
     <div class="calendar-header card-header bg-light d-flex justify-content-between align-items-center">
-      <button class="btn btn-light" (click)="prevMonth()">Previous Month</button>
-      <span class="h5 mb-0">{{ currentMonth | date : "MMMM yyyy" }}</span>
-      <button class="btn btn-light" (click)="nextMonth()">Next Month</button>
+      <button class="btn btn-light" (click)="prevMonth()">{{ 'PREV_MONTH' | translate }}</button>
+      <span class="h5 mb-0">{{ getTranslatedMonth(currentMonth) }} {{ currentMonth | date : "yyyy" }}</span>
+      <button class="btn btn-light" (click)="nextMonth()">{{ 'NEXT_MONTH' | translate }}</button>
     </div>
     <div class="calendar-body card-body">
       <div class="row">
@@ -22,7 +22,7 @@
                                     'status-circle-high': task.priority === 'high'
                                 }"
                             ></div>
-                            <span class="task-title">{{ task.priority | capitalizeFirstLetter }}</span>
+                            <span class="task-title">{{ task.priority | translateEnum:'priority' | capitalizeFirstLetter }}</span>
                         </div>
                         <div class="d-inline-flex">
                             <div
@@ -34,12 +34,12 @@
                                     'status-circle-completed': task.status === 'completed'
                                 }"
                             ></div>
-                            <span class="task-title">{{ task.status | capitalizeFirstLetter }}</span>
+                            <span class="task-title">{{ task.status | translateEnum:'status' | capitalizeFirstLetter }}</span>
                         </div>
                         <div class="task-title">{{ task.title }}</div>
                         <span *ngIf="task.assignedTo && task.assignedTo.length > 0" class="d-grid">
-                            <span class="task-title">To: {{ task.assignedTo[0] | formatUsername }}</span>
-                            <span class="task-title" *ngIf="task.assignedTo.length > 1"> and {{ task.assignedTo.length - 1 }} more</span>
+                            <span class="task-title">{{ 'TO' | translate }}: {{ task.assignedTo[0] | formatUsername }}</span>
+                            <span class="task-title" *ngIf="task.assignedTo.length > 1"> {{ 'AND' | translate }} {{ task.assignedTo.length - 1 }} {{ 'MORE' | translate }}</span>
                         </span>
                     </div>
                 </ng-container>

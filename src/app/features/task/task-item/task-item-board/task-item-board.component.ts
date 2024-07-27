@@ -7,6 +7,7 @@ import * as TaskSelector from '../../../../shared/_store/task/task.selectors';
 import * as TaskActions from '../../../../shared/_store/task/task.actions';
 import { Store } from '@ngrx/store';
 import { TaskState } from '../../../../shared/_store/task/task.state';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-task-item-board',
@@ -25,7 +26,8 @@ export class TaskItemBoardComponent implements OnInit {
     [];
 
   constructor(
-    private store: Store<TaskState>
+    private store: Store<TaskState>,
+    private translate: TranslateService
   ) {
     this.pendingTasks$ = this.store.select(TaskSelector.selectPendingTasks);
     this.doingTasks$ = this.store.select(TaskSelector.selectDoingTasks);
@@ -40,13 +42,13 @@ export class TaskItemBoardComponent implements OnInit {
 
   getHeaderClass(header: string): string {
     switch (header) {
-      case 'Pending':
+      case this.translate.instant('PENDING'):
         return 'bg-warning text-black';
-      case 'Doing':
+      case this.translate.instant('DOING'):
         return 'bg-primary text-white';
-      case 'Reviewing':
+      case this.translate.instant('REVIEWING'):
         return 'bg-brown text-white';
-      case 'Completed':
+      case this.translate.instant('COMPLETED'):
         return 'bg-success text-white';
       default:
         return '';
@@ -60,11 +62,11 @@ export class TaskItemBoardComponent implements OnInit {
     this.store.dispatch(TaskActions.loadTasksByStatus({ status: 'completed' }));
 
     this.taskData = [
-      { header: 'Pending', status: 'pending', tasks: this.pendingTasks$ },
-      { header: 'Doing', status: 'doing', tasks: this.doingTasks$ },
-      { header: 'Reviewing', status: 'reviewing', tasks: this.reviewingTasks$ },
+      { header: this.translate.instant('PENDING'), status: 'pending', tasks: this.pendingTasks$ },
+      { header: this.translate.instant('DOING'), status: 'doing', tasks: this.doingTasks$ },
+      { header: this.translate.instant('REVIEWING'), status: 'reviewing', tasks: this.reviewingTasks$ },
       {
-        header: 'Completed',
+        header: this.translate.instant('COMPLETED'),
         status: 'completed',
         tasks: this.completedTasks$,
       },
