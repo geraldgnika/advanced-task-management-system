@@ -1,0 +1,174 @@
+<div class="w-full d-inline-flex">
+  <h2 class="mb-4 mr-auto">
+    <span class="cursor-pointer" (click)="goBack()">&larr;&nbsp;</span
+    >{{ "CR_NEW_TSK" | translate }}
+  </h2>
+</div>
+
+<form [formGroup]="taskForm" (ngSubmit)="saveTask()" class="mb-4">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="mb-3">
+        <label for="title" class="form-label"
+          >* {{ "TITLE" | translate }}:</label
+        >
+        <input
+          type="text"
+          id="title"
+          class="form-control"
+          formControlName="title"
+          required
+        />
+      </div>
+      <div class="mb-3">
+        <label for="status" class="form-label"
+          >* {{ "STATUS" | translate }}:</label
+        >
+        <select
+          id="status"
+          class="form-select"
+          formControlName="status"
+          required
+        >
+          <option
+            *ngFor="let status of taskStatuses$ | async"
+            [value]="status.value"
+          >
+            {{ status.label }}
+          </option>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label for="dueDate" class="form-label"
+          >* {{ "DUE" | translate }}:</label
+        >
+        <input
+          type="date"
+          id="dueDate"
+          class="form-control"
+          formControlName="dueDate"
+          required
+        />
+      </div>
+      <div class="mb-3">
+        <label for="priority" class="form-label"
+          >* {{ "PRIORITY" | translate }}:</label
+        >
+        <select
+          id="priority"
+          class="form-select"
+          formControlName="priority"
+          required
+        >
+          <option
+            *ngFor="let priority of taskPriorities$ | async"
+            [value]="priority.value"
+          >
+            {{ priority.label }}
+          </option>
+        </select>
+      </div>
+      <div class="mb-3 assignToDiv border rounded p-3">
+        <label for="assignedTo" class="form-label"
+          >{{ "ASSIGN_TO" | translate }}:</label
+        >
+        <div style="max-height: 200px; overflow-y: auto">
+          <div *ngFor="let user of allUsers$ | async" class="form-check">
+            <input
+              type="checkbox"
+              class="form-check-input"
+              [value]="user.username"
+              (change)="toggleAssignedTo(user.username)"
+              id="user{{ user.id }}"
+            />
+            <label
+              class="form-check-label text-primary"
+              for="user{{ user.id }}"
+            >
+              {{ "@" + user.username }} </label
+            >:
+            <span
+              *ngIf="user.role === 'projectManager'"
+              class="text-muted float-end"
+              >{{ "PM" | translate }}</span
+            >
+            <span
+              *ngIf="user.role === 'teamLead'"
+              class="text-muted float-end"
+              >{{ "TL" | translate }}</span
+            >
+            <span
+              *ngIf="user.role === 'developer'"
+              class="text-muted float-end"
+              >{{ "DEV" | translate }}</span
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="mb-3">
+        <label for="description" class="form-label"
+          >{{ "DESCR" | translate }}:</label
+        >
+        <textarea
+          id="description"
+          class="form-control"
+          formControlName="description"
+          rows="10"
+        ></textarea>
+      </div>
+      <div class="mb-3">
+        <label for="attachment" class="form-label"
+          >{{ "CHOOSE_ATTCH" | translate }}:</label
+        >
+        <div class="input-group">
+          <input
+            type="file"
+            class="form-control d-none"
+            id="attachment"
+            (change)="onFileSelected($event)"
+            #fileInput
+          />
+          <label class="input-group-text btn btn-group" for="attachment">
+            {{ "CHOOSE_FILE" | translate }}
+          </label>
+          <input
+            type="text"
+            class="form-control"
+            [value]="fileName || ('NO_FILE_CHOSEN' | translate)"
+            readonly
+          />
+          <button
+            class="btn btn-group"
+            type="button"
+            (click)="fileInput.click()"
+          >
+            <i class="bi bi-folder2-open"></i>
+          </button>
+        </div>
+      </div>
+      <div class="mb-3">
+        <label for="comments" class="form-label"
+          >{{ "WRITE_FIRST_COMM" | translate }}:</label
+        >
+        <textarea
+          id="comments"
+          class="form-control"
+          formArrayName="comments"
+          rows="5"
+          #commentsTextarea
+        ></textarea>
+      </div>
+    </div>
+    <div class="d-flex align-items-end justify-content-end">
+      <button
+        type="submit"
+        class="btn btn-primary"
+        [disabled]="taskForm.invalid"
+      >
+        {{ "CR_TASK" | translate }}
+      </button>
+    </div>
+  </div>
+</form>

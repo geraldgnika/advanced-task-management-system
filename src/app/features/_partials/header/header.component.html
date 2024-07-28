@@ -1,0 +1,73 @@
+<div
+  class="d-inline-box p-2 px-md-4 mb-5 bg-light-subtle border-bottom shadow-sm w-full"
+>
+  <div class="container d-flex">
+    <h5
+      class="mr-auto font-weight-normal mb-0 d-inline-flex align-items-center cursor-pointer"
+      (click)="navigateToHome()"
+    >
+      <span class="fw-medium">ATMS</span>
+    </h5>
+    <nav class="mr-md-3 d-inline-flex">
+      <span
+        class="p-2 text-dark cursor-pointer"
+        (click)="navigateToLogin()"
+        *ngIf="!(currentUser$ | async)"
+        >{{ "LOGIN" | translate }}</span
+      >
+      <span
+        class="p-2 text-dark cursor-pointer"
+        (click)="navigateToRegister()"
+        *ngIf="!(currentUser$ | async)"
+        >{{ "REGISTER" | translate }}</span
+      >
+      <button
+        (click)="goToDashboard()"
+        class="btn btn-sm btn-link"
+        *ngIf="currentUser$ | async"
+      >
+        {{ "DASHBOARD" | translate }}
+      </button>
+      <button
+        (click)="goToTasks()"
+        class="btn btn-sm btn-link"
+        *ngIf="currentUser$ | async"
+      >
+        {{ "TASKS" | translate }}
+      </button>
+      <button
+        (click)="goToInsights()"
+        class="btn btn-sm btn-link"
+        *ngIf="
+          (currentUser$ | async)?.role === 'projectManager' ||
+          (currentUser$ | async)?.role === 'teamLead'
+        "
+      >
+        {{ "INSIGHTS" | translate }}
+      </button>
+      <button
+        (click)="goToMentions()"
+        class="btn btn-sm btn-link"
+        *ngIf="currentUser$ | async"
+      >
+        {{ "MENTIONS" | translate }}
+      </button>
+      <button
+        (click)="goToCreate()"
+        class="btn btn-sm btn-outline-primary btn-create"
+        *ngIf="currentUser$ | async"
+      >
+        &plus;
+      </button>
+      <span class="p-2 text-dark cursor-pointer" *ngIf="currentUser$ | async">
+        <strong>{{ getInitials((currentUser$ | async)?.full_name) }}</strong>
+      </span>
+      <span
+        class="p-2 text-dark cursor-pointer"
+        (click)="logout()"
+        *ngIf="currentUser$ | async"
+        >{{ "LOGOUT" | translate }}</span
+      >
+    </nav>
+  </div>
+</div>

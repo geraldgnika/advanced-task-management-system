@@ -1,0 +1,88 @@
+.tasks-container {
+  min-height: 200px;
+}
+
+.task {
+  padding: 10px;
+  margin-bottom: 5px;
+  background-color: #ffffff;
+  border: 1px solid #e1e1e1;
+  margin: 10px;
+  border-radius: 6px;
+  overflow: hidden;
+  cursor: pointer;
+  box-shadow: 0 0 10px #dddddd;
+}
+
+.height-full {
+  height: 62vh;
+  min-height: 62vh;
+  max-height: 62vh;
+}
+
+.oya {
+  overflow-y: auto;
+}
+
+.task-title {
+  color: #2c1b1b;
+}
+
+.status-circle {
+  width: 11px;
+  height: 11px;
+  margin-top: 1px;
+  border-radius: 50%;
+  margin-right: 5px;
+}
+
+.status-circle-pending {
+  background-color: orange;
+}
+
+.status-circle-doing {
+  background-color: blue;
+}
+
+.status-circle-reviewing {
+  background-color: brown;
+}
+
+.status-circle-completed {
+  background-color: green;
+}
+
+.status-circle-low {
+  background-color: blue;
+}
+
+.status-circle-medium {
+  background-color: orange;
+}
+
+.status-circle-high {
+  background-color: red;
+}
+
+.loading-placeholder {
+  background: linear-gradient(to right, #f0f0f0 10%, #e0e0e0 50%, #f0f0f0 90%);
+  background-size: 200% auto;
+  border-radius: 5px;
+  padding-top: 3px;
+  width: -webkit-fill-available;
+  height: 220px;
+  animation: slide 1.5s infinite;
+}
+
+@keyframes slide {
+  0% {
+    background-position: 100% 0;
+  }
+  100% {
+    background-position: -100% 0;
+  }
+}
+
+.bg-brown {
+  background-color: brown;
+}

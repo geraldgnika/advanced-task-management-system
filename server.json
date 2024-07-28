@@ -1,0 +1,186 @@
+{
+  "users": [
+    {
+      "id": "_8r6m4hx",
+      "full_name": "Gerald Nika",
+      "username": "gerald_nika",
+      "password": "123456",
+      "role": "projectManager",
+      "permissions": {
+        "canManageTasks": true,
+        "canViewInsights": true
+      }
+    },
+    {
+      "id": "_ovexrq1",
+      "full_name": "Andi Nika",
+      "username": "andi_nika",
+      "password": "123456",
+      "role": "teamLead",
+      "permissions": {
+        "canManageTasks": true,
+        "canViewInsights": true
+      }
+    },
+    {
+      "id": "_cq5qvcc",
+      "full_name": "Gerardo Tatzati",
+      "username": "gerardo_tatzati",
+      "password": "123456",
+      "role": "developer",
+      "permissions": {
+        "canManageTasks": true,
+        "canViewInsights": false
+      }
+    }
+  ],
+  "tasks": [
+    {
+      "id": "vgdaota",
+      "title": "Implement User Authentication",
+      "description": "Set up authentication with Angular Material forms and Firebase integration. Include login, registration, and password recovery functionalities.",
+      "status": "pending",
+      "priority": "high",
+      "createdDate": "2024-07-28",
+      "updatedDate": "2024-07-28",
+      "dueDate": "2024-07-28",
+      "assignedTo": ["gerardo_tatzati"],
+      "comments": [
+        {
+          "id": "9x3k87b",
+          "body": "This task is really important and should be handed ASAP.",
+          "username": "gerald_nika"
+        }
+      ],
+      "attachment": "Task Requirements.docx",
+      "user_id": "_8r6m4hx",
+      "username": "gerald_nika"
+    },
+    {
+      "id": "jpnvy9c",
+      "title": "Create Dashboard Views",
+      "description": "Design and implement different dashboard views using Angular Material components. Include widgets for task summaries, charts for analytics, and user-specific widgets.",
+      "status": "doing",
+      "priority": "medium",
+      "createdDate": "2024-07-28",
+      "updatedDate": "2024-07-28",
+      "dueDate": "2024-07-31",
+      "assignedTo": ["andi_nika", "gerardo_tatzati"],
+      "comments": [],
+      "attachment": "Task Requirements.docx",
+      "user_id": "_8r6m4hx",
+      "username": "gerald_nika"
+    },
+    {
+      "id": "2b2d2kd",
+      "title": "Develop Task Creation Form",
+      "description": "Create a form using Angular Reactive Forms for users to add new tasks. Include fields for title, description, due date, priority, and assigned team members.",
+      "status": "reviewing",
+      "priority": "high",
+      "createdDate": "2024-07-28",
+      "updatedDate": "2024-07-28",
+      "dueDate": "2024-07-30",
+      "assignedTo": ["andi_nika"],
+      "comments": [],
+      "attachment": "",
+      "user_id": "_8r6m4hx",
+      "username": "gerald_nika"
+    },
+    {
+      "id": "v1gqg7e",
+      "title": "Implement Task List View",
+      "description": "Develop a component to display tasks in a list format. Include sorting by priority and due date, filtering by status, and pagination.",
+      "status": "completed",
+      "priority": "medium",
+      "createdDate": "2024-07-28",
+      "updatedDate": "2024-07-28",
+      "dueDate": "2024-07-30",
+      "assignedTo": ["gerald_nika", "gerardo_tatzati", "andi_nika"],
+      "comments": [],
+      "attachment": "",
+      "user_id": "_8r6m4hx",
+      "username": "gerald_nika"
+    },
+    {
+      "id": "vgdaotf",
+      "title": "Integrate Real-Time Updates",
+      "description": "Use Firebase Realtime Database or Firestore to enable real-time updates for tasks. Implement notifications for new tasks, task updates, and comments.",
+      "status": "pending",
+      "priority": "high",
+      "createdDate": "2024-07-28",
+      "updatedDate": "2024-07-28",
+      "dueDate": "2024-07-28",
+      "assignedTo": ["gerardo_tatzati"],
+      "comments": [
+        {
+          "id": "9x3k871",
+          "body": "This task is really important and should be handed ASAP.",
+          "username": "gerald_nika"
+        }
+      ],
+      "attachment": "Task Requirements.docx",
+      "user_id": "_8r6m4hx",
+      "username": "gerald_nika"
+    },
+    {
+      "id": "jpnvy9g",
+      "title": "Enhance Task Collaboration",
+      "description": "Implement features for task comments and attachments. Allow users to add comments, upload attachments, and tag other team members for collaboration.",
+      "status": "doing",
+      "priority": "medium",
+      "createdDate": "2024-07-28",
+      "updatedDate": "2024-07-28",
+      "dueDate": "2024-07-31",
+      "assignedTo": ["andi_nika", "gerardo_tatzati"],
+      "comments": [],
+      "attachment": "Task Requirements.docx",
+      "user_id": "_8r6m4hx",
+      "username": "gerald_nika"
+    },
+    {
+      "id": "2b2d2kh",
+      "title": "Advanced Search Functionality",
+      "description": "Develop a search component using Angular Reactive Forms and RxJS operators to allow users to search tasks by title, description, status, priority, and assigned team members.",
+      "status": "reviewing",
+      "priority": "high",
+      "createdDate": "2024-07-28",
+      "updatedDate": "2024-07-28",
+      "dueDate": "2024-07-30",
+      "assignedTo": ["andi_nika"],
+      "comments": [],
+      "attachment": "",
+      "user_id": "_8r6m4hx",
+      "username": "gerald_nika"
+    },
+    {
+      "id": "v1gqg7i",
+      "title": "Analytics and Reporting",
+      "description": "Integrate Chart.js for analytics graphs and reports. Display task completion rate, task distribution by status and priority, and user activity metrics on the dashboard.",
+      "status": "completed",
+      "priority": "medium",
+      "createdDate": "2024-07-28",
+      "updatedDate": "2024-07-28",
+      "dueDate": "2024-07-30",
+      "assignedTo": ["gerald_nika", "gerardo_tatzati", "andi_nika"],
+      "comments": [],
+      "attachment": "",
+      "user_id": "_8r6m4hx",
+      "username": "gerald_nika"
+    },
+    {
+      "id": "v1gqg7j",
+      "title": "Testing and Deployment",
+      "description": "Set up unit tests using Jasmine and Karma for components, services, and state management. Implement end-to-end tests using Protractor for critical user workflows. Prepare for deployment to a staging environment with Firebase Hosting.",
+      "status": "completed",
+      "priority": "medium",
+      "createdDate": "2024-07-28",
+      "updatedDate": "2024-07-28",
+      "dueDate": "2024-07-30",
+      "assignedTo": ["gerald_nika", "gerardo_tatzati", "andi_nika"],
+      "comments": [],
+      "attachment": "",
+      "user_id": "_8r6m4hx",
+      "username": "gerald_nika"
+    }
+  ]
+}

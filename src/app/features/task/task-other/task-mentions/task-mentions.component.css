@@ -1,0 +1,10 @@
+.padbox {
+  padding-left: 25px;
+  padding-right: 25px;
+  padding-top: 20px;
+  padding-bottom: 15px;
+}
+
+.padbox:hover {
+  background-color: rgb(235, 235, 235);
+}

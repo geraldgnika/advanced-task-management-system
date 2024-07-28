@@ -1,0 +1,192 @@
+<div *ngIf="let tasks$ as tasks | async">
+<div class="input-group mb-3" *ngIf="tasks$.length !== 0 && viewMode === 'task-component'">
+	<div class="btn-group border-color">
+		<div class="dropdown">
+			<button
+				class="btn btn-link dropdown-toggle"
+				type="button"
+				data-bs-toggle="dropdown"
+				aria-expanded="false"
+			>
+				👁 {{ 'STATUS' | translate }}
+			</button>
+			<ul class="dropdown-menu">
+				<li>
+					<a class="dropdown-item cursor-pointer" (click)="showPending()"
+						>{{ 'SHOW_PEND' | translate }}</a
+					>
+				</li>
+				<li>
+					<a class="dropdown-item cursor-pointer" (click)="showDoing()"
+						>{{ 'SHOW_DO' | translate }}</a
+					>
+				</li>
+				<li>
+					<a class="dropdown-item cursor-pointer" (click)="showReviewing()"
+						>{{ 'SHOW_REV' | translate }}</a
+					>
+				</li>
+				<li>
+					<a class="dropdown-item cursor-pointer" (click)="showCompleted()"
+						>{{ 'SHOW_COM' | translate }}</a
+					>
+				</li>
+				<li>
+					<a class="dropdown-item cursor-pointer" (click)="showAll()">{{ 'SHOW_ALL' | translate }}</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<div class="btn-group border-color">
+		<div class="dropdown">
+			<button
+				class="btn btn-link dropdown-toggle"
+				type="button"
+				data-bs-toggle="dropdown"
+				aria-expanded="false"
+			>
+				👁 {{ 'PRIORITY' | translate }}
+			</button>
+			<ul class="dropdown-menu">
+				<li>
+					<a class="dropdown-item cursor-pointer" (click)="showLow()"
+						>{{ 'LOW_PR' | translate }}</a
+					>
+				</li>
+				<li>
+					<a class="dropdown-item cursor-pointer" (click)="showMedium()"
+						>{{ 'MED_PR' | translate }}</a
+					>
+				</li>
+				<li>
+					<a class="dropdown-item cursor-pointer" (click)="showHigh()"
+						>{{ 'HIGH_PR' | translate }}</a
+					>
+				</li>
+				<li>
+					<a class="dropdown-item cursor-pointer" (click)="showAll()">{{ 'SHOW_ALL' | translate }}</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<input
+		type="text"
+		class="form-control"
+		id="basic-url"
+		aria-describedby="basic-addon3"
+		[(ngModel)]="searchTerm"
+		(input)="searchTasks()"
+		placeholder="⌕  {{ 'SRCH_PLACEHOLDER' | translate }}"
+	/>
+	<div class="btn-group border-color">
+		<div class="dropdown">
+			<button
+				class="btn btn-link dropdown-toggle"
+				type="button"
+				data-bs-toggle="dropdown"
+				aria-expanded="false"
+			>
+				↑↓ {{ 'SORT' | translate }}
+			</button>
+			<ul class="dropdown-menu">
+				<li>
+					<a class="dropdown-item cursor-pointer" (click)="sortTasks('title', true)"
+						>{{ 'SORT_TITLE' | translate }} ↑</a
+					>
+				</li>
+				<li>
+					<a class="dropdown-item cursor-pointer" (click)="sortTasks('title', false)"
+						>{{ 'SORT_TITLE' | translate }} ↓</a
+					>
+				</li>
+				<li>
+					<a
+						class="dropdown-item cursor-pointer"
+						(click)="sortTasks('dueDate', true)"
+						>{{ 'SORT_DUE' | translate }} ↑</a
+					>
+				</li>
+				<li>
+					<a
+						class="dropdown-item cursor-pointer"
+						(click)="sortTasks('dueDate', false)"
+						>{{ 'SORT_DUE' | translate }} ↓</a
+					>
+				</li>
+				<li>
+					<a
+						class="dropdown-item cursor-pointer"
+						(click)="sortTasks('createdDate', true)"
+						>{{ 'SORT_CREA' | translate }} ↑</a
+					>
+				</li>
+				<li>
+					<a
+						class="dropdown-item cursor-pointer"
+						(click)="sortTasks('createdDate', false)"
+						>{{ 'SORT_CREA' | translate }} ↓</a
+					>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<div class="btn-group border-color">
+		<button class="btn btn-link" type="button" (click)="downloadCSV()">
+			⬇️ {{ 'DOWN_CSV' | translate }}
+		</button>
+	</div>
+</div>
+</div>
+
+<ul class="list-group">
+	<ng-container *ngIf="tasks$ | async as tasks">
+		<ng-container *ngIf="tasks.length !== 0; else noResults">
+			<ng-container *ngIf="viewMode === 'task-component'">
+				<div *ngFor="let task of tasks">
+					<app-task-item-list
+						[task]="task"
+						(openTask)="openTask($event)"
+						(editTask)="goToTaskUpdate($event)"
+					></app-task-item-list>
+				</div>
+			</ng-container>
+
+			<ng-container *ngIf="viewMode === 'list'">
+				<div *ngFor="let task of tasks">
+					<app-task-item-list
+						[task]="task"
+						(openTask)="openTask($event)"
+						(editTask)="goToTaskUpdate($event)"
+					></app-task-item-list>
+				</div>
+			</ng-container>
+
+			<ng-container *ngIf="viewMode === 'grid'">
+				<div class="row">
+					<div class="col-md-4" *ngFor="let task of tasks">
+						<app-task-item-grid
+							[task]="task"
+							(openTask)="openTask($event)"
+							(editTask)="goToTaskUpdate($event)"
+						></app-task-item-grid>
+					</div>
+				</div>
+			</ng-container>
+
+			<ng-container *ngIf="viewMode === 'calendar'">
+				<app-task-item-calendar
+					[tasks]="tasks"
+					(openTask)="openTask($event)"
+				></app-task-item-calendar>
+			</ng-container>
+
+			<ng-container *ngIf="viewMode === 'board'">
+				<app-task-item-board (openTask)="openTask($event)"></app-task-item-board>
+			</ng-container>
+		</ng-container>
+
+		<ng-template #noResults>
+			<p class="text-center my-5">{{ 'NO_TASKS' | translate }}.</p>
+		</ng-template>
+	</ng-container>
+</ul>

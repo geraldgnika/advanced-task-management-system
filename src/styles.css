@@ -1,1 +1,106 @@
-/* You can add global styles to this file, and also import other style files */
+body {
+  position: relative;
+  min-height: 100vh;
+  background-color: #bb82761c !important;
+}
+
+.container {
+  max-width: 1400px !important;
+}
+
+.wrapper {
+  padding-bottom: 12rem !important;
+}
+
+#footer {
+  background-color: #ebebeb;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding-bottom: 2rem;
+  padding-top: 2rem;
+  text-align: center;
+}
+
+.w-full {
+  width: -webkit-fill-available !important;
+}
+
+.w-fit {
+  width: fit-content;
+}
+
+.d-inline-box {
+  display: -webkit-inline-box !important;
+}
+
+.mr-auto {
+  margin-right: auto;
+}
+
+a,
+.btn-link {
+  text-decoration: none !important;
+}
+
+.btn-link {
+  color: black !important;
+  background-color: white !important;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+input,
+textarea,
+.btn-group {
+  border-color: rgb(214, 214, 214) !important;
+}
+
+img {
+  -webkit-user-drag: none;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  pointer-events: none;
+}
+
+.text-justify {
+  text-align: justify;
+}
+
+.containerAuth {
+  max-width: 900px !important;
+}
+
+.authRow {
+  border-radius: 10px;
+}
+
+.imgAuth {
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+
+.form-wrapper-auth {
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  overflow-x: hidden;
+  overflow-y: hidden;
+  overflow-wrap: break-word;
+}
+
+label {
+  cursor: pointer;
+}
