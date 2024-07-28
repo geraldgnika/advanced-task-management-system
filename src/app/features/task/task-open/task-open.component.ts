@@ -93,7 +93,6 @@ export class TaskOpenComponent implements OnInit, OnDestroy {
 	deleteTask(): void {
 		this.task$!.subscribe((task) => {
 			if (!task) {
-				console.error('Task not found');
 				return;
 			}
 
@@ -140,7 +139,6 @@ export class TaskOpenComponent implements OnInit, OnDestroy {
 	onFileSelected(event: Event): void {
 		this.task$!.subscribe((task) => {
 			if (!task) {
-				console.error('Task not found');
 				return;
 			}
 
@@ -218,7 +216,6 @@ export class TaskOpenComponent implements OnInit, OnDestroy {
 	deleteComment(commentId: string): void {
 		this.task$!.subscribe((task) => {
 			if (!task) {
-				console.error('Task not found');
 				return;
 			}
 
@@ -241,7 +238,6 @@ export class TaskOpenComponent implements OnInit, OnDestroy {
 	postComment(): void {
 		this.task$!.subscribe((task) => {
 			if (!task) {
-				console.error('Task not found');
 				return;
 			}
 
@@ -250,7 +246,6 @@ export class TaskOpenComponent implements OnInit, OnDestroy {
 
 		this.currentUser$!.subscribe((user) => {
 			if (!user) {
-				console.error('User not found');
 				return;
 			}
 

@@ -9,6 +9,7 @@ export interface TaskState {
   task: Task | null;
   loading: boolean;
   error: any;
+  mentions: { commentBody: string; username: string; taskTitle: string; taskId: string }[];
 }
 
 export const initialTaskState: TaskState = {
@@ -19,5 +20,6 @@ export const initialTaskState: TaskState = {
   tasks: [],
   task: null,
   loading: false,
-  error: null
+  error: null,
+  mentions: []
 };

@@ -170,5 +170,23 @@ export const taskReducer = createReducer(
     ...state,
     [`${status.toLowerCase()}Tasks`]: [],
     error
-  }))
+  })),
+
+  // Load Mentioned Comments
+  on(TaskActions.loadTasksWithMentions, state => ({
+    ...state,
+    loading: true,
+    error: null
+  })),
+  on(TaskActions.loadTasksWithMentionsSuccess, (state, { mentions }) => ({
+    ...state,
+    mentions,
+    loading: false,
+    error: null
+  })),
+  on(TaskActions.loadTasksWithMentionsFailure, (state, { error }) => ({
+    ...state,
+    loading: false,
+    error
+  })),
 );

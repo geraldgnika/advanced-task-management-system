@@ -1,9 +1,10 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, Input, OnDestroy } from '@angular/core';
 import { Task } from '../../../../core/types/interfaces/task';
-import { Observable } from 'rxjs';
+import { Observable, Subject, combineLatest } from 'rxjs';
+import { takeUntil, startWith } from 'rxjs/operators';
 import { TaskPriority } from '../../../../core/types/enums/task/task-priority';
-import Chart from 'chart.js/auto';
-import { TranslateService } from '@ngx-translate/core';
+import { Chart, ChartConfiguration, ChartData } from 'chart.js';
+import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-priority-distribution',
@@ -11,56 +12,92 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['./priority-distribution.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PriorityDistributionComponent implements AfterViewInit {
+export class PriorityDistributionComponent implements AfterViewInit, OnDestroy {
   @Input() idChart: string = '';
   @Input() tasks$: Observable<Task[]> = new Observable<Task[]>();
+
+  private chart: Chart | undefined;
+  private destroy$ = new Subject<void>();
 
   constructor(private translateService: TranslateService) {}
 
   ngAfterViewInit() {
-    this.priorityPieChart();
+    this.createPieChart();
   }
 
-  priorityPieChart() {
-    this.tasks$.subscribe((tasks) => {
-      const priorityCounts: { [key in TaskPriority]: number } = {
-        [TaskPriority.Low]: 0,
-        [TaskPriority.Medium]: 0,
-        [TaskPriority.High]: 0,
-      };
+  createPieChart() {
+    const langChange$ = this.translateService.onLangChange.pipe(
+      startWith({ lang: this.translateService.currentLang } as LangChangeEvent)
+    );
 
-      tasks.forEach((task) => {
-        priorityCounts[task.priority]++;
+    combineLatest([this.tasks$, langChange$])
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(([tasks, _]) => {
+        this.updateChart(tasks);
       });
+  }
 
-      const labels = [
-        this.translateService.instant('TASK_PRIORITY.LOW'),
-        this.translateService.instant('TASK_PRIORITY.MEDIUM'),
-        this.translateService.instant('TASK_PRIORITY.HIGH')
-      ];
-      const data = Object.values(priorityCounts);
+  updateChart(tasks: Task[]) {
+    const counts: { [key: string]: number } = {};
+    
+    const priorityValues = Object.values(TaskPriority);
+    priorityValues.forEach(priority => counts[priority] = 0);
+    tasks.forEach(task => counts[task.priority]++);
 
-      if (this.idChart) {
-        const ctx = document.getElementById(this.idChart) as HTMLCanvasElement;
-        if (ctx) {
-          new Chart(ctx, {
+    const labels = Object.keys(counts).map(key => 
+      this.translateService.instant(`TASK_PRIORITY.${key.toUpperCase()}`)
+    );
+    const data = Object.values(counts);
+
+    if (this.idChart) {
+      const ctx = document.getElementById(this.idChart) as HTMLCanvasElement;
+      if (ctx) {
+        if (this.chart) {
+          this.chart.data.labels = labels;
+          this.chart.data.datasets[0].data = data;
+          this.chart.data.datasets[0].label = this.translateService.instant('T_P_D');
+          this.chart.options.plugins!.title!.text = this.translateService.instant('T_P_D');
+          this.chart.update();
+        } else {
+          const chartData: ChartData = {
+            labels: labels,
+            datasets: [
+              {
+                label: this.translateService.instant('T_P_D'),
+                data: data,
+                backgroundColor: ['blue', 'orange', 'red'],
+              },
+            ],
+          };
+
+          const config: ChartConfiguration = {
             type: 'pie',
-            data: {
-              labels: labels,
-              datasets: [
-                {
-                  label: 'Task Priority Distribution',
-                  data: data,
-                  backgroundColor: ['blue', 'orange', 'red'],
-                },
-              ],
-            },
+            data: chartData,
             options: {
-              aspectRatio: 2.5,
+              responsive: true,
+              plugins: {
+                legend: {
+                  position: 'top',
+                },
+                title: {
+                  display: true,
+                  text: this.translateService.instant('T_P_D'),
+                }
+              }
             },
-          });
+          };
+
+          this.chart = new Chart(ctx, config);
         }
       }
-    });
+    }
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+    if (this.chart) {
+      this.chart.destroy();
+    }
   }
 }

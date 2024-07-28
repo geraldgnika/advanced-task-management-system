@@ -17,6 +17,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { TaskMentionsComponent } from './task-mentions/task-mentions.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { TranslateEnumPipe } from '../../shared/pipes/translate-enum.pipe';
+import { HighlightMentionsPipe } from '../../shared/pipes/highlight-mentions.pipe';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { TranslateEnumPipe } from '../../shared/pipes/translate-enum.pipe';
     TaskItemCalendarComponent,
     TranslateEnumPipe,
     TaskItemBoardComponent,
-    TaskMentionsComponent
+    TaskMentionsComponent,
+    HighlightMentionsPipe
   ],
   imports: [
     CommonModule,

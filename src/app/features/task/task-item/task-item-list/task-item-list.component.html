@@ -66,8 +66,8 @@
     } @placeholder() {
     <div class="loading-placeholder"></div>
     } @loading {
-    <div class="loading-placeholder">Loading tasks...</div>
+    <div class="loading-placeholder">{{ 'LOADING' | translate }}</div>
     } @error {
-    <div class="loading-placeholder">Could not load tasks...</div>
+    <div class="loading-placeholder">{{ 'ERROR' | translate }}</div>
     }
 </li>

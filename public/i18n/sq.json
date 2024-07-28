@@ -114,5 +114,7 @@
   "SRCH_PLACEHOLDER": "Kërkoni detyra sipas titullit, përshkrimit, emrit të përdoruesit të krijuesit, ose emrave të caktuar të përdoruesve...",
   "TASK_ASSIGNMENTS": "Caktimi i Detyrave",
   "CHOOSE_FILE": "Zgjidhni Skedarin",
-  "NO_FILE_CHOSEN": "Asnjë Skedar i Zgjedhur"
+  "NO_FILE_CHOSEN": "Asnjë Skedar i Zgjedhur",
+  "LOADING": "Duke u ngarkuar...",
+  "ERROR": "Dështoi :/"
 }

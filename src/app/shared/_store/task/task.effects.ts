@@ -114,4 +114,17 @@ export class TaskEffects {
       )
     )
   );
+
+  // Load Mentioned Comments
+  loadTasksWithMentions$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(TaskActions.loadTasksWithMentions),
+      switchMap((action) =>
+        this.taskService.getTasksWithMentions(action.username).pipe(
+          map((mentions) => TaskActions.loadTasksWithMentionsSuccess({ mentions })),
+          catchError((error) => of(TaskActions.loadTasksWithMentionsFailure({ error })))
+        )
+      )
+    )
+  );
 }

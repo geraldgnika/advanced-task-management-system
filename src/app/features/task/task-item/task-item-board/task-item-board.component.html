@@ -1,9 +1,9 @@
 <div class="container-fluid h-100 px-0" cdkDropListGroup>
 	<div class="row h-100">
-		<div *ngFor="let category of taskData" class="col-md-3 d-flex height-full">
+		<div *ngFor="let category of taskData$ | async" class="col-md-3 d-flex height-full">
       <div class="card flex-fill oya">
 				<div class="card-header" [ngClass]="getHeaderClass(category.header)">
-					{{ category.header }}
+					{{ category.header | translate }}
 				</div>
 				<div
 					class="tasks-container"
@@ -65,9 +65,9 @@
           } @placeholder(minimum 100ms) {
             <div class="loading-placeholder"></div>
             } @loading {
-            <div class="loading-placeholder">Loading tasks...</div>
+            <div class="loading-placeholder">{{ 'LOADING' | translate }}</div>
             } @error {
-            <div class="loading-placeholder">Could not load tasks...</div>
+            <div class="loading-placeholder">{{ 'ERROR' | translate }}</div>
             }
 					</div>
         

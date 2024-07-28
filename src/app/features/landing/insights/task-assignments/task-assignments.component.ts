@@ -1,6 +1,7 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, Input, OnDestroy } from '@angular/core';
 import { Task } from '../../../../core/types/interfaces/task';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import Chart from 'chart.js/auto';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -10,18 +11,22 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['./task-assignments.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TaskAssignmentsComponent implements AfterViewInit {
+export class TaskAssignmentsComponent implements AfterViewInit, OnDestroy {
   @Input() idChart: string = '';
   @Input() tasks$: Observable<Task[]> = new Observable<Task[]>();
+
+  private chart: Chart | undefined;
+  private destroy$ = new Subject<void>();
 
   constructor(private translateService: TranslateService) {}
 
   ngAfterViewInit() {
     this.taskAssignmentBarChart();
+    this.setupLangChangeListener();
   }
 
   taskAssignmentBarChart() {
-    this.tasks$.subscribe((tasks) => {
+    this.tasks$.pipe(takeUntil(this.destroy$)).subscribe((tasks) => {
       const assignmentCounts = tasks.reduce((acc, task) => {
         task.assignedTo.forEach((user) => {
           if (!acc[user]) {
@@ -38,7 +43,11 @@ export class TaskAssignmentsComponent implements AfterViewInit {
       if (this.idChart) {
         const ctx = document.getElementById(this.idChart) as HTMLCanvasElement;
         if (ctx) {
-          new Chart(ctx, {
+          if (this.chart) {
+            this.chart.destroy();
+          }
+
+          this.chart = new Chart(ctx, {
             type: 'bar',
             data: {
               labels: labels,
@@ -62,5 +71,24 @@ export class TaskAssignmentsComponent implements AfterViewInit {
         }
       }
     });
+  }
+
+  setupLangChangeListener() {
+    this.translateService.onLangChange
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        if (this.chart) {
+          this.chart.data.datasets[0].label = this.translateService.instant('TASK_ASSIGNMENTS');
+          this.chart.update();
+        }
+      });
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+    if (this.chart) {
+      this.chart.destroy();
+    }
   }
 }

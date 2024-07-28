@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { Observable, of } from 'rxjs';
+import { Observable, of, BehaviorSubject, combineLatest } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Task } from '../../../../core/types/interfaces/task';
 import { TaskStatus } from '../../../../core/types/enums/task/task-status';
 import * as TaskSelector from '../../../../shared/_store/task/task.selectors';
@@ -22,8 +23,9 @@ export class TaskItemBoardComponent implements OnInit {
   completedTasks$: Observable<Task[]> = of();
   error$: Observable<any> = of();
   @Output() openTask = new EventEmitter<string>();
-  taskData: { header: string; status: string; tasks: Observable<Task[]> }[] =
-    [];
+  
+  currentLang$: BehaviorSubject<string>;
+  taskData$: Observable<{ header: string; status: string; tasks: Observable<Task[]> }[]> = of();
 
   constructor(
     private store: Store<TaskState>,
@@ -34,21 +36,28 @@ export class TaskItemBoardComponent implements OnInit {
     this.reviewingTasks$ = this.store.select(TaskSelector.selectReviewingTasks);
     this.completedTasks$ = this.store.select(TaskSelector.selectCompletedTasks);
     this.error$ = this.store.select(TaskSelector.selectTaskError);
+    
+    this.currentLang$ = new BehaviorSubject(this.translate.currentLang);
+    
+    this.translate.onLangChange.subscribe(lang => {
+      this.currentLang$.next(lang.lang);
+    });
   }
 
   ngOnInit(): void {
     this.loadTasks();
+    this.initTaskData();
   }
 
   getHeaderClass(header: string): string {
     switch (header) {
-      case this.translate.instant('PENDING'):
+      case 'PENDING':
         return 'bg-warning text-black';
-      case this.translate.instant('DOING'):
+      case 'DOING':
         return 'bg-primary text-white';
-      case this.translate.instant('REVIEWING'):
+      case 'REVIEWING':
         return 'bg-brown text-white';
-      case this.translate.instant('COMPLETED'):
+      case 'COMPLETED':
         return 'bg-success text-white';
       default:
         return '';
@@ -60,17 +69,23 @@ export class TaskItemBoardComponent implements OnInit {
     this.store.dispatch(TaskActions.loadTasksByStatus({ status: 'doing' }));
     this.store.dispatch(TaskActions.loadTasksByStatus({ status: 'reviewing' }));
     this.store.dispatch(TaskActions.loadTasksByStatus({ status: 'completed' }));
+  }
 
-    this.taskData = [
-      { header: this.translate.instant('PENDING'), status: 'pending', tasks: this.pendingTasks$ },
-      { header: this.translate.instant('DOING'), status: 'doing', tasks: this.doingTasks$ },
-      { header: this.translate.instant('REVIEWING'), status: 'reviewing', tasks: this.reviewingTasks$ },
-      {
-        header: this.translate.instant('COMPLETED'),
-        status: 'completed',
-        tasks: this.completedTasks$,
-      },
-    ];
+  initTaskData(): void {
+    this.taskData$ = combineLatest([
+      this.currentLang$,
+      this.pendingTasks$,
+      this.doingTasks$,
+      this.reviewingTasks$,
+      this.completedTasks$
+    ]).pipe(
+      map(([lang, pending, doing, reviewing, completed]) => [
+        { header: 'PENDING', status: 'pending', tasks: of(pending) },
+        { header: 'DOING', status: 'doing', tasks: of(doing) },
+        { header: 'REVIEWING', status: 'reviewing', tasks: of(reviewing) },
+        { header: 'COMPLETED', status: 'completed', tasks: of(completed) }
+      ])
+    );
   }
 
   drop(event: CdkDragDrop<Task[] | any>, status: TaskStatus | any): void {

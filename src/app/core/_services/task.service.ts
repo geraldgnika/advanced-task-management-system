@@ -39,6 +39,27 @@ export class TaskService {
     );
   }
 
+  getTasksWithMentions(username: string): Observable<{commentBody: string, username: string, taskTitle: string, taskId: string}[]> {
+    return this.getTasks().pipe(
+      map(tasks => {
+        return tasks.reduce((mentions, task) => {
+          const mentionedComments = task.comments.filter(comment => 
+            comment.body.includes(`@${username}`)
+          );
+  
+          const taskMentions = mentionedComments.map(comment => ({
+            commentBody: comment.body,
+            username: comment.username,
+            taskTitle: task.title,
+            taskId: task.id
+          }));
+  
+          return [...mentions, ...taskMentions];
+        }, [] as {commentBody: string, username: string, taskTitle: string, taskId: string}[]);
+      })
+    );
+  }
+
   generateUniqueCommentId(): Observable<string> {
     return this.fetchExistingComments().pipe(
       map(existingComments => {

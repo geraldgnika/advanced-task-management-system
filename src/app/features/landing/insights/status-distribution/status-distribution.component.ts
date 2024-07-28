@@ -1,9 +1,10 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, Input, OnDestroy } from '@angular/core';
 import { Task } from '../../../../core/types/interfaces/task';
-import { Observable } from 'rxjs';
+import { Observable, Subject, combineLatest } from 'rxjs';
+import { takeUntil, startWith } from 'rxjs/operators';
 import { TaskStatus } from '../../../../core/types/enums/task/task-status';
-import Chart from 'chart.js/auto';
-import { TranslateService } from '@ngx-translate/core';
+import { Chart, ChartConfiguration, ChartData } from 'chart.js';
+import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-status-distribution',
@@ -11,58 +12,92 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['./status-distribution.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class StatusDistributionComponent implements AfterViewInit {
+export class StatusDistributionComponent implements AfterViewInit, OnDestroy {
   @Input() idChart: string = '';
   @Input() tasks$: Observable<Task[]> = new Observable<Task[]>();
+
+  private chart: Chart | undefined;
+  private destroy$ = new Subject<void>();
 
   constructor(private translateService: TranslateService) {}
 
   ngAfterViewInit() {
-    this.statusPieChart();
+    this.createPieChart();
   }
 
-  statusPieChart() {
-    this.tasks$.subscribe((tasks) => {
-      const statusCounts: { [key in TaskStatus]: number } = {
-        [TaskStatus.Pending]: 0,
-        [TaskStatus.Doing]: 0,
-        [TaskStatus.Reviewing]: 0,
-        [TaskStatus.Completed]: 0,
-      };
+  createPieChart() {
+    const langChange$ = this.translateService.onLangChange.pipe(
+      startWith({ lang: this.translateService.currentLang } as LangChangeEvent)
+    );
 
-      tasks.forEach((task) => {
-        statusCounts[task.status]++;
+    combineLatest([this.tasks$, langChange$])
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(([tasks, _]) => {
+        this.updateChart(tasks);
       });
+  }
 
-      const labels = [
-        this.translateService.instant('TASK_STATUS.PENDING'),
-        this.translateService.instant('TASK_STATUS.DOING'),
-        this.translateService.instant('TASK_STATUS.REVIEWING'),
-        this.translateService.instant('TASK_STATUS.COMPLETED')
-      ];
-      const data = Object.values(statusCounts);
+  updateChart(tasks: Task[]) {
+    const counts: { [key: string]: number } = {};
+    
+    const statusValues = Object.values(TaskStatus);
+    statusValues.forEach(status => counts[status] = 0);
+    tasks.forEach(task => counts[task.status]++);
 
-      if (this.idChart) {
-        const ctx = document.getElementById(this.idChart) as HTMLCanvasElement;
-        if (ctx) {
-          new Chart(ctx, {
+    const labels = Object.keys(counts).map(key => 
+      this.translateService.instant(`TASK_STATUS.${key.toUpperCase()}`)
+    );
+    const data = Object.values(counts);
+
+    if (this.idChart) {
+      const ctx = document.getElementById(this.idChart) as HTMLCanvasElement;
+      if (ctx) {
+        if (this.chart) {
+          this.chart.data.labels = labels;
+          this.chart.data.datasets[0].data = data;
+          this.chart.data.datasets[0].label = this.translateService.instant('T_S_D');
+          this.chart.options.plugins!.title!.text = this.translateService.instant('T_S_D');
+          this.chart.update();
+        } else {
+          const chartData: ChartData = {
+            labels: labels,
+            datasets: [
+              {
+                label: this.translateService.instant('T_S_D'),
+                data: data,
+                backgroundColor: ['orange', 'blue', 'brown', 'green'],
+              },
+            ],
+          };
+
+          const config: ChartConfiguration = {
             type: 'pie',
-            data: {
-              labels: labels,
-              datasets: [
-                {
-                  label: 'Task Status Distribution',
-                  data: data,
-                  backgroundColor: ['orange', 'blue', 'brown', 'green'],
-                },
-              ],
-            },
+            data: chartData,
             options: {
-              aspectRatio: 2.5,
+              responsive: true,
+              plugins: {
+                legend: {
+                  position: 'top',
+                },
+                title: {
+                  display: true,
+                  text: this.translateService.instant('T_S_D')
+                }
+              }
             },
-          });
+          };
+
+          this.chart = new Chart(ctx, config);
         }
       }
-    });
+    }
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+    if (this.chart) {
+      this.chart.destroy();
+    }
   }
 }

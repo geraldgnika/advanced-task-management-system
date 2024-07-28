@@ -64,3 +64,9 @@ export const selectTaskError = createSelector(
   selectTaskState,
   state => state.error
 );
+
+// Load Mentioned Comments
+export const selectTaskMentions = createSelector(
+  selectTaskState,
+  (state: TaskState) => state.mentions
+);
