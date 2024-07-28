@@ -1,24 +1,24 @@
-import { NgModule } from '@angular/core';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 import { CommonModule } from '@angular/common';
-import { TaskRoutingModule } from './task-routing.module';
+import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TranslateModule } from '@ngx-translate/core';
+import { CapitalizeFirstLetterPipe } from '../../shared/pipes/capitalize-first-letter.pipe';
+import { FormatUsernamePipe } from '../../shared/pipes/format-username.pipe';
+import { FormatUsernamesPipe } from '../../shared/pipes/format-usernames.pipe';
+import { HighlightMentionsPipe } from '../../shared/pipes/highlight-mentions.pipe';
+import { TranslateEnumPipe } from '../../shared/pipes/translate-enum.pipe';
 import { TaskCreateComponent } from './task-create/task-create.component';
-import { TaskUpdateComponent } from './task-update/task-update.component';
+import { TaskDeleteComponent } from './task-delete/task-delete.component';
+import { TaskMentionsComponent } from './task-other/task-mentions/task-mentions.component';
+import { TaskItemBoardComponent } from './task-read/task-list/task-item/task-item-board/task-item-board.component';
+import { TaskItemCalendarComponent } from './task-read/task-list/task-item/task-item-calendar/task-item-calendar.component';
+import { TaskItemGridComponent } from './task-read/task-list/task-item/task-item-grid/task-item-grid.component';
+import { TaskItemListComponent } from './task-read/task-list/task-item/task-item-list/task-item-list.component';
 import { TaskListComponent } from './task-read/task-list/task-list.component';
 import { TaskOpenComponent } from './task-read/task-open/task-open.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { CapitalizeFirstLetterPipe } from '../../shared/pipes/capitalize-first-letter.pipe';
-import { FormatUsernamesPipe } from '../../shared/pipes/format-usernames.pipe';
-import { FormatUsernamePipe } from '../../shared/pipes/format-username.pipe';
-import { TaskItemListComponent } from './task-read/task-list/task-item/task-item-list/task-item-list.component';
-import { TaskItemGridComponent } from './task-read/task-list/task-item/task-item-grid/task-item-grid.component';
-import { TaskItemCalendarComponent } from './task-read/task-list/task-item/task-item-calendar/task-item-calendar.component';
-import { TaskItemBoardComponent } from './task-read/task-list/task-item/task-item-board/task-item-board.component';
-import { DragDropModule } from '@angular/cdk/drag-drop';
-import { TaskMentionsComponent } from './task-other/task-mentions/task-mentions.component';
-import { TranslateModule } from '@ngx-translate/core';
-import { TranslateEnumPipe } from '../../shared/pipes/translate-enum.pipe';
-import { HighlightMentionsPipe } from '../../shared/pipes/highlight-mentions.pipe';
-import { TaskDeleteComponent } from './task-delete/task-delete.component';
+import { TaskRoutingModule } from './task-routing.module';
+import { TaskUpdateComponent } from './task-update/task-update.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +36,7 @@ import { TaskDeleteComponent } from './task-delete/task-delete.component';
     TaskItemBoardComponent,
     TaskMentionsComponent,
     HighlightMentionsPipe,
-    TaskDeleteComponent
+    TaskDeleteComponent,
   ],
   imports: [
     CommonModule,
@@ -44,10 +44,8 @@ import { TaskDeleteComponent } from './task-delete/task-delete.component';
     TranslateModule.forChild(),
     FormsModule,
     TaskRoutingModule,
-    DragDropModule
+    DragDropModule,
   ],
-  exports: [
-    TaskListComponent
-  ]
+  exports: [TaskListComponent],
 })
-export class TaskModule { }
+export class TaskModule {}

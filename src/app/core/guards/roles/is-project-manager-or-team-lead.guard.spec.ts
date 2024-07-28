@@ -1,5 +1,9 @@
 import { TestBed } from '@angular/core/testing';
-import { Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import {
+  ActivatedRouteSnapshot,
+  Router,
+  RouterStateSnapshot,
+} from '@angular/router';
 import { AuthenticationService } from '../../_services/authentication/authentication.service';
 import { isProjectManagerOrTeamLeadGuard } from './is-project-manager-or-team-lead.guard';
 
@@ -10,7 +14,10 @@ describe('isProjectManagerOrTeamLeadGuard', () => {
   let routerStateSnapshot: RouterStateSnapshot;
 
   beforeEach(() => {
-    authServiceMock = jasmine.createSpyObj('AuthenticationService', ['isProjectManager', 'isTeamLead']);
+    authServiceMock = jasmine.createSpyObj('AuthenticationService', [
+      'isProjectManager',
+      'isTeamLead',
+    ]);
     routerMock = jasmine.createSpyObj('Router', ['navigate']);
     routeSnapshot = {} as ActivatedRouteSnapshot;
     routerStateSnapshot = { url: '/test' } as RouterStateSnapshot;
@@ -18,8 +25,8 @@ describe('isProjectManagerOrTeamLeadGuard', () => {
     TestBed.configureTestingModule({
       providers: [
         { provide: AuthenticationService, useValue: authServiceMock },
-        { provide: Router, useValue: routerMock }
-      ]
+        { provide: Router, useValue: routerMock },
+      ],
     });
   });
 
@@ -27,7 +34,7 @@ describe('isProjectManagerOrTeamLeadGuard', () => {
     authServiceMock.isProjectManager.and.returnValue(true);
     authServiceMock.isTeamLead.and.returnValue(false);
 
-    const result = TestBed.runInInjectionContext(() => 
+    const result = TestBed.runInInjectionContext(() =>
       isProjectManagerOrTeamLeadGuard(routeSnapshot, routerStateSnapshot)
     );
 
@@ -41,7 +48,7 @@ describe('isProjectManagerOrTeamLeadGuard', () => {
     authServiceMock.isProjectManager.and.returnValue(false);
     authServiceMock.isTeamLead.and.returnValue(true);
 
-    const result = TestBed.runInInjectionContext(() => 
+    const result = TestBed.runInInjectionContext(() =>
       isProjectManagerOrTeamLeadGuard(routeSnapshot, routerStateSnapshot)
     );
 
@@ -55,7 +62,7 @@ describe('isProjectManagerOrTeamLeadGuard', () => {
     authServiceMock.isProjectManager.and.returnValue(true);
     authServiceMock.isTeamLead.and.returnValue(true);
 
-    const result = TestBed.runInInjectionContext(() => 
+    const result = TestBed.runInInjectionContext(() =>
       isProjectManagerOrTeamLeadGuard(routeSnapshot, routerStateSnapshot)
     );
 
@@ -69,7 +76,7 @@ describe('isProjectManagerOrTeamLeadGuard', () => {
     authServiceMock.isProjectManager.and.returnValue(false);
     authServiceMock.isTeamLead.and.returnValue(false);
 
-    const result = TestBed.runInInjectionContext(() => 
+    const result = TestBed.runInInjectionContext(() =>
       isProjectManagerOrTeamLeadGuard(routeSnapshot, routerStateSnapshot)
     );
 

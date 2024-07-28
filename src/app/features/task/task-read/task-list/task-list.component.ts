@@ -4,21 +4,21 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
-import { map, Observable } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
-import * as TaskActions from '../../../../shared/_store/task/task.actions';
 import { Store } from '@ngrx/store';
-import * as TaskSelectors from '../../../../shared/_store/task/task.selectors';
-import { AppState } from '../../../../shared/_store/_common/app.state';
-import { Task } from '../../../../core/types/interfaces/task';
+import { map, Observable } from 'rxjs';
 import { TaskPriority } from '../../../../core/types/enums/task/task-priority';
 import { TaskStatus } from '../../../../core/types/enums/task/task-status';
+import { Task } from '../../../../core/types/interfaces/task';
+import { AppState } from '../../../../shared/_store/_common/app.state';
+import * as TaskActions from '../../../../shared/_store/task/task.actions';
+import * as TaskSelectors from '../../../../shared/_store/task/task.selectors';
 
 @Component({
   selector: 'app-task-list',
   templateUrl: './task-list.component.html',
   styleUrls: ['./task-list.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TaskListComponent implements OnInit {
   @Input() viewMode: 'list' | 'grid' | 'calendar' | 'board' | 'task-component' =

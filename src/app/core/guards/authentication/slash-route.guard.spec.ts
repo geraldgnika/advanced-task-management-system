@@ -1,5 +1,9 @@
 import { TestBed } from '@angular/core/testing';
-import { Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import {
+  ActivatedRouteSnapshot,
+  Router,
+  RouterStateSnapshot,
+} from '@angular/router';
 import { AuthenticationService } from '../../_services/authentication/authentication.service';
 import { slashRoute } from './slash-route.guard';
 
@@ -10,7 +14,9 @@ describe('slashRoute', () => {
   let routerStateSnapshot: RouterStateSnapshot;
 
   beforeEach(() => {
-    authServiceMock = jasmine.createSpyObj('AuthenticationService', ['isLoggedIn']);
+    authServiceMock = jasmine.createSpyObj('AuthenticationService', [
+      'isLoggedIn',
+    ]);
     routerMock = jasmine.createSpyObj('Router', ['navigate']);
     routeSnapshot = {} as ActivatedRouteSnapshot;
     routerStateSnapshot = { url: '/' } as RouterStateSnapshot;
@@ -18,15 +24,15 @@ describe('slashRoute', () => {
     TestBed.configureTestingModule({
       providers: [
         { provide: AuthenticationService, useValue: authServiceMock },
-        { provide: Router, useValue: routerMock }
-      ]
+        { provide: Router, useValue: routerMock },
+      ],
     });
   });
 
   it('should redirect to dashboard and return true when user is logged in', () => {
     authServiceMock.isLoggedIn.and.returnValue(true);
 
-    const result = TestBed.runInInjectionContext(() => 
+    const result = TestBed.runInInjectionContext(() =>
       slashRoute(routeSnapshot, routerStateSnapshot)
     );
 
@@ -38,7 +44,7 @@ describe('slashRoute', () => {
   it('should redirect to login page and return false when user is not logged in', () => {
     authServiceMock.isLoggedIn.and.returnValue(false);
 
-    const result = TestBed.runInInjectionContext(() => 
+    const result = TestBed.runInInjectionContext(() =>
       slashRoute(routeSnapshot, routerStateSnapshot)
     );
 

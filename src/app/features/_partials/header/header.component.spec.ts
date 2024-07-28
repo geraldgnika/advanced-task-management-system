@@ -2,12 +2,12 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
-import { HeaderComponent } from './header.component';
 import { AuthenticationService } from '../../../core/_services/authentication/authentication.service';
+import { UserRoles } from '../../../core/types/enums/authentication/user-roles';
+import { User } from '../../../core/types/interfaces/user';
 import { AppState } from '../../../shared/_store/_common/app.state';
 import * as UserActions from '../../../shared/_store/authentication/authentication.actions';
-import { User } from '../../../core/types/interfaces/user';
-import { UserRoles } from '../../../core/types/enums/authentication/user-roles';
+import { HeaderComponent } from './header.component';
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
@@ -18,16 +18,18 @@ describe('HeaderComponent', () => {
 
   beforeEach(async () => {
     routerMock = jasmine.createSpyObj('Router', ['navigate']);
-    authServiceMock = jasmine.createSpyObj('AuthenticationService', ['getCurrentUserObservable']);
+    authServiceMock = jasmine.createSpyObj('AuthenticationService', [
+      'getCurrentUserObservable',
+    ]);
     storeMock = jasmine.createSpyObj('Store', ['dispatch']);
 
     await TestBed.configureTestingModule({
-      declarations: [ HeaderComponent ],
+      declarations: [HeaderComponent],
       providers: [
         { provide: Router, useValue: routerMock },
         { provide: AuthenticationService, useValue: authServiceMock },
-        { provide: Store, useValue: storeMock }
-      ]
+        { provide: Store, useValue: storeMock },
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(HeaderComponent);
@@ -42,18 +44,19 @@ describe('HeaderComponent', () => {
 
   it('should initialize currentUser$ in ngOnInit', () => {
     const mockUser: User = {
-      id: '1', full_name: 'Test User',
+      id: '1',
+      full_name: 'Test User',
       username: 'test_user',
       password: '3546767',
       role: UserRoles.ProjectManager,
       permissions: {
         canManageTasks: true,
-        canViewInsights: true
-      }
+        canViewInsights: true,
+      },
     };
     authServiceMock.getCurrentUserObservable.and.returnValue(of(mockUser));
     component.ngOnInit();
-    component.currentUser$.subscribe(user => {
+    component.currentUser$.subscribe((user) => {
       expect(user).toEqual(mockUser);
     });
   });
@@ -75,7 +78,9 @@ describe('HeaderComponent', () => {
 
   it('should navigate to register', () => {
     component.navigateToRegister();
-    expect(routerMock.navigate).toHaveBeenCalledWith(['/authentication/register']);
+    expect(routerMock.navigate).toHaveBeenCalledWith([
+      '/authentication/register',
+    ]);
   });
 
   it('should return correct initials for full name', () => {

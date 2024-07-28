@@ -1,27 +1,75 @@
-# AdvancedTaskManagementSystem
+# Advanced Task Management System
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.0.5.
+This project is an advanced task management system developed using Angular 18. It aims to provide a comprehensive solution for task creation, assignment, tracking, and reporting, all on the frontend without requiring backend integration.
 
-## Development server
+## Table of Contents
+- [Advanced Task Management System](#advanced-task-management-system)
+  - [Table of Contents](#table-of-contents)
+  - [Project Overview](#project-overview)
+  - [Key Features](#key-features)
+  - [Technical Requirements](#technical-requirements)
+  - [Getting Started](#getting-started)
+  - [Running the Application](#running-the-application)
+  - [Fake Test Data](#fake-test-data)
+  - [Testing](#testing)
+  - [Contributing](#contributing)
+  - [License](#license)
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Project Overview
+The project focuses on enhancing user productivity and team efficiency through features like task collaboration, real-time updates and advanced search capabilities.
 
-## Code scaffolding
+## Key Features
+- **User Authentication and Authorization**: Simulated JWT-based authentication with role-based access control (RBAC).
+- **Dashboard and Task Views**: Dynamic dashboard with task views in board, list, grid, and calendar formats.
+- **State Management**: Used NgRx for state management accross all components.
+- **Task Management**: CRUD operations for tasks, drag-and-drop functionality in board view.
+- **Real-time Updates**: Simulated real-time updates using RxJS.
+- **Task Collaboration**: Comments, file attachment, and mentions for team collaboration.
+- **Advanced Search and Filtering**: Searching, filtering, sorting and downloading as CSV.
+- **Reporting and Analytics**: Comprehensive insights on task performance and team efficiency.
+- **Internationalization and Localization**: Support for multiple languages and locales.
+- **Responsive Design**: Full responsiveness across devices for seamless user experience.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Technical Requirements
+- **Angular Version**: 18.1.1
+- **State Management**: NgRx
+- **UI/UX Framework**: Bootstrap & Angular Material's CDK
+- **Testing**: Jasmine, Karma (unit testing), Protractor (end-to-end testing)
+- **Charts**: Chart.js
+- **Authentication**: angular-jwt
+- **Reactive programming functionalities**: RxJS
+- **Internationalization & Localization**: angular-localize
 
-## Build
+## Getting Started
+To get a local copy up and running, follow these steps:
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+## Running the Application
+1. Clone the repository:
+   ```bash
+   git clone [Advanced Task Management System](https://gitlab.com/geraldgnika/advanced-task-management-system)
+   cd advanced-task-management-system
+   npm install
+   json-server --watch server.json & ng serve
+   Navigate to: "http://localhost:4200/" in your browser.
 
-## Running unit tests
+## Fake Test Data
+1. Use these credentials to test the system:
+   ```bash
+   1. Username: gerald_nika : Project Manager,
+   2. Username: andi_nika : Team Lead,
+   3. Username: gerardo_tatzati : Developer.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+   Password: 123456 for all of them.
 
-## Running end-to-end tests
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+## Testing
+1. To run tests, use the following commands:
+    ```bash
+    ng test
+    npm run e2e
 
-## Further help
+## Contributing
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## License
+Copyright (c) 2024. MIT License.

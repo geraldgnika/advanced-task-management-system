@@ -1,9 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { PriorityDistributionComponent } from './priority-distribution.component';
-import { of } from 'rxjs';
-import { Task } from '../../../../core/types/interfaces/task';
-import { TaskPriority } from '../../../../core/types/enums/task/task-priority';
-import * as ChartModule from 'chart.js/auto';
 
 describe('PriorityDistributionComponent', () => {
   let component: PriorityDistributionComponent;

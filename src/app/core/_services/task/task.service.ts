@@ -1,10 +1,10 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { catchError, forkJoin, map, Observable, of, switchMap } from 'rxjs';
 import { environment } from '../../../../environments/environment';
-import { AuthenticationService } from '../authentication/authentication.service';
-import { Task } from '../../types/interfaces/task';
 import { Comment } from '../../types/interfaces/comment';
+import { Task } from '../../types/interfaces/task';
+import { AuthenticationService } from '../authentication/authentication.service';
 
 @Injectable({
   providedIn: 'root',
@@ -19,17 +19,19 @@ export class TaskService {
 
   getTasksByStatus(status: string): Observable<Task[]> {
     return this.getTasks().pipe(
-      map(tasks => tasks.filter(task => task.status === status))
+      map((tasks) => tasks.filter((task) => task.status === status))
     );
   }
 
   updateTaskStatus(taskId: string, newStatus: string): Observable<Task> {
-    return this.http.put<Task>(`${this.apiUrl}/${taskId}/status`, { status: newStatus });
+    return this.http.put<Task>(`${this.apiUrl}/${taskId}/status`, {
+      status: newStatus,
+    });
   }
-  
+
   generateUniqueId(): Observable<string> {
     return this.fetchExistingTaskIds().pipe(
-      map(existingIds => {
+      map((existingIds) => {
         let newId: string;
         do {
           newId = this.generateRandomId();
@@ -39,37 +41,46 @@ export class TaskService {
     );
   }
 
-  getTasksWithMentions(username: string): Observable<{commentBody: string, username: string, taskTitle: string, taskId: string}[]> {
+  getTasksWithMentions(
+    username: string
+  ): Observable<
+    {
+      commentBody: string;
+      username: string;
+      taskTitle: string;
+      taskId: string;
+    }[]
+  > {
     return this.getTasks().pipe(
-      map(tasks => {
+      map((tasks) => {
         return tasks.reduce((mentions, task) => {
-          const mentionedComments = task.comments.filter(comment => 
+          const mentionedComments = task.comments.filter((comment) =>
             comment.body.includes(`@${username}`)
           );
-  
-          const taskMentions = mentionedComments.map(comment => ({
+
+          const taskMentions = mentionedComments.map((comment) => ({
             commentBody: comment.body,
             username: comment.username,
             taskTitle: task.title,
-            taskId: task.id
+            taskId: task.id,
           }));
-  
+
           return [...mentions, ...taskMentions];
-        }, [] as {commentBody: string, username: string, taskTitle: string, taskId: string}[]);
+        }, [] as { commentBody: string; username: string; taskTitle: string; taskId: string }[]);
       })
     );
   }
 
   generateUniqueCommentId(): Observable<string> {
     return this.fetchExistingComments().pipe(
-      map(existingComments => {
+      map((existingComments) => {
         let newId: string;
         if (existingComments.length === 0) {
           newId = this.generateRandomId();
         } else {
           do {
             newId = this.generateRandomId();
-          } while (existingComments.some(comment => comment.id === newId));
+          } while (existingComments.some((comment) => comment.id === newId));
         }
         return newId;
       })
@@ -77,15 +88,22 @@ export class TaskService {
   }
 
   private fetchExistingTaskIds(): Observable<string[]> {
-    return this.http.get<Task[]>(this.apiUrl).pipe(
-      map(tasks => tasks.map(task => task.id))
-    );
+    return this.http
+      .get<Task[]>(this.apiUrl)
+      .pipe(map((tasks) => tasks.map((task) => task.id)));
   }
 
   private fetchExistingComments(): Observable<Comment[]> {
-    return this.http.get<Task[]>(this.apiUrl).pipe(
-      map(tasks => tasks.reduce((comments, task) => comments.concat(task.comments), [] as Comment[]))
-    );
+    return this.http
+      .get<Task[]>(this.apiUrl)
+      .pipe(
+        map((tasks) =>
+          tasks.reduce(
+            (comments, task) => comments.concat(task.comments),
+            [] as Comment[]
+          )
+        )
+      );
   }
 
   generateRandomId(): string {
@@ -95,20 +113,20 @@ export class TaskService {
   getTasks(): Observable<Task[]> {
     return this.http.get<Task[]>(this.apiUrl).pipe(
       switchMap((tasks) => {
-        const userIds = [...new Set(tasks.map(task => task.user_id))];
+        const userIds = [...new Set(tasks.map((task) => task.user_id))];
 
-        const requests = userIds.map(userId => {
+        const requests = userIds.map((userId) => {
           return this.authenticationService.getUserById(userId);
         });
 
         return forkJoin(requests).pipe(
           map((users: any[]) => {
             const userMap = new Map<string, string>();
-            users.forEach(user => userMap.set(user.id, user.username));
+            users.forEach((user) => userMap.set(user.id, user.username));
 
-            return tasks.map(task => ({
+            return tasks.map((task) => ({
               ...task,
-              username: userMap.get(task.user_id) || 'Unknown'
+              username: userMap.get(task.user_id) || 'Unknown',
             }));
           })
         );
@@ -142,12 +160,22 @@ export class TaskService {
   }
 
   deleteAttachment(task: Task): Observable<Task> {
-    const updatedTask: Task = { ...task, attachment: "" };
+    const updatedTask: Task = { ...task, attachment: '' };
     return this.http.put<Task>(`${this.apiUrl}/${task.id}`, updatedTask);
   }
 
   updateAttachment(task: Task, filename: string): Observable<Task> {
     const updatedTask: Task = { ...task, attachment: filename };
     return this.http.put<Task>(`${this.apiUrl}/${task.id}`, updatedTask);
+  }
+
+  getTaskCount(): Observable<number> {
+    return this.http.get<Task[]>(this.apiUrl).pipe(
+      map((tasks) => tasks.length),
+      catchError((error) => {
+        console.error('Error fetching task count:', error);
+        return of(0);
+      })
+    );
   }
 }

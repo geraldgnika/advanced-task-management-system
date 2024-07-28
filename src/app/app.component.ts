@@ -4,7 +4,7 @@ import { LanguageService } from './core/_services/i18n/language.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrl: './app.component.css',
 })
 export class AppComponent {
   title = 'Advanced Task Management System';

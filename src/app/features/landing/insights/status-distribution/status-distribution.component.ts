@@ -1,16 +1,22 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, Input, OnDestroy } from '@angular/core';
-import { Task } from '../../../../core/types/interfaces/task';
-import { Observable, Subject, combineLatest } from 'rxjs';
-import { takeUntil, startWith } from 'rxjs/operators';
-import { TaskStatus } from '../../../../core/types/enums/task/task-status';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnDestroy,
+} from '@angular/core';
+import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { Chart, ChartConfiguration, ChartData } from 'chart.js';
-import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
+import { Observable, Subject, combineLatest } from 'rxjs';
+import { startWith, takeUntil } from 'rxjs/operators';
+import { TaskStatus } from '../../../../core/types/enums/task/task-status';
+import { Task } from '../../../../core/types/interfaces/task';
 
 @Component({
   selector: 'app-status-distribution',
   templateUrl: './status-distribution.component.html',
   styleUrls: ['./status-distribution.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StatusDistributionComponent implements AfterViewInit, OnDestroy {
   @Input() idChart: string = '';
@@ -39,12 +45,12 @@ export class StatusDistributionComponent implements AfterViewInit, OnDestroy {
 
   updateChart(tasks: Task[]) {
     const counts: { [key: string]: number } = {};
-    
-    const statusValues = Object.values(TaskStatus);
-    statusValues.forEach(status => counts[status] = 0);
-    tasks.forEach(task => counts[task.status]++);
 
-    const labels = Object.keys(counts).map(key => 
+    const statusValues = Object.values(TaskStatus);
+    statusValues.forEach((status) => (counts[status] = 0));
+    tasks.forEach((task) => counts[task.status]++);
+
+    const labels = Object.keys(counts).map((key) =>
       this.translateService.instant(`TASK_STATUS.${key.toUpperCase()}`)
     );
     const data = Object.values(counts);
@@ -55,8 +61,10 @@ export class StatusDistributionComponent implements AfterViewInit, OnDestroy {
         if (this.chart) {
           this.chart.data.labels = labels;
           this.chart.data.datasets[0].data = data;
-          this.chart.data.datasets[0].label = this.translateService.instant('T_S_D');
-          this.chart.options.plugins!.title!.text = this.translateService.instant('T_S_D');
+          this.chart.data.datasets[0].label =
+            this.translateService.instant('T_S_D');
+          this.chart.options.plugins!.title!.text =
+            this.translateService.instant('T_S_D');
           this.chart.update();
         } else {
           const chartData: ChartData = {
@@ -81,9 +89,9 @@ export class StatusDistributionComponent implements AfterViewInit, OnDestroy {
                 },
                 title: {
                   display: true,
-                  text: this.translateService.instant('T_S_D')
-                }
-              }
+                  text: this.translateService.instant('T_S_D'),
+                },
+              },
             },
           };
 

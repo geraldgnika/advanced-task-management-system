@@ -1,35 +1,65 @@
 <div class="dashboard">
-	<div class="view-switcher w-fit mb-4">
-		<button class="btn btn-sm" [ngClass]="{ 'btn-primary': currentView === 'board', 'btn-light': currentView !== 'board' }" (click)="switchToBoardView()">
-			{{ 'BOARD' | translate }}
-		  </button>
-		<button class="btn btn-sm" [ngClass]="{ 'btn-primary': currentView === 'list', 'btn-light': currentView !== 'list' }" (click)="switchToListView()">
-			{{ 'LIST' | translate }}
-		</button>
-		<button class="btn btn-sm" [ngClass]="{ 'btn-primary': currentView === 'grid', 'btn-light': currentView !== 'grid' }" (click)="switchToGridView()">
-			{{ 'GRID' | translate }}
-		</button>
-		<button class="btn btn-sm" [ngClass]="{ 'btn-primary': currentView === 'calendar', 'btn-light': currentView !== 'calendar' }" (click)="switchToCalendarView()">
-			{{ 'CALENDAR' | translate }}
-		</button>
-	  </div>
+  <div *ngIf="count !== 0">
+    <div class="view-switcher w-fit mb-4">
+      <button
+        class="btn btn-sm"
+        [ngClass]="{
+          'btn-primary': currentView === 'board',
+          'btn-light': currentView !== 'board'
+        }"
+        (click)="switchToBoardView()"
+      >
+        {{ "BOARD" | translate }}
+      </button>
+      <button
+        class="btn btn-sm"
+        [ngClass]="{
+          'btn-primary': currentView === 'list',
+          'btn-light': currentView !== 'list'
+        }"
+        (click)="switchToListView()"
+      >
+        {{ "LIST" | translate }}
+      </button>
+      <button
+        class="btn btn-sm"
+        [ngClass]="{
+          'btn-primary': currentView === 'grid',
+          'btn-light': currentView !== 'grid'
+        }"
+        (click)="switchToGridView()"
+      >
+        {{ "GRID" | translate }}
+      </button>
+      <button
+        class="btn btn-sm"
+        [ngClass]="{
+          'btn-primary': currentView === 'calendar',
+          'btn-light': currentView !== 'calendar'
+        }"
+        (click)="switchToCalendarView()"
+      >
+        {{ "CALENDAR" | translate }}
+      </button>
+    </div>
+  </div>
 
-	<div class="view-container">
-		<app-task-list
-			*ngIf="currentView === 'list'"
-			[viewMode]="'list'"
-		></app-task-list>
-		<app-task-list
-			*ngIf="currentView === 'grid'"
-			[viewMode]="'grid'"
-		></app-task-list>
-		<app-task-list
-			*ngIf="currentView === 'calendar'"
-			[viewMode]="'calendar'"
-		></app-task-list>
-		<app-task-list
-			*ngIf="currentView === 'board'"
-			[viewMode]="'board'"
-		></app-task-list>
-	</div>
+  <div class="view-container">
+    <app-task-list
+      *ngIf="currentView === 'list'"
+      [viewMode]="'list'"
+    ></app-task-list>
+    <app-task-list
+      *ngIf="currentView === 'grid'"
+      [viewMode]="'grid'"
+    ></app-task-list>
+    <app-task-list
+      *ngIf="currentView === 'calendar'"
+      [viewMode]="'calendar'"
+    ></app-task-list>
+    <app-task-list
+      *ngIf="currentView === 'board'"
+      [viewMode]="'board'"
+    ></app-task-list>
+  </div>
 </div>

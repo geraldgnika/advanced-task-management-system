@@ -8,9 +8,8 @@ describe('TaskDeleteComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [TaskDeleteComponent]
-    })
-    .compileComponents();
+      declarations: [TaskDeleteComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(TaskDeleteComponent);
     component = fixture.componentInstance;

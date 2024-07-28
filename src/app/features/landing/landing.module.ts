@@ -1,15 +1,13 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LandingRoutingModule } from './landing-routing.module';
+import { NgModule } from '@angular/core';
+import { TranslateModule } from '@ngx-translate/core';
+import { TaskModule } from '../task/task.module';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { InsightsComponent } from './insights/insights.component';
-import { TaskModule } from '../task/task.module';
 import { PriorityDistributionComponent } from './insights/priority-distribution/priority-distribution.component';
 import { StatusDistributionComponent } from './insights/status-distribution/status-distribution.component';
 import { TaskAssignmentsComponent } from './insights/task-assignments/task-assignments.component';
-import { TranslateModule } from '@ngx-translate/core';
-
-
+import { LandingRoutingModule } from './landing-routing.module';
 
 @NgModule({
   declarations: [
@@ -17,13 +15,13 @@ import { TranslateModule } from '@ngx-translate/core';
     InsightsComponent,
     PriorityDistributionComponent,
     StatusDistributionComponent,
-    TaskAssignmentsComponent
+    TaskAssignmentsComponent,
   ],
   imports: [
     CommonModule,
     LandingRoutingModule,
     TranslateModule.forChild(),
-    TaskModule
-  ]
+    TaskModule,
+  ],
 })
-export class LandingModule { }
+export class LandingModule {}

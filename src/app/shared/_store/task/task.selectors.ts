@@ -1,4 +1,4 @@
-import { createSelector, createFeatureSelector } from '@ngrx/store';
+import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { TaskState } from './task.state';
 
 export const selectTaskState = createFeatureSelector<TaskState>('tasks');
@@ -38,31 +38,31 @@ export const selectSelectedTaskError = createSelector(
 // Select Pending Tasks
 export const selectPendingTasks = createSelector(
   selectTaskState,
-  state => state.pendingTasks
+  (state) => state.pendingTasks
 );
 
 // Select Doing Tasks
 export const selectDoingTasks = createSelector(
   selectTaskState,
-  state => state.doingTasks
+  (state) => state.doingTasks
 );
 
 // Select Reviewing Tasks
 export const selectReviewingTasks = createSelector(
   selectTaskState,
-  state => state.reviewingTasks
+  (state) => state.reviewingTasks
 );
 
 // Select Completed Tasks
 export const selectCompletedTasks = createSelector(
   selectTaskState,
-  state => state.completedTasks
+  (state) => state.completedTasks
 );
 
 // Select Erro For Selecting Tasks By Status
 export const selectTaskError = createSelector(
   selectTaskState,
-  state => state.error
+  (state) => state.error
 );
 
 // Load Mentioned Comments

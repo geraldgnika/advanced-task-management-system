@@ -1,7 +1,7 @@
 import { inject } from '@angular/core';
 import { ResolveFn, Router } from '@angular/router';
-import { TaskService } from '../../_services/task/task.service';
 import { of } from 'rxjs';
+import { TaskService } from '../../_services/task/task.service';
 import { Task } from '../../types/interfaces/task';
 
 export const taskResolver: ResolveFn<Task | null> = (_route, _state) => {

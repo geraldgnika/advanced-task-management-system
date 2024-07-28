@@ -1,9 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { StatusDistributionComponent } from './status-distribution.component';
-import { of } from 'rxjs';
-import { Task } from '../../../../core/types/interfaces/task';
-import { TaskStatus } from '../../../../core/types/enums/task/task-status';
-import * as ChartModule from 'chart.js/auto';
 
 describe('StatusDistributionComponent', () => {
   let component: StatusDistributionComponent;
@@ -11,7 +7,7 @@ describe('StatusDistributionComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ StatusDistributionComponent ]
+      declarations: [StatusDistributionComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(StatusDistributionComponent);

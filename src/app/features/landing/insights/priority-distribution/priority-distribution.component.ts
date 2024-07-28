@@ -1,16 +1,22 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, Input, OnDestroy } from '@angular/core';
-import { Task } from '../../../../core/types/interfaces/task';
-import { Observable, Subject, combineLatest } from 'rxjs';
-import { takeUntil, startWith } from 'rxjs/operators';
-import { TaskPriority } from '../../../../core/types/enums/task/task-priority';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnDestroy,
+} from '@angular/core';
+import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { Chart, ChartConfiguration, ChartData } from 'chart.js';
-import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
+import { Observable, Subject, combineLatest } from 'rxjs';
+import { startWith, takeUntil } from 'rxjs/operators';
+import { TaskPriority } from '../../../../core/types/enums/task/task-priority';
+import { Task } from '../../../../core/types/interfaces/task';
 
 @Component({
   selector: 'app-priority-distribution',
   templateUrl: './priority-distribution.component.html',
   styleUrls: ['./priority-distribution.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PriorityDistributionComponent implements AfterViewInit, OnDestroy {
   @Input() idChart: string = '';
@@ -39,12 +45,12 @@ export class PriorityDistributionComponent implements AfterViewInit, OnDestroy {
 
   updateChart(tasks: Task[]) {
     const counts: { [key: string]: number } = {};
-    
-    const priorityValues = Object.values(TaskPriority);
-    priorityValues.forEach(priority => counts[priority] = 0);
-    tasks.forEach(task => counts[task.priority]++);
 
-    const labels = Object.keys(counts).map(key => 
+    const priorityValues = Object.values(TaskPriority);
+    priorityValues.forEach((priority) => (counts[priority] = 0));
+    tasks.forEach((task) => counts[task.priority]++);
+
+    const labels = Object.keys(counts).map((key) =>
       this.translateService.instant(`TASK_PRIORITY.${key.toUpperCase()}`)
     );
     const data = Object.values(counts);
@@ -55,8 +61,10 @@ export class PriorityDistributionComponent implements AfterViewInit, OnDestroy {
         if (this.chart) {
           this.chart.data.labels = labels;
           this.chart.data.datasets[0].data = data;
-          this.chart.data.datasets[0].label = this.translateService.instant('T_P_D');
-          this.chart.options.plugins!.title!.text = this.translateService.instant('T_P_D');
+          this.chart.data.datasets[0].label =
+            this.translateService.instant('T_P_D');
+          this.chart.options.plugins!.title!.text =
+            this.translateService.instant('T_P_D');
           this.chart.update();
         } else {
           const chartData: ChartData = {
@@ -82,8 +90,8 @@ export class PriorityDistributionComponent implements AfterViewInit, OnDestroy {
                 title: {
                   display: true,
                   text: this.translateService.instant('T_P_D'),
-                }
-              }
+                },
+              },
             },
           };
 

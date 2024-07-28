@@ -1,6 +1,6 @@
-import { TaskListPage } from './page-objects/task-list.po';
-import { TaskDetailsPage } from './page-objects/task-details.po';
 import { LoginPage } from './page-objects/login.po';
+import { TaskDetailsPage } from './page-objects/task-details.po';
+import { TaskListPage } from './page-objects/task-list.po';
 
 describe('Task Details', () => {
   let taskListPage: TaskListPage;
@@ -25,11 +25,15 @@ describe('Task Details', () => {
   it('should add a comment', async () => {
     const initialCommentCount = await taskDetailsPage.getCommentCount();
     await taskDetailsPage.addComment('This is a test comment');
-    expect(await taskDetailsPage.getCommentCount()).toBe(initialCommentCount + 1);
+    expect(await taskDetailsPage.getCommentCount()).toBe(
+      initialCommentCount + 1
+    );
   });
 
   it('should mention a user in a comment', async () => {
     await taskDetailsPage.addComment('@gerald_nika This is a mention');
-    expect(await taskDetailsPage.getLastCommentText()).toContain('@gerald_nika');
+    expect(await taskDetailsPage.getLastCommentText()).toContain(
+      '@gerald_nika'
+    );
   });
 });

@@ -32,7 +32,9 @@ describe('FormatUsernamesPipe', () => {
   });
 
   it('should trim usernames', () => {
-    expect(pipe.transform(['  john  ', ' jane ', 'doe  '])).toBe('@john, @jane, @doe');
+    expect(pipe.transform(['  john  ', ' jane ', 'doe  '])).toBe(
+      '@john, @jane, @doe'
+    );
   });
 
   it('should handle an empty array', () => {

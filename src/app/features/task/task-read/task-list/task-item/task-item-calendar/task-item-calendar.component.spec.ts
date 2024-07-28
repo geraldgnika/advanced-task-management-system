@@ -1,13 +1,13 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { TaskItemCalendarComponent } from './task-item-calendar.component';
-import { Task } from '../../../../../../core/types/interfaces/task';
-import { TaskStatus } from '../../../../../../core/types/enums/task/task-status';
-import { TaskPriority } from '../../../../../../core/types/enums/task/task-priority';
 import { Pipe, PipeTransform } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TaskPriority } from '../../../../../../core/types/enums/task/task-priority';
+import { TaskStatus } from '../../../../../../core/types/enums/task/task-status';
+import { Task } from '../../../../../../core/types/interfaces/task';
 import { CapitalizeFirstLetterPipe } from '../../../../../../shared/pipes/capitalize-first-letter.pipe';
 import { FormatUsernamePipe } from '../../../../../../shared/pipes/format-username.pipe';
+import { TaskItemCalendarComponent } from './task-item-calendar.component';
 
-@Pipe({name: 'capitalizeFirstLetter'})
+@Pipe({ name: 'capitalizeFirstLetter' })
 class MockCapitalizeFirstLetterPipe implements PipeTransform {
   transform(value: string): string {
     return value;
@@ -32,7 +32,7 @@ describe('TaskItemCalendarComponent', () => {
       comments: [],
       attachment: '',
       user_id: 'user1',
-      username: 'User 1'
+      username: 'User 1',
     },
     {
       id: 'task2',
@@ -47,21 +47,18 @@ describe('TaskItemCalendarComponent', () => {
       comments: [],
       attachment: '',
       user_id: 'user2',
-      username: 'User 2'
-    }
+      username: 'User 2',
+    },
   ];
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ 
+      declarations: [
         TaskItemCalendarComponent,
         CapitalizeFirstLetterPipe,
-        FormatUsernamePipe
+        FormatUsernamePipe,
       ],
-      providers: [
-        CapitalizeFirstLetterPipe,
-        FormatUsernamePipe
-      ]
+      providers: [CapitalizeFirstLetterPipe, FormatUsernamePipe],
     }).compileComponents();
 
     fixture = TestBed.createComponent(TaskItemCalendarComponent);
@@ -77,7 +74,9 @@ describe('TaskItemCalendarComponent', () => {
   it('should initialize with current month', () => {
     const currentMonth = new Date();
     expect(component.currentMonth.getMonth()).toBe(currentMonth.getMonth());
-    expect(component.currentMonth.getFullYear()).toBe(currentMonth.getFullYear());
+    expect(component.currentMonth.getFullYear()).toBe(
+      currentMonth.getFullYear()
+    );
   });
 
   it('should generate calendar for current month', () => {
@@ -88,7 +87,9 @@ describe('TaskItemCalendarComponent', () => {
   it('should move to previous month', () => {
     const initialMonth = component.currentMonth.getMonth();
     component.prevMonth();
-    expect(component.currentMonth.getMonth()).toBe((initialMonth - 1 + 12) % 12);
+    expect(component.currentMonth.getMonth()).toBe(
+      (initialMonth - 1 + 12) % 12
+    );
   });
 
   it('should move to next month', () => {

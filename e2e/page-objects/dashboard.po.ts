@@ -1,4 +1,4 @@
-import { browser, element, by } from 'protractor';
+import { by, element } from 'protractor';
 
 export class DashboardPage {
   async getPageTitle() {

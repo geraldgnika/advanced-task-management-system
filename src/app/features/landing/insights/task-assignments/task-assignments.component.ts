@@ -1,15 +1,21 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, Input, OnDestroy } from '@angular/core';
-import { Task } from '../../../../core/types/interfaces/task';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnDestroy,
+} from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
+import Chart from 'chart.js/auto';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import Chart from 'chart.js/auto';
-import { TranslateService } from '@ngx-translate/core';
+import { Task } from '../../../../core/types/interfaces/task';
 
 @Component({
   selector: 'app-task-assignments',
   templateUrl: './task-assignments.component.html',
   styleUrls: ['./task-assignments.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TaskAssignmentsComponent implements AfterViewInit, OnDestroy {
   @Input() idChart: string = '';
@@ -78,7 +84,8 @@ export class TaskAssignmentsComponent implements AfterViewInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
         if (this.chart) {
-          this.chart.data.datasets[0].label = this.translateService.instant('TASK_ASSIGNMENTS');
+          this.chart.data.datasets[0].label =
+            this.translateService.instant('TASK_ASSIGNMENTS');
           this.chart.update();
         }
       });

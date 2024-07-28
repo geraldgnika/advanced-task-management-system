@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { TaskItemListComponent } from './task-item-list.component';
-import { Task } from '../../../../../../core/types/interfaces/task';
-import { TaskStatus } from '../../../../../../core/types/enums/task/task-status';
 import { TaskPriority } from '../../../../../../core/types/enums/task/task-priority';
+import { TaskStatus } from '../../../../../../core/types/enums/task/task-status';
+import { Task } from '../../../../../../core/types/interfaces/task';
+import { TaskItemListComponent } from './task-item-list.component';
 
 describe('TaskItemListComponent', () => {
   let component: TaskItemListComponent;
@@ -21,12 +21,12 @@ describe('TaskItemListComponent', () => {
     comments: [],
     attachment: '',
     user_id: 'user1',
-    username: 'User 1'
+    username: 'User 1',
   };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ TaskItemListComponent ]
+      declarations: [TaskItemListComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(TaskItemListComponent);
@@ -55,12 +55,6 @@ describe('TaskItemListComponent', () => {
     expect(component.editTask.emit).toHaveBeenCalledWith('task1');
   });
 
-  it('should emit deleteTask event', () => {
-    spyOn(component.deleteTask, 'emit');
-    component.onDeleteTask('task1', 'Test Task');
-    expect(component.deleteTask.emit).toHaveBeenCalledWith({ id: 'task1', title: 'Test Task' });
-  });
-
   it('should handle openTask for different task ids', () => {
     spyOn(component.openTask, 'emit');
     component.onOpenTask('task2');
@@ -71,11 +65,5 @@ describe('TaskItemListComponent', () => {
     spyOn(component.editTask, 'emit');
     component.onEditTask('task3');
     expect(component.editTask.emit).toHaveBeenCalledWith('task3');
-  });
-
-  it('should handle deleteTask for different task ids and titles', () => {
-    spyOn(component.deleteTask, 'emit');
-    component.onDeleteTask('task4', 'Another Test Task');
-    expect(component.deleteTask.emit).toHaveBeenCalledWith({ id: 'task4', title: 'Another Test Task' });
   });
 });

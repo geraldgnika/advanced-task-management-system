@@ -1,15 +1,14 @@
+import { Location } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { StoreModule, Store } from '@ngrx/store';
-import { provideMockStore, MockStore } from '@ngrx/store/testing';
-import { TaskMentionsComponent } from './task-mentions.component';
+import { provideRouter, Router } from '@angular/router';
+import { Store, StoreModule } from '@ngrx/store';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { UserRoles } from '../../../../core/types/enums/authentication/user-roles';
+import { TaskPriority } from '../../../../core/types/enums/task/task-priority';
+import { TaskStatus } from '../../../../core/types/enums/task/task-status';
 import { Task } from '../../../../core/types/interfaces/task';
 import { User } from '../../../../core/types/interfaces/user';
-import * as TaskActions from '../../../../shared/_store/task/task.actions';
-import { Location } from '@angular/common';
-import { provideRouter, Router } from '@angular/router';
-import { UserRoles } from '../../../../core/types/enums/authentication/user-roles';
-import { TaskStatus } from '../../../../core/types/enums/task/task-status';
-import { TaskPriority } from '../../../../core/types/enums/task/task-priority';
+import { TaskMentionsComponent } from './task-mentions.component';
 
 describe('TaskMentionsComponent', () => {
   let component: TaskMentionsComponent;
@@ -24,7 +23,7 @@ describe('TaskMentionsComponent', () => {
     full_name: 'Test User',
     role: UserRoles.ProjectManager,
     permissions: { canManageTasks: true, canViewInsights: true },
-    password: '324244'
+    password: '324244',
   };
 
   const mockTasks: Task[] = [
@@ -39,11 +38,11 @@ describe('TaskMentionsComponent', () => {
       dueDate: new Date('2024-07-15'),
       assignedTo: ['user1'],
       comments: [
-        { id: 'comment1', body: 'Hello @testuser', username: 'testuser' }
+        { id: 'comment1', body: 'Hello @testuser', username: 'testuser' },
       ],
       attachment: '',
       user_id: 'user1',
-      username: 'testuser'
+      username: 'testuser',
     },
     {
       id: 'task2',
@@ -56,34 +55,32 @@ describe('TaskMentionsComponent', () => {
       dueDate: new Date('2024-07-20'),
       assignedTo: ['user1'],
       comments: [
-        { id: 'comment2', body: 'No mention here', username: 'testuser' }
+        { id: 'comment2', body: 'No mention here', username: 'testuser' },
       ],
       attachment: '',
       user_id: 'user1',
-      username: 'testuser'
-    }
+      username: 'testuser',
+    },
   ];
 
   beforeEach(async () => {
     const routerSpy = jasmine.createSpyObj('Router', ['navigate']);
     const locationSpy = jasmine.createSpyObj('Location', ['back']);
 
-    const initialState = { 
+    const initialState = {
       authentication: { user: mockUser },
-      tasks: { entities: mockTasks }
+      tasks: { entities: mockTasks },
     };
 
     await TestBed.configureTestingModule({
-      declarations: [ TaskMentionsComponent ],
-      imports: [
-        StoreModule.forRoot({})
-      ],
+      declarations: [TaskMentionsComponent],
+      imports: [StoreModule.forRoot({})],
       providers: [
         provideRouter([]),
         provideMockStore({ initialState }),
         { provide: Router, useValue: routerSpy },
-        { provide: Location, useValue: locationSpy }
-      ]
+        { provide: Location, useValue: locationSpy },
+      ],
     }).compileComponents();
 
     store = TestBed.inject(Store) as MockStore;

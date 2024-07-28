@@ -1,18 +1,17 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ReactiveFormsModule, FormBuilder } from '@angular/forms';
-import { ActivatedRoute, provideRouter, Router } from '@angular/router';
 import { Location } from '@angular/common';
-import { StoreModule, Store } from '@ngrx/store';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { ActivatedRoute, provideRouter, Router } from '@angular/router';
+import { Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
-import { TaskUpdateComponent } from './task-update.component';
+import { UserRoles } from '../../../core/types/enums/authentication/user-roles';
+import { TaskPriority } from '../../../core/types/enums/task/task-priority';
+import { TaskStatus } from '../../../core/types/enums/task/task-status';
 import { Task } from '../../../core/types/interfaces/task';
 import { User } from '../../../core/types/interfaces/user';
 import { AppState } from '../../../shared/_store/_common/app.state';
-import * as TaskActions from '../../../shared/_store/task/task.actions';
 import * as AuthenticationActions from '../../../shared/_store/authentication/authentication.actions';
-import { TaskStatus } from '../../../core/types/enums/task/task-status';
-import { TaskPriority } from '../../../core/types/enums/task/task-priority';
-import { UserRoles } from '../../../core/types/enums/authentication/user-roles';
+import { TaskUpdateComponent } from './task-update.component';
 
 describe('TaskUpdateComponent', () => {
   let component: TaskUpdateComponent;
@@ -34,7 +33,7 @@ describe('TaskUpdateComponent', () => {
     comments: [],
     attachment: '',
     user_id: 'user1',
-    username: 'User 1'
+    username: 'User 1',
   };
 
   const mockUser: User = {
@@ -43,28 +42,32 @@ describe('TaskUpdateComponent', () => {
     full_name: 'Test User',
     role: UserRoles.Developer,
     permissions: { canManageTasks: true, canViewInsights: false },
-    password: '3444556'
+    password: '3444556',
   };
 
   beforeEach(async () => {
-    const storeSpy = jasmine.createSpyObj('Store', ['dispatch', 'select', 'pipe']);
+    const storeSpy = jasmine.createSpyObj('Store', [
+      'dispatch',
+      'select',
+      'pipe',
+    ]);
     const routerSpy = jasmine.createSpyObj('Router', ['navigate']);
     const locationSpy = jasmine.createSpyObj('Location', ['back']);
 
     await TestBed.configureTestingModule({
-      declarations: [ TaskUpdateComponent ],
-      imports: [ 
-        ReactiveFormsModule,
-        StoreModule.forRoot({})
-      ],
+      declarations: [TaskUpdateComponent],
+      imports: [ReactiveFormsModule, StoreModule.forRoot({})],
       providers: [
         FormBuilder,
         provideRouter([]),
         { provide: Store, useValue: storeSpy },
         { provide: Router, useValue: routerSpy },
         { provide: Location, useValue: locationSpy },
-        { provide: ActivatedRoute, useValue: { snapshot: { params: { id: 'task1' } } } }
-      ]
+        {
+          provide: ActivatedRoute,
+          useValue: { snapshot: { params: { id: 'task1' } } },
+        },
+      ],
     }).compileComponents();
 
     store = TestBed.inject(Store) as jasmine.SpyObj<Store<AppState>>;
@@ -84,35 +87,41 @@ describe('TaskUpdateComponent', () => {
   });
 
   it('should dispatch loadCurrentUser action on construction', () => {
-    expect(store.dispatch).toHaveBeenCalledWith(AuthenticationActions.loadCurrentUser());
+    expect(store.dispatch).toHaveBeenCalledWith(
+      AuthenticationActions.loadCurrentUser()
+    );
   });
 
   it('should initialize form with task values', () => {
-    expect(component.taskForm.value).toEqual(jasmine.objectContaining({
-      id: 'task1',
-      title: 'Test Task',
-      description: 'Test Description',
-      status: TaskStatus.Pending,
-      priority: TaskPriority.Medium
-    }));
+    expect(component.taskForm.value).toEqual(
+      jasmine.objectContaining({
+        id: 'task1',
+        title: 'Test Task',
+        description: 'Test Description',
+        status: TaskStatus.Pending,
+        priority: TaskPriority.Medium,
+      })
+    );
   });
 
   it('should load users on init', () => {
-    expect(store.dispatch).toHaveBeenCalledWith(AuthenticationActions.loadUsers());
+    expect(store.dispatch).toHaveBeenCalledWith(
+      AuthenticationActions.loadUsers()
+    );
   });
 
-function taskMatcher(expectedTask: Partial<Task>): any {
-  return {
-    asymmetricMatch: function(actual: Task) {
-      return Object.keys(expectedTask).every(key => 
-        (expectedTask as any)[key] === (actual as any)[key]
-      );
-    },
-    jasmineToString: function() {
-      return `TaskMatcher(${JSON.stringify(expectedTask)})`;
-    }
-  };
-}
+  function taskMatcher(expectedTask: Partial<Task>): any {
+    return {
+      asymmetricMatch: function (actual: Task) {
+        return Object.keys(expectedTask).every(
+          (key) => (expectedTask as any)[key] === (actual as any)[key]
+        );
+      },
+      jasmineToString: function () {
+        return `TaskMatcher(${JSON.stringify(expectedTask)})`;
+      },
+    };
+  }
 
   it('should go back', () => {
     component.goBack();

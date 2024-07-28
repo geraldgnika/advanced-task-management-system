@@ -1,15 +1,15 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { TaskListComponent } from './task-list.component';
-import { StoreModule, Store } from '@ngrx/store';
-import { of } from 'rxjs';
-import { Task } from '../../../../core/types/interfaces/task';
-import { TaskStatus } from '../../../../core/types/enums/task/task-status';
-import { TaskPriority } from '../../../../core/types/enums/task/task-priority';
-import * as TaskActions from '../../../../shared/_store/task/task.actions';
-import { provideRouter } from '@angular/router';
-import { FormsModule } from '@angular/forms';
-import { FormatUsernamePipe } from '../../../../shared/pipes/format-username.pipe';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
+import { provideRouter } from '@angular/router';
+import { Store, StoreModule } from '@ngrx/store';
+import { of } from 'rxjs';
+import { TaskPriority } from '../../../../core/types/enums/task/task-priority';
+import { TaskStatus } from '../../../../core/types/enums/task/task-status';
+import { Task } from '../../../../core/types/interfaces/task';
+import * as TaskActions from '../../../../shared/_store/task/task.actions';
+import { FormatUsernamePipe } from '../../../../shared/pipes/format-username.pipe';
+import { TaskListComponent } from './task-list.component';
 
 describe('TaskListComponent', () => {
   let component: TaskListComponent;
@@ -30,7 +30,7 @@ describe('TaskListComponent', () => {
       comments: [],
       attachment: '',
       user_id: 'user1',
-      username: 'User 1'
+      username: 'User 1',
     },
     {
       id: 'task2',
@@ -45,24 +45,18 @@ describe('TaskListComponent', () => {
       comments: [],
       attachment: '',
       user_id: 'user2',
-      username: 'User 2'
-    }
+      username: 'User 2',
+    },
   ];
 
   beforeEach(async () => {
     const storeSpy = jasmine.createSpyObj('Store', ['dispatch', 'select']);
 
     await TestBed.configureTestingModule({
-      declarations: [ TaskListComponent, FormatUsernamePipe ],
-      imports: [
-        StoreModule.forRoot({}),
-        FormsModule
-      ],
-      providers: [
-        provideRouter([]),
-        { provide: Store, useValue: storeSpy }
-      ],
-      schemas: [ NO_ERRORS_SCHEMA ]
+      declarations: [TaskListComponent, FormatUsernamePipe],
+      imports: [StoreModule.forRoot({}), FormsModule],
+      providers: [provideRouter([]), { provide: Store, useValue: storeSpy }],
+      schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
 
     store = TestBed.inject(Store) as jasmine.SpyObj<Store>;
@@ -95,7 +89,7 @@ describe('TaskListComponent', () => {
   it('should filter tasks by search term', (done) => {
     component.searchTerm = 'Task 1';
     component.searchTasks();
-    component.tasks$.subscribe(tasks => {
+    component.tasks$.subscribe((tasks) => {
       expect(tasks.length).toBe(1);
       expect(tasks[0].title).toBe('Task 1');
       done();
@@ -104,7 +98,7 @@ describe('TaskListComponent', () => {
 
   it('should sort tasks', (done) => {
     component.sortTasks('title', true);
-    component.tasks$.subscribe(tasks => {
+    component.tasks$.subscribe((tasks) => {
       expect(tasks[0].title).toBe('Task 1');
       expect(tasks[1].title).toBe('Task 2');
       done();
@@ -113,7 +107,7 @@ describe('TaskListComponent', () => {
 
   it('should filter tasks by priority', (done) => {
     component.showLow();
-    component.tasks$.subscribe(tasks => {
+    component.tasks$.subscribe((tasks) => {
       expect(tasks.length).toBe(1);
       expect(tasks[0].priority).toBe(TaskPriority.Low);
       done();
@@ -122,7 +116,7 @@ describe('TaskListComponent', () => {
 
   it('should filter tasks by status', (done) => {
     component.showPending();
-    component.tasks$.subscribe(tasks => {
+    component.tasks$.subscribe((tasks) => {
       expect(tasks.length).toBe(1);
       expect(tasks[0].status).toBe(TaskStatus.Pending);
       done();
@@ -131,16 +125,10 @@ describe('TaskListComponent', () => {
 
   it('should show all tasks', (done) => {
     component.showAll();
-    component.tasks$.subscribe(tasks => {
+    component.tasks$.subscribe((tasks) => {
       expect(tasks.length).toBe(2);
       done();
     });
-  });
-
-  it('should delete task', () => {
-    spyOn(window, 'confirm').and.returnValue(true);
-    component.deleteTask('task1', 'Task 1');
-    expect(store.dispatch).toHaveBeenCalledWith(TaskActions.deleteTask({ id: 'task1' }));
   });
 
   it('should navigate to task details', () => {

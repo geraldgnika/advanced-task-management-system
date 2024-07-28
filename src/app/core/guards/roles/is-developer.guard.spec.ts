@@ -1,5 +1,9 @@
 import { TestBed } from '@angular/core/testing';
-import { Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import {
+  ActivatedRouteSnapshot,
+  Router,
+  RouterStateSnapshot,
+} from '@angular/router';
 import { AuthenticationService } from '../../_services/authentication/authentication.service';
 import { isDeveloperGuard } from './is-developer.guard';
 
@@ -10,7 +14,9 @@ describe('isDeveloperGuard', () => {
   let routerStateSnapshot: RouterStateSnapshot;
 
   beforeEach(() => {
-    authServiceMock = jasmine.createSpyObj('AuthenticationService', ['isDeveloper']);
+    authServiceMock = jasmine.createSpyObj('AuthenticationService', [
+      'isDeveloper',
+    ]);
     routerMock = jasmine.createSpyObj('Router', ['navigate']);
     routeSnapshot = {} as ActivatedRouteSnapshot;
     routerStateSnapshot = { url: '/test' } as RouterStateSnapshot;
@@ -18,15 +24,15 @@ describe('isDeveloperGuard', () => {
     TestBed.configureTestingModule({
       providers: [
         { provide: AuthenticationService, useValue: authServiceMock },
-        { provide: Router, useValue: routerMock }
-      ]
+        { provide: Router, useValue: routerMock },
+      ],
     });
   });
 
   it('should allow access when user is a developer', () => {
     authServiceMock.isDeveloper.and.returnValue(true);
 
-    const result = TestBed.runInInjectionContext(() => 
+    const result = TestBed.runInInjectionContext(() =>
       isDeveloperGuard(routeSnapshot, routerStateSnapshot)
     );
 
@@ -38,7 +44,7 @@ describe('isDeveloperGuard', () => {
   it('should redirect to home page and return false when user is not a developer', () => {
     authServiceMock.isDeveloper.and.returnValue(false);
 
-    const result = TestBed.runInInjectionContext(() => 
+    const result = TestBed.runInInjectionContext(() =>
       isDeveloperGuard(routeSnapshot, routerStateSnapshot)
     );
 

@@ -1,4 +1,4 @@
-import { browser, element, by } from 'protractor';
+import { browser, by, element } from 'protractor';
 
 export class TaskListPage {
   async navigateTo() {
@@ -34,7 +34,9 @@ export class TaskListPage {
   }
 
   async filterByStatus(status: string) {
-    await element(by.css('select[name="status"]')).element(by.cssContainingText('option', status)).click();
+    await element(by.css('select[name="status"]'))
+      .element(by.cssContainingText('option', status))
+      .click();
   }
 
   async getLastTaskTitle() {

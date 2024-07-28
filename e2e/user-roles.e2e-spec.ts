@@ -1,5 +1,5 @@
-import { LoginPage } from './page-objects/login.po';
 import { DashboardPage } from './page-objects/dashboard.po';
+import { LoginPage } from './page-objects/login.po';
 import { TaskListPage } from './page-objects/task-list.po';
 
 describe('User Roles', () => {

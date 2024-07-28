@@ -4,12 +4,15 @@ import { BehaviorSubject } from 'rxjs';
 import { LocaleService } from './locale.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LanguageService {
   private currentLang = new BehaviorSubject<string>(this.getInitialLanguage());
 
-  constructor(private translate: TranslateService, private localeService: LocaleService) {
+  constructor(
+    private translate: TranslateService,
+    private localeService: LocaleService
+  ) {
     this.setLanguage(this.currentLang.value);
   }
 
@@ -21,7 +24,7 @@ export class LanguageService {
   setLanguage(lang: string) {
     this.translate.use(lang);
 
-    switch(lang) {
+    switch (lang) {
       case 'en':
         this.localeService.setLocale('en-US');
         break;

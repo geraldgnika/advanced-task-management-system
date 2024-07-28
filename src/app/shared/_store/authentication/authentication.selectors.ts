@@ -1,7 +1,8 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { AuthenticationState } from './authentication.state';
 
-export const selectAuthenticationState = createFeatureSelector<AuthenticationState>('authentication');
+export const selectAuthenticationState =
+  createFeatureSelector<AuthenticationState>('authentication');
 
 // Select Current User
 export const selectCurrentUser = createSelector(
@@ -23,10 +24,10 @@ export const selectAllUsers = createSelector(
   (state: AuthenticationState) => state.users
 );
 export const selectUsersLoading = createSelector(
-selectAuthenticationState,
-(state: AuthenticationState) => state.loading
+  selectAuthenticationState,
+  (state: AuthenticationState) => state.loading
 );
 export const selectUsersError = createSelector(
-selectAuthenticationState,
-(state: AuthenticationState) => state.error
+  selectAuthenticationState,
+  (state: AuthenticationState) => state.error
 );

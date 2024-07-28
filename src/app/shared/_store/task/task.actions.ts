@@ -109,8 +109,13 @@ export const loadTasksByStatusFailure = createAction(
 
 // Clear Task Add Error
 export const clearTaskAddError = createAction('[Task] Clear Task Add Error');
-export const clearTaskAddErrorSuccess = createAction('[Task] Clear Task Add Error Success');
-export const clearTaskAddErrorFailure = createAction('[Task] Clear Task Add Error Failure', props<{ error: any }>());
+export const clearTaskAddErrorSuccess = createAction(
+  '[Task] Clear Task Add Error Success'
+);
+export const clearTaskAddErrorFailure = createAction(
+  '[Task] Clear Task Add Error Failure',
+  props<{ error: any }>()
+);
 
 // Load Mentioned Comments
 export const loadTasksWithMentions = createAction(
@@ -120,7 +125,14 @@ export const loadTasksWithMentions = createAction(
 
 export const loadTasksWithMentionsSuccess = createAction(
   '[Task] Load Tasks With Mentions Success',
-  props<{ mentions: { commentBody: string; username: string; taskTitle: string; taskId: string }[] }>()
+  props<{
+    mentions: {
+      commentBody: string;
+      username: string;
+      taskTitle: string;
+      taskId: string;
+    }[];
+  }>()
 );
 
 export const loadTasksWithMentionsFailure = createAction(

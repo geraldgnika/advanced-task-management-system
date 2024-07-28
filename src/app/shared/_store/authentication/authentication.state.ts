@@ -1,4 +1,4 @@
-import { User } from "../../../core/types/interfaces/user";
+import { User } from '../../../core/types/interfaces/user';
 
 export interface AuthenticationState {
   users: User[];

@@ -1,23 +1,25 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
-import { User } from '../../types/interfaces/user';
-import { UserRoles } from '../../types/enums/authentication/user-roles';
 import { UserPermissions } from '../../types/enums/authentication/user-permissions';
-import { RegisterPayload } from '../../types/payloads/authentication/register-payload.interface';
+import { UserRoles } from '../../types/enums/authentication/user-roles';
+import { User } from '../../types/interfaces/user';
 import { LoginPayload } from '../../types/payloads/authentication/login-payload.interface';
+import { RegisterPayload } from '../../types/payloads/authentication/register-payload.interface';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthenticationService {
   private apiUrl = `${environment.apiUrl}/users`;
   private currentUserSubject: BehaviorSubject<User | null>;
 
   constructor(private http: HttpClient) {
-    this.currentUserSubject = new BehaviorSubject<User | null>(this.getCurrentUser());
+    this.currentUserSubject = new BehaviorSubject<User | null>(
+      this.getCurrentUser()
+    );
   }
 
   generateUniqueId(): Observable<string> {
@@ -35,14 +37,14 @@ export class AuthenticationService {
   private isIdExists(users: any[], id: string): boolean {
     return users.some((user) => user.id === id);
   }
-  
+
   getUsers(): Observable<User[]> {
     return this.http.get<User[]>(this.apiUrl);
   }
 
   checkIfExistsAlready(username: string): Observable<boolean> {
     return this.http.get<User[]>(`${this.apiUrl}?username=${username}`).pipe(
-      map(users => users.length > 0),
+      map((users) => users.length > 0),
       catchError(() => of(false))
     );
   }
@@ -51,7 +53,7 @@ export class AuthenticationService {
     const { id, full_name, username, password, role } = payload;
 
     return this.checkIfExistsAlready(username).pipe(
-      switchMap(userExists => {
+      switchMap((userExists) => {
         if (userExists) {
           return throwError(() => 'User already exists');
         } else {
@@ -60,17 +62,17 @@ export class AuthenticationService {
           if (role === UserRoles.ProjectManager) {
             permissions = {
               [UserPermissions.CanManageTasks]: true,
-              [UserPermissions.CanViewInsights]: true
+              [UserPermissions.CanViewInsights]: true,
             };
           } else if (role === UserRoles.TeamLead) {
             permissions = {
               [UserPermissions.CanManageTasks]: true,
-              [UserPermissions.CanViewInsights]: true
+              [UserPermissions.CanViewInsights]: true,
             };
           } else {
             permissions = {
               [UserPermissions.CanManageTasks]: true,
-              [UserPermissions.CanViewInsights]: false
+              [UserPermissions.CanViewInsights]: false,
             };
           }
 
@@ -80,7 +82,7 @@ export class AuthenticationService {
             username,
             password,
             role,
-            permissions
+            permissions,
           };
           return this.http.post<User>(this.apiUrl, newUser).pipe(
             switchMap((user: User) => {
@@ -98,7 +100,7 @@ export class AuthenticationService {
 
   checkCredentials(username: string, password: string): Observable<boolean> {
     return this.http.get<User[]>(`${this.apiUrl}?username=${username}`).pipe(
-      map(users => {
+      map((users) => {
         if (users.length === 1) {
           return users[0].password === password;
         }
@@ -112,20 +114,22 @@ export class AuthenticationService {
     const { username, password } = payload;
 
     return this.checkCredentials(username, password).pipe(
-      switchMap(valid => {
+      switchMap((valid) => {
         if (valid) {
-          return this.http.get<User[]>(`${this.apiUrl}?username=${username}`).pipe(
-            map(users => {
-              if (users.length === 1) {
-                const user = users[0];
-                localStorage.setItem('currentUser', JSON.stringify(user));
-                this.currentUserSubject.next(user);
-                return user;
-              }
-              return null;
-            }),
-            catchError(() => of(null))
-          );
+          return this.http
+            .get<User[]>(`${this.apiUrl}?username=${username}`)
+            .pipe(
+              map((users) => {
+                if (users.length === 1) {
+                  const user = users[0];
+                  localStorage.setItem('currentUser', JSON.stringify(user));
+                  this.currentUserSubject.next(user);
+                  return user;
+                }
+                return null;
+              }),
+              catchError(() => of(null))
+            );
         } else {
           return of(null);
         }
@@ -157,7 +161,7 @@ export class AuthenticationService {
     const currentUser = this.currentUserSubject.value;
     return currentUser && currentUser.role === UserRoles.ProjectManager;
   }
-  
+
   isTeamLead(): boolean | null {
     const currentUser = this.currentUserSubject.value;
     return currentUser && currentUser.role === UserRoles.TeamLead;
@@ -173,8 +177,12 @@ export class AuthenticationService {
     return currentUser?.permissions[permission] ?? false;
   }
 
-  getUserById(user_id: string): Observable<{ user_id: string, username: string }> {
-    return this.http.get<{ user_id: string, username: string }>(`${this.apiUrl}/${user_id}`);
+  getUserById(
+    user_id: string
+  ): Observable<{ user_id: string; username: string }> {
+    return this.http.get<{ user_id: string; username: string }>(
+      `${this.apiUrl}/${user_id}`
+    );
   }
 
   getUser(user_id: string): Observable<User> {

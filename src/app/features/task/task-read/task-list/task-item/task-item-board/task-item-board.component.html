@@ -1,79 +1,102 @@
 <div class="container-fluid h-100 px-0" cdkDropListGroup>
-	<div class="row h-100">
-		<div *ngFor="let category of taskData$ | async" class="col-md-3 d-flex height-full">
-      <div class="card flex-fill oya">
-				<div class="card-header" [ngClass]="getHeaderClass(category.header)">
-					{{ category.header | translate }}
-				</div>
-				<div
-					class="tasks-container"
-					cdkDropList
-					[cdkDropListData]="category.tasks | async"
-					(cdkDropListDropped)="drop($event, category.status)"
-				>
-        
-					<div
-						class="task"
-						*ngFor="let task of category.tasks | async"
-						cdkDrag
-						(click)="onOpenTask(task.id)"
-					>
-          @defer (on viewport) {
-						<div class="d-flex align-items-center">
-							<div class="mr-auto padding-three">
-								<span class="task-title fw-medium" [innerHTML]="task.title"></span>
-								<span class="text-muted d-block">
-									- {{ 'BY' | translate }} <span class="text-primary">{{ task.username! | formatUsername }}</span></span
-								>
-							</div>
-						</div>
-						<div class="row mt-2">
-							<div class="col-md-6">
-								<label><span class="fw-medium">{{ 'PRIORITY' | translate }}:</span></label>
-								<div class="d-flex align-items-center">
-									<div
-										class="status-circle"
-										[ngClass]="{
-											'status-circle-low': task.priority === 'low',
-											'status-circle-medium': task.priority === 'medium',
-											'status-circle-high': task.priority === 'high'
-										}"
-									></div>
-									<span>{{ task.priority | translateEnum:'priority' | capitalizeFirstLetter }}</span>
-								</div>
-							</div>
-							<div class="col-md-6">
-								<label><span class="fw-medium">{{ 'DUE' | translate }}:</span></label>
-								<div class="d-flex align-items-center">
-									<span>{{ task.dueDate }}</span>
-								</div>
-							</div>
-						</div>
-						<div class="row mt-2">
-							<div class="col-md-12">
-								<div class="d-flex align-items-center">
-									<span *ngIf="task.assignedTo && task.assignedTo.length > 0">
-										<span class="fw-medium">{{ 'ASSIGNED_TO' | translate }}:</span>
-										<span class="text-primary">{{ task.assignedTo[0] | formatUsername }} </span>
-										<span *ngIf="task.assignedTo.length > 1"
-											>{{ 'AND' | translate }} {{ task.assignedTo.length - 1 }} {{ 'MORE' | translate }}</span
-										>
-									</span>
-								</div>
-							</div>
-						</div>
-          } @placeholder(minimum 100ms) {
+  <div class="row h-100">
+    <div
+      *ngFor="let category of taskData$ | async"
+      class="col-md-3 d-flex height-full"
+    >
+      <div class="card flex-fill">
+        <div class="card-header" [ngClass]="getHeaderClass(category.header)">
+          {{ category.header | translate }}
+        </div>
+        <div
+          class="tasks-container oya"
+          cdkDropList
+          [cdkDropListData]="category.tasks | async"
+          (cdkDropListDropped)="drop($event, category.status)"
+        >
+          <div
+            class="task"
+            *ngFor="let task of category.tasks | async"
+            cdkDrag
+            (click)="onOpenTask(task.id)"
+          >
+            @defer (on viewport) {
+            <div class="d-flex align-items-center">
+              <div class="mr-auto padding-three">
+                <span
+                  class="task-title fw-medium"
+                  [innerHTML]="task.title"
+                ></span>
+                <span class="text-muted d-block">
+                  - {{ "BY" | translate }}
+                  <span class="text-primary">{{
+                    task.username! | formatUsername
+                  }}</span></span
+                >
+              </div>
+            </div>
+            <div class="row mt-2">
+              <div class="col-md-6">
+                <label
+                  ><span class="fw-medium"
+                    >{{ "PRIORITY" | translate }}:</span
+                  ></label
+                >
+                <div class="d-flex align-items-center">
+                  <div
+                    class="status-circle"
+                    [ngClass]="{
+                      'status-circle-low': task.priority === 'low',
+                      'status-circle-medium': task.priority === 'medium',
+                      'status-circle-high': task.priority === 'high'
+                    }"
+                  ></div>
+                  <span>{{
+                    task.priority
+                      | translateEnum : "priority"
+                      | capitalizeFirstLetter
+                  }}</span>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <label
+                  ><span class="fw-medium"
+                    >{{ "DUE" | translate }}:</span
+                  ></label
+                >
+                <div class="d-flex align-items-center">
+                  <span>{{ task.dueDate }}</span>
+                </div>
+              </div>
+            </div>
+            <div class="row mt-2">
+              <div class="col-md-12">
+                <div class="d-flex align-items-center">
+                  <span *ngIf="task.assignedTo && task.assignedTo.length > 0">
+                    <span class="fw-medium"
+                      >{{ "ASSIGNED_TO" | translate }}:</span
+                    >
+                    <span class="text-primary"
+                      >{{ task.assignedTo[0] | formatUsername }}
+                    </span>
+                    <span *ngIf="task.assignedTo.length > 1"
+                      >{{ "AND" | translate }} {{ task.assignedTo.length - 1 }}
+                      {{ "MORE" | translate }}</span
+                    >
+                  </span>
+                </div>
+              </div>
+            </div>
+            } @placeholder(minimum 100ms) {
             <div class="loading-placeholder"></div>
             } @loading {
-            <div class="loading-placeholder">{{ 'LOADING' | translate }}</div>
+            <div class="loading-placeholder">{{ "LOADING" | translate }}</div>
             } @error {
-            <div class="loading-placeholder">{{ 'ERROR' | translate }}</div>
+            <div class="loading-placeholder">{{ "ERROR" | translate }}</div>
             }
-					</div>
-        
-				</div>
-			</div>
-    
-		</div>
-	</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

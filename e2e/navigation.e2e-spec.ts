@@ -1,5 +1,5 @@
-import { NavigationPage } from './page-objects/navigation.po';
 import { LoginPage } from './page-objects/login.po';
+import { NavigationPage } from './page-objects/navigation.po';
 
 describe('Navigation', () => {
   let navigationPage: NavigationPage;
@@ -14,7 +14,9 @@ describe('Navigation', () => {
 
   it('should navigate to dashboard', async () => {
     await navigationPage.clickDashboardLink();
-    expect(await navigationPage.getCurrentUrl()).toContain('/landing/dashboard');
+    expect(await navigationPage.getCurrentUrl()).toContain(
+      '/landing/dashboard'
+    );
   });
 
   it('should navigate to task list', async () => {

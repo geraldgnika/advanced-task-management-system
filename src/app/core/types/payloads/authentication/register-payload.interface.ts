@@ -1,4 +1,4 @@
-import { UserRoles } from "../../enums/authentication/user-roles";
+import { UserRoles } from '../../enums/authentication/user-roles';
 
 export interface RegisterPayload {
   id: string;

@@ -1,9 +1,8 @@
-import { browser, element, by } from 'protractor';
+import { browser } from 'protractor';
+import { UserRoles } from '../src/app/core/types/enums/authentication/user-roles';
+import { DashboardPage } from './page-objects/dashboard.po';
 import { LoginPage } from './page-objects/login.po';
 import { RegisterPage } from './page-objects/register.po';
-import { DashboardPage } from './page-objects/dashboard.po';
-import { UserRoles } from '../src/app/core/types/enums/authentication/user-roles';
-import { UserPermissions } from '../src/app/core/types/enums/authentication/user-permissions';
 
 describe('Authentication', () => {
   let loginPage: LoginPage;
@@ -30,7 +29,12 @@ describe('Authentication', () => {
 
   it('should register a new user', async () => {
     await registerPage.navigateTo();
-    await registerPage.register('New User', 'newuser', '123456', UserRoles.Developer);
+    await registerPage.register(
+      'New User',
+      'newuser',
+      '123456',
+      UserRoles.Developer
+    );
     expect(await dashboardPage.getPageTitle()).toEqual('Dashboard');
   });
 

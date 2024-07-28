@@ -1,13 +1,23 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { TaskService } from '../../../core/_services/task/task.service';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
   currentView: 'list' | 'grid' | 'calendar' | 'board' = 'board';
+  count: number = 0;
+
+  constructor(private taskService: TaskService) {}
+
+  ngOnInit(): void {
+    this.taskService.getTaskCount().subscribe((count) => {
+      this.count = count;
+    });
+  }
 
   switchToListView(): void {
     this.currentView = 'list';

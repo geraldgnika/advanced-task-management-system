@@ -1,40 +1,45 @@
+import { Location } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  OnDestroy,
   OnInit,
-  OnDestroy
 } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
-import { Location } from '@angular/common';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
-import { AppState } from '../../../shared/_store/_common/app.state';
-import * as TaskActions from '../../../shared/_store/task/task.actions';
-import { Observable, of } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
+import { Observable, of, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { getTranslatedEnum } from '../../../app.module';
+import {
+  TaskPriority,
+  TaskPriorityTranslationKeys,
+} from '../../../core/types/enums/task/task-priority';
+import {
+  TaskStatus,
+  TaskStatusTranslationKeys,
+} from '../../../core/types/enums/task/task-status';
+import { Task } from '../../../core/types/interfaces/task';
 import { User } from '../../../core/types/interfaces/user';
+import { AppState } from '../../../shared/_store/_common/app.state';
 import * as AuthenticationActions from '../../../shared/_store/authentication/authentication.actions';
 import * as AuthenticationSelectors from '../../../shared/_store/authentication/authentication.selectors';
-import { Task } from '../../../core/types/interfaces/task';
-import { TaskStatus, TaskStatusTranslationKeys } from '../../../core/types/enums/task/task-status';
-import { TaskPriority, TaskPriorityTranslationKeys } from '../../../core/types/enums/task/task-priority';
-import { getTranslatedEnum } from '../../../app.module';
-import { TranslateService } from '@ngx-translate/core';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import * as TaskActions from '../../../shared/_store/task/task.actions';
 
 @Component({
   selector: 'app-task-update',
   templateUrl: './task-update.component.html',
   styleUrls: ['./task-update.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TaskUpdateComponent implements OnInit, OnDestroy {
   taskForm: FormGroup;
   currentUser$: Observable<User | null> = of();
   allUsers$!: Observable<User[]>;
   taskPriorities$: Observable<{ value: string; label: string }[]> = of();
-taskStatuses$: Observable<{ value: string; label: string }[]> = of();
+  taskStatuses$: Observable<{ value: string; label: string }[]> = of();
   task: Task | undefined;
   private destroy$ = new Subject<void>();
 
@@ -77,24 +82,36 @@ taskStatuses$: Observable<{ value: string; label: string }[]> = of();
 
     this.updateTranslations();
 
-  this.translateService.onLangChange
-    .pipe(takeUntil(this.destroy$))
-    .subscribe(() => {
-      this.updateTranslations();
-    });
+    this.translateService.onLangChange
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.updateTranslations();
+      });
   }
 
   private updateTranslations(): void {
-    this.taskPriorities$ = of(Object.values(TaskPriority).map(value => ({
-      value,
-      label: getTranslatedEnum(value, TaskPriorityTranslationKeys, this.translateService)
-    })));
-  
-    this.taskStatuses$ = of(Object.values(TaskStatus).map(value => ({
-      value,
-      label: getTranslatedEnum(value, TaskStatusTranslationKeys, this.translateService)
-    })));
-  
+    this.taskPriorities$ = of(
+      Object.values(TaskPriority).map((value) => ({
+        value,
+        label: getTranslatedEnum(
+          value,
+          TaskPriorityTranslationKeys,
+          this.translateService
+        ),
+      }))
+    );
+
+    this.taskStatuses$ = of(
+      Object.values(TaskStatus).map((value) => ({
+        value,
+        label: getTranslatedEnum(
+          value,
+          TaskStatusTranslationKeys,
+          this.translateService
+        ),
+      }))
+    );
+
     this.cdr.markForCheck();
   }
 
@@ -126,7 +143,7 @@ taskStatuses$: Observable<{ value: string; label: string }[]> = of();
       comments: this.task ? this.task.comments : [],
       attachment: this.task ? this.task.attachment : '',
       status: this.taskForm.value.status as TaskStatus,
-      priority: this.taskForm.value.priority as TaskPriority
+      priority: this.taskForm.value.priority as TaskPriority,
     };
 
     const task: Task = {

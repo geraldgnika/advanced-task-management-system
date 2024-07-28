@@ -1,22 +1,19 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TranslateModule } from '@ngx-translate/core';
+import { AuthenticationRoutingModule } from './authentication-routing.module';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
-import { AuthenticationRoutingModule } from './authentication-routing.module';
-import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
-  declarations: [
-    LoginComponent,
-    RegisterComponent
-  ],
+  declarations: [LoginComponent, RegisterComponent],
   imports: [
     CommonModule,
     FormsModule,
     TranslateModule.forChild(),
     ReactiveFormsModule,
-    AuthenticationRoutingModule
-  ]
+    AuthenticationRoutingModule,
+  ],
 })
-export class AuthenticationModule { }
+export class AuthenticationModule {}

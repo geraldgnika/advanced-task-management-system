@@ -8,9 +8,8 @@ describe('GeneralErrorComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [GeneralErrorComponent]
-    })
-    .compileComponents();
+      declarations: [GeneralErrorComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(GeneralErrorComponent);
     component = fixture.componentInstance;

@@ -1,5 +1,5 @@
-import { UserPermissions } from "../enums/authentication/user-permissions";
-import { UserRoles } from "../enums/authentication/user-roles";
+import { UserPermissions } from '../enums/authentication/user-permissions';
+import { UserRoles } from '../enums/authentication/user-roles';
 
 export interface User {
   id: string;

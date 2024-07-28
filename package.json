@@ -9,7 +9,8 @@
     "test": "ng test",
     "e2e": "protractor",
     "webdriver-update": "webdriver-manager update",
-    "e2e-test": "ng e2e"
+    "webdriver-start": "webdriver-manager start",
+    "e2e-test": "npm run e2e"
   },
   "private": true,
   "dependencies": {

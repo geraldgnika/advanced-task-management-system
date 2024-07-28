@@ -1,9 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, concatMap, exhaustMap, map, mergeMap, switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
-import * as TaskActions from './task.actions';
+import {
+  catchError,
+  concatMap,
+  exhaustMap,
+  map,
+  mergeMap,
+  switchMap,
+} from 'rxjs/operators';
 import { TaskService } from '../../../core/_services/task/task.service';
+import * as TaskActions from './task.actions';
 
 @Injectable()
 export class TaskEffects {
@@ -83,7 +90,9 @@ export class TaskEffects {
       mergeMap((action) =>
         this.taskService.deleteAttachment(action.task).pipe(
           map((task) => TaskActions.deleteAttachmentSuccess({ task })),
-          catchError((error) => of(TaskActions.deleteAttachmentFailure({ error })))
+          catchError((error) =>
+            of(TaskActions.deleteAttachmentFailure({ error }))
+          )
         )
       )
     )
@@ -95,21 +104,40 @@ export class TaskEffects {
       ofType(TaskActions.updateAttachment),
       mergeMap((action) =>
         this.taskService.updateAttachment(action.task, action.filename).pipe(
-          map((task) => TaskActions.updateAttachmentSuccess({ task, filename: action.filename })),
-          catchError((error) => of(TaskActions.updateAttachmentFailure({ error })))
+          map((task) =>
+            TaskActions.updateAttachmentSuccess({
+              task,
+              filename: action.filename,
+            })
+          ),
+          catchError((error) =>
+            of(TaskActions.updateAttachmentFailure({ error }))
+          )
         )
       )
     )
   );
-  
+
   // Load Tasks By Status
   loadTasksByStatus$ = createEffect(() =>
     this.actions$.pipe(
       ofType(TaskActions.loadTasksByStatus),
-      concatMap(action =>
+      concatMap((action) =>
         this.taskService.getTasksByStatus(action.status).pipe(
-          map(tasks => TaskActions.loadTasksByStatusSuccess({ status: action.status, tasks })),
-          catchError(error => of(TaskActions.loadTasksByStatusFailure({ status: action.status, error })))
+          map((tasks) =>
+            TaskActions.loadTasksByStatusSuccess({
+              status: action.status,
+              tasks,
+            })
+          ),
+          catchError((error) =>
+            of(
+              TaskActions.loadTasksByStatusFailure({
+                status: action.status,
+                error,
+              })
+            )
+          )
         )
       )
     )
@@ -121,8 +149,12 @@ export class TaskEffects {
       ofType(TaskActions.loadTasksWithMentions),
       switchMap((action) =>
         this.taskService.getTasksWithMentions(action.username).pipe(
-          map((mentions) => TaskActions.loadTasksWithMentionsSuccess({ mentions })),
-          catchError((error) => of(TaskActions.loadTasksWithMentionsFailure({ error })))
+          map((mentions) =>
+            TaskActions.loadTasksWithMentionsSuccess({ mentions })
+          ),
+          catchError((error) =>
+            of(TaskActions.loadTasksWithMentionsFailure({ error }))
+          )
         )
       )
     )

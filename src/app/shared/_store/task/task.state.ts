@@ -1,4 +1,4 @@
-import { Task } from "../../../core/types/interfaces/task";
+import { Task } from '../../../core/types/interfaces/task';
 
 export interface TaskState {
   pendingTasks: Task[];
@@ -9,7 +9,12 @@ export interface TaskState {
   task: Task | null;
   loading: boolean;
   error: any;
-  mentions: { commentBody: string; username: string; taskTitle: string; taskId: string }[];
+  mentions: {
+    commentBody: string;
+    username: string;
+    taskTitle: string;
+    taskId: string;
+  }[];
 }
 
 export const initialTaskState: TaskState = {
@@ -21,5 +26,5 @@ export const initialTaskState: TaskState = {
   task: null,
   loading: false,
   error: null,
-  mentions: []
+  mentions: [],
 };

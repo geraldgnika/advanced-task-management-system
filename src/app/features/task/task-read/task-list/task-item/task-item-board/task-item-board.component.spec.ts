@@ -1,13 +1,13 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { TaskItemBoardComponent } from './task-item-board.component';
-import { Store, StoreModule } from '@ngrx/store';
-import { TaskState } from '../../../../../../shared/_store/task/task.state';
 import { CdkDragDrop, DragDropModule } from '@angular/cdk/drag-drop';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
-import { Task } from '../../../../../../core/types/interfaces/task';
-import { TaskStatus } from '../../../../../../core/types/enums/task/task-status';
 import { TaskPriority } from '../../../../../../core/types/enums/task/task-priority';
+import { TaskStatus } from '../../../../../../core/types/enums/task/task-status';
+import { Task } from '../../../../../../core/types/interfaces/task';
 import * as TaskActions from '../../../../../../shared/_store/task/task.actions';
+import { TaskState } from '../../../../../../shared/_store/task/task.state';
+import { TaskItemBoardComponent } from './task-item-board.component';
 
 describe('TaskItemBoardComponent', () => {
   let component: TaskItemBoardComponent;
@@ -28,7 +28,7 @@ describe('TaskItemBoardComponent', () => {
       comments: [],
       attachment: 'Firebase Auth Documentation Requirements.docx',
       user_id: '_0e8jjql',
-      username: 'gerald_nika'
+      username: 'gerald_nika',
     },
     {
       id: '51ve60i',
@@ -43,22 +43,17 @@ describe('TaskItemBoardComponent', () => {
       comments: [],
       attachment: 'Firebase Auth Documentation Requirements.docx',
       user_id: '_0e8jjql',
-      username: 'gerald_nika'
-    }
+      username: 'gerald_nika',
+    },
   ];
 
   beforeEach(async () => {
     mockStore = jasmine.createSpyObj('Store', ['dispatch', 'select']);
 
     await TestBed.configureTestingModule({
-      declarations: [ TaskItemBoardComponent ],
-      imports: [
-        DragDropModule,
-        StoreModule.forRoot({})
-      ],
-      providers: [
-        { provide: Store, useValue: mockStore }
-      ]
+      declarations: [TaskItemBoardComponent],
+      imports: [DragDropModule, StoreModule.forRoot({})],
+      providers: [{ provide: Store, useValue: mockStore }],
     }).compileComponents();
 
     mockStore.select.and.returnValue(of(mockTasks));
@@ -91,14 +86,17 @@ describe('TaskItemBoardComponent', () => {
       previousContainer: { data: [mockTasks[0]] },
       container: { data: [mockTasks[1]] },
       previousIndex: 0,
-      currentIndex: 0
+      currentIndex: 0,
     } as CdkDragDrop<Task[]>;
 
     spyOn(component, 'loadTasks');
     spyOn(component as any, 'updateTaskStatus');
     component.drop(mockEvent, TaskStatus.Reviewing);
     expect(component.loadTasks).toHaveBeenCalled();
-    expect((component as any).updateTaskStatus).toHaveBeenCalledWith(mockTasks[0], TaskStatus.Reviewing);
+    expect((component as any).updateTaskStatus).toHaveBeenCalledWith(
+      mockTasks[0],
+      TaskStatus.Reviewing
+    );
   });
 
   it('should update task status', () => {
@@ -107,7 +105,7 @@ describe('TaskItemBoardComponent', () => {
     (component as any).updateTaskStatus(task, newStatus);
     expect(mockStore.dispatch).toHaveBeenCalledWith(
       TaskActions.updateTask({
-        task: { ...task, status: newStatus }
+        task: { ...task, status: newStatus },
       })
     );
   });

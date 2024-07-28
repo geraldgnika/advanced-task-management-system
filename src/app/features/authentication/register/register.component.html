@@ -1,76 +1,116 @@
 <div class="m-auto containerAuth">
-    <div class="row authRow no-gutters shadow-sm">
-      <div class="col-md-6 px-0 d-none d-md-block">
-        <img src="./background.jpg" class="img-fluid imgAuth" style="min-height: 100%;" draggable="false" (dragstart)="false;">
-      </div>
-  
-      <div class="col-md-6 bg-white p-5 form-wrapper-auth">
-        <h3 class="pb-3 text-center">{{ 'REG_FOR_ACC' | translate }}</h3>
-        <div class="form-style">
-          <form class="form-register" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-            <div>
-              <input
-                type="text"
-                id="inputFullName"
-                class="form-control mb-2"
-                formControlName="full_name"
-                placeholder="{{ 'FULL_NAME' | translate }}"
-                autofocus
-                required
-              />
-            </div>
-            <div>
-              <input
-                type="text"
-                id="inputUsername"
-                class="form-control mb-2"
-                formControlName="username"
-                placeholder="{{ 'USERNAME' | translate }}"
-                required
-              />
-            </div>
-            <div>
-              <input
-                type="password"
-                id="inputPassword"
-                class="form-control mb-2"
-                formControlName="password"
-                placeholder="{{ 'PASSWORD' | translate }}"
-                required
-              />
-            </div>
-            <div class="mt-3 w-fit f-size-15">
-              <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" id="projectManagerRole" formControlName="role" value="projectManager">
-                <label class="form-check-label" for="projectManagerRole">{{ 'PM' | translate }}</label>
-              </div>
-              <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" id="teamLeadRole" formControlName="role" value="teamLead">
-                <label class="form-check-label" for="teamLeadRole">{{ 'TL' | translate }}</label>
-              </div>
-              <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" id="developerRole" formControlName="role" value="developer">
-                <label class="form-check-label" for="developerRole">{{ 'DEV' | translate }}</label>
-              </div>
-            </div>
-            <div class="pb-2">
-              <button
-                class="btn btn-dark w-100 font-weight-bold mt-2"
-                type="submit"
-                [disabled]="registerForm.invalid"
-              >
-                {{ 'REGISTER' | translate }}
-              </button>
-            </div>
-            <div *ngIf="error$ | async as error" class="alert alert-danger text-center">
-              {{ error }}
-            </div>
-          </form>
-          <div class="pt-4 text-center">
-            {{ 'ALREADY_ACC' | translate }} <span class="cursor-pointer" (click)="goToLogin()">{{ 'LOGIN' | translate }}</span>.
+  <div class="row authRow no-gutters shadow-sm">
+    <div class="col-md-6 px-0 d-none d-md-block">
+      <img
+        src="./background.jpg"
+        class="img-fluid imgAuth"
+        style="min-height: 100%"
+        draggable="false"
+        (dragstart)="(false)"
+      />
+    </div>
+
+    <div class="col-md-6 bg-white p-5 form-wrapper-auth">
+      <h3 class="pb-3 text-center">{{ "REG_FOR_ACC" | translate }}</h3>
+      <div class="form-style">
+        <form
+          class="form-register"
+          [formGroup]="registerForm"
+          (ngSubmit)="onSubmit()"
+        >
+          <div>
+            <input
+              type="text"
+              id="inputFullName"
+              class="form-control mb-2"
+              formControlName="full_name"
+              placeholder="{{ 'FULL_NAME' | translate }}"
+              autofocus
+              required
+            />
           </div>
+          <div>
+            <input
+              type="text"
+              id="inputUsername"
+              class="form-control mb-2"
+              formControlName="username"
+              placeholder="{{ 'USERNAME' | translate }}"
+              required
+            />
+          </div>
+          <div>
+            <input
+              type="password"
+              id="inputPassword"
+              class="form-control mb-2"
+              formControlName="password"
+              placeholder="{{ 'PASSWORD' | translate }}"
+              required
+            />
+          </div>
+          <div class="mt-3 w-fit f-size-15">
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                type="radio"
+                id="projectManagerRole"
+                formControlName="role"
+                value="projectManager"
+              />
+              <label class="form-check-label" for="projectManagerRole">{{
+                "PM" | translate
+              }}</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                type="radio"
+                id="teamLeadRole"
+                formControlName="role"
+                value="teamLead"
+              />
+              <label class="form-check-label" for="teamLeadRole">{{
+                "TL" | translate
+              }}</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                type="radio"
+                id="developerRole"
+                formControlName="role"
+                value="developer"
+              />
+              <label class="form-check-label" for="developerRole">{{
+                "DEV" | translate
+              }}</label>
+            </div>
+          </div>
+          <div class="pb-2">
+            <button
+              class="btn btn-dark w-100 font-weight-bold mt-2"
+              type="submit"
+              [disabled]="registerForm.invalid"
+            >
+              {{ "REGISTER" | translate }}
+            </button>
+          </div>
+          <div
+            *ngIf="error$ | async as error"
+            class="alert alert-danger text-center"
+          >
+            {{ error }}
+          </div>
+        </form>
+        <div class="pt-4 text-center">
+          {{ "ALREADY_ACC" | translate }}
+          <span class="cursor-pointer" (click)="goToLogin()">{{
+            "LOGIN" | translate
+          }}</span
+          >.
         </div>
       </div>
     </div>
   </div>
-  
+</div>

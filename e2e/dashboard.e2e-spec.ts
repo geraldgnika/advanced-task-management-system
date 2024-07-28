@@ -20,7 +20,7 @@ describe('Dashboard', () => {
 
   it('should display different elements based on user role', async () => {
     expect(await dashboardPage.getInsightsLink()).toBeTruthy();
-    
+
     await dashboardPage.logout();
     await loginPage.login('gerardo_tatzati', '123456');
     expect(await dashboardPage.getInsightsLink()).toBeFalsy();

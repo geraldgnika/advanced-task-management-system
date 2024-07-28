@@ -1,8 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TaskAssignmentsComponent } from './task-assignments.component';
-import { of } from 'rxjs';
-import { Task } from '../../../../core/types/interfaces/task';
-import * as ChartModule from 'chart.js/auto';
 
 describe('TaskAssignmentsComponent', () => {
   let component: TaskAssignmentsComponent;
@@ -10,7 +7,7 @@ describe('TaskAssignmentsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ TaskAssignmentsComponent ]
+      declarations: [TaskAssignmentsComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(TaskAssignmentsComponent);

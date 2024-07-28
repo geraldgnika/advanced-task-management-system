@@ -1,12 +1,20 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
-import { RegisterComponent } from './register.component';
-import * as UserActions from '../../../shared/_store/authentication/authentication.actions';
-import { UserRoles } from '../../../core/types/enums/authentication/user-roles';
 import { AuthenticationService } from '../../../core/_services/authentication/authentication.service';
+import { UserRoles } from '../../../core/types/enums/authentication/user-roles';
+import * as UserActions from '../../../shared/_store/authentication/authentication.actions';
+import { RegisterComponent } from './register.component';
+
+class MockTranslateLoader implements TranslateLoader {
+  getTranslation(lang: string) {
+    return of({});
+  }
+}
 
 describe('RegisterComponent', () => {
   let component: RegisterComponent;
@@ -18,16 +26,24 @@ describe('RegisterComponent', () => {
   beforeEach(async () => {
     storeSpy = jasmine.createSpyObj('Store', ['dispatch', 'select']);
     routerSpy = jasmine.createSpyObj('Router', ['navigate']);
-    authServiceSpy = jasmine.createSpyObj('AuthenticationService', ['generateUniqueId']);
+    authServiceSpy = jasmine.createSpyObj('AuthenticationService', [
+      'generateUniqueId',
+    ]);
 
     await TestBed.configureTestingModule({
-      declarations: [ RegisterComponent ],
-      imports: [ ReactiveFormsModule ],
+      declarations: [RegisterComponent],
+      imports: [
+        ReactiveFormsModule,
+        HttpClientTestingModule,
+        TranslateModule.forRoot({
+          loader: { provide: TranslateLoader, useClass: MockTranslateLoader },
+        }),
+      ],
       providers: [
         { provide: Store, useValue: storeSpy },
         { provide: Router, useValue: routerSpy },
-        { provide: AuthenticationService, useValue: authServiceSpy }
-      ]
+        { provide: AuthenticationService, useValue: authServiceSpy },
+      ],
     }).compileComponents();
 
     storeSpy.select.and.returnValue(of(null));
@@ -67,7 +83,7 @@ describe('RegisterComponent', () => {
       full_name: 'Test User',
       username: 'testuser',
       password: 'testpassword',
-      role: UserRoles.Developer
+      role: UserRoles.Developer,
     });
     component.onSubmit();
     expect(authServiceSpy.generateUniqueId).toHaveBeenCalled();
@@ -77,7 +93,7 @@ describe('RegisterComponent', () => {
         full_name: 'Test User',
         username: 'testuser',
         password: 'testpassword',
-        role: UserRoles.Developer
+        role: UserRoles.Developer,
       })
     );
     expect(routerSpy.navigate).toHaveBeenCalledWith(['/landing/dashboard']);
@@ -85,12 +101,14 @@ describe('RegisterComponent', () => {
 
   it('should dispatch clearAuthenticationError on ngOnDestroy', () => {
     component.ngOnDestroy();
-    expect(storeSpy.dispatch).toHaveBeenCalledWith(UserActions.clearAuthenticationError());
+    expect(storeSpy.dispatch).toHaveBeenCalledWith(
+      UserActions.clearAuthenticationError()
+    );
   });
 
   it('should set error$ to null on ngOnDestroy', (done) => {
     component.ngOnDestroy();
-    component.error$.subscribe(error => {
+    component.error$.subscribe((error) => {
       expect(error).toBeNull();
       done();
     });

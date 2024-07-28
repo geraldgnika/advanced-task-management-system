@@ -1,7 +1,7 @@
-import { TaskListPage } from './page-objects/task-list.po';
-import { TaskCreatePage } from './page-objects/task-create.po';
-import { TaskUpdatePage } from './page-objects/task-update.po';
 import { LoginPage } from './page-objects/login.po';
+import { TaskCreatePage } from './page-objects/task-create.po';
+import { TaskListPage } from './page-objects/task-list.po';
+import { TaskUpdatePage } from './page-objects/task-update.po';
 
 describe('Task CRUD Operations', () => {
   let taskListPage: TaskListPage;
