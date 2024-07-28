@@ -112,6 +112,8 @@ export class TaskItemBoardComponent implements OnInit {
 
       this.store.dispatch(TaskActions.updateTask({ task: updatedTask }));
     }
+    
+    this.loadTasks();
   }
 
   onOpenTask(id: string): void {
