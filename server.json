@@ -44,11 +44,17 @@
       "createdDate": "2024-07-28",
       "updatedDate": "2024-07-28",
       "dueDate": "2024-07-28",
-      "assignedTo": ["gerardo_tatzati"],
+      "assignedTo": [
+        "gerardo_tatzati"
+      ],
       "comments": [
         {
           "id": "9x3k87b",
           "body": "This task is really important and should be handed ASAP.",
+          "username": "gerald_nika"
+        },
+        {
+          "body": "I assigned @andi_nika as the Team Lead for this task.",
           "username": "gerald_nika"
         }
       ],
@@ -65,7 +71,10 @@
       "createdDate": "2024-07-28",
       "updatedDate": "2024-07-28",
       "dueDate": "2024-07-31",
-      "assignedTo": ["andi_nika", "gerardo_tatzati"],
+      "assignedTo": [
+        "andi_nika",
+        "gerardo_tatzati"
+      ],
       "comments": [],
       "attachment": "Task Requirements.docx",
       "user_id": "_8r6m4hx",
@@ -80,7 +89,9 @@
       "createdDate": "2024-07-28",
       "updatedDate": "2024-07-28",
       "dueDate": "2024-07-30",
-      "assignedTo": ["andi_nika"],
+      "assignedTo": [
+        "andi_nika"
+      ],
       "comments": [],
       "attachment": "",
       "user_id": "_8r6m4hx",
@@ -95,7 +106,11 @@
       "createdDate": "2024-07-28",
       "updatedDate": "2024-07-28",
       "dueDate": "2024-07-30",
-      "assignedTo": ["gerald_nika", "gerardo_tatzati", "andi_nika"],
+      "assignedTo": [
+        "gerald_nika",
+        "gerardo_tatzati",
+        "andi_nika"
+      ],
       "comments": [],
       "attachment": "",
       "user_id": "_8r6m4hx",
@@ -110,7 +125,9 @@
       "createdDate": "2024-07-28",
       "updatedDate": "2024-07-28",
       "dueDate": "2024-07-28",
-      "assignedTo": ["gerardo_tatzati"],
+      "assignedTo": [
+        "gerardo_tatzati"
+      ],
       "comments": [
         {
           "id": "9x3k871",
@@ -131,7 +148,10 @@
       "createdDate": "2024-07-28",
       "updatedDate": "2024-07-28",
       "dueDate": "2024-07-31",
-      "assignedTo": ["andi_nika", "gerardo_tatzati"],
+      "assignedTo": [
+        "andi_nika",
+        "gerardo_tatzati"
+      ],
       "comments": [],
       "attachment": "Task Requirements.docx",
       "user_id": "_8r6m4hx",
@@ -146,7 +166,9 @@
       "createdDate": "2024-07-28",
       "updatedDate": "2024-07-28",
       "dueDate": "2024-07-30",
-      "assignedTo": ["andi_nika"],
+      "assignedTo": [
+        "andi_nika"
+      ],
       "comments": [],
       "attachment": "",
       "user_id": "_8r6m4hx",
@@ -161,7 +183,11 @@
       "createdDate": "2024-07-28",
       "updatedDate": "2024-07-28",
       "dueDate": "2024-07-30",
-      "assignedTo": ["gerald_nika", "gerardo_tatzati", "andi_nika"],
+      "assignedTo": [
+        "gerald_nika",
+        "gerardo_tatzati",
+        "andi_nika"
+      ],
       "comments": [],
       "attachment": "",
       "user_id": "_8r6m4hx",
@@ -176,7 +202,11 @@
       "createdDate": "2024-07-28",
       "updatedDate": "2024-07-28",
       "dueDate": "2024-07-30",
-      "assignedTo": ["gerald_nika", "gerardo_tatzati", "andi_nika"],
+      "assignedTo": [
+        "gerald_nika",
+        "gerardo_tatzati",
+        "andi_nika"
+      ],
       "comments": [],
       "attachment": "",
       "user_id": "_8r6m4hx",

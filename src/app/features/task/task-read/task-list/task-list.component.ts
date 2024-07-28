@@ -13,6 +13,7 @@ import { Task } from '../../../../core/types/interfaces/task';
 import { AppState } from '../../../../shared/_store/_common/app.state';
 import * as TaskActions from '../../../../shared/_store/task/task.actions';
 import * as TaskSelectors from '../../../../shared/_store/task/task.selectors';
+import { TaskService } from '../../../../core/_services/task/task.service';
 
 @Component({
   selector: 'app-task-list',
@@ -28,15 +29,20 @@ export class TaskListComponent implements OnInit {
   loading$!: Observable<boolean>;
   error$!: Observable<any>;
   searchTerm: string = '';
+  count: number = 0;
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    private taskService: TaskService
   ) {}
 
   ngOnInit(): void {
     this.getAllTasks();
+    this.taskService.getTaskCount().subscribe((count) => {
+      this.count = count;
+    });
   }
 
   downloadCSV(): void {
