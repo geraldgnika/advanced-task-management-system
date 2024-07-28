@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import { AuthenticationService } from '../../_services/authentication.service';
+import { AuthenticationService } from '../../_services/authentication/authentication.service';
 import { isNotAuthenticatedGuard } from './is-not-authenticated.guard';
 
 describe('isNotAuthenticatedGuard', () => {

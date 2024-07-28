@@ -3,7 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, concatMap, exhaustMap, map, mergeMap, switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import * as TaskActions from './task.actions';
-import { TaskService } from '../../../core/_services/task.service';
+import { TaskService } from '../../../core/_services/task/task.service';
 
 @Injectable()
 export class TaskEffects {

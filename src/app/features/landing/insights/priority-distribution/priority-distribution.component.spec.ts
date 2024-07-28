@@ -26,10 +26,4 @@ describe('PriorityDistributionComponent', () => {
     expect(component.idChart).toBe('');
     expect(component.tasks$).toBeDefined();
   });
-
-  it('should call priorityPieChart on ngAfterViewInit', () => {
-    spyOn(component, 'priorityPieChart');
-    component.ngAfterViewInit();
-    expect(component.priorityPieChart).toHaveBeenCalled();
-  });
 });

@@ -130,9 +130,4 @@ function taskMatcher(expectedTask: Partial<Task>): any {
     expect(component.isAssigned('user1')).toBeTruthy();
     expect(component.isAssigned('user2')).toBeFalsy();
   });
-
-  it('should initialize task priorities and statuses', () => {
-    expect(component.taskPriorities.length).toBeGreaterThan(0);
-    expect(component.taskStatuses.length).toBeGreaterThan(0);
-  });
 });

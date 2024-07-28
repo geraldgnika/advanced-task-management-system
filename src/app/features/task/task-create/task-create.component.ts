@@ -4,7 +4,7 @@ import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../shared/_store/_common/app.state';
-import { TaskService } from '../../../core/_services/task.service';
+import { TaskService } from '../../../core/_services/task/task.service';
 import * as TaskActions from '../../../shared/_store/task/task.actions';
 import * as AuthenticationActions from '../../../shared/_store/authentication/authentication.actions';
 import * as AuthenticationSelectors from '../../../shared/_store/authentication/authentication.selectors';

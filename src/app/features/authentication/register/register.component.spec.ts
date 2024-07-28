@@ -6,7 +6,7 @@ import { of } from 'rxjs';
 import { RegisterComponent } from './register.component';
 import * as UserActions from '../../../shared/_store/authentication/authentication.actions';
 import { UserRoles } from '../../../core/types/enums/authentication/user-roles';
-import { AuthenticationService } from '../../../core/_services/authentication.service';
+import { AuthenticationService } from '../../../core/_services/authentication/authentication.service';
 
 describe('RegisterComponent', () => {
   let component: RegisterComponent;

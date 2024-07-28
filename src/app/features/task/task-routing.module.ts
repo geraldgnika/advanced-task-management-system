@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { TaskListComponent } from './task-list/task-list.component';
+import { TaskListComponent } from './task-read/task-list/task-list.component';
 import { TaskCreateComponent } from './task-create/task-create.component';
 import { TaskUpdateComponent } from './task-update/task-update.component';
-import { TaskOpenComponent } from './task-open/task-open.component';
+import { TaskOpenComponent } from './task-read/task-open/task-open.component';
 import { tasksResolver } from '../../core/resolvers/task/tasks.resolver';
 import { taskResolver } from '../../core/resolvers/task/task.resolver';
-import { TaskMentionsComponent } from './task-mentions/task-mentions.component';
+import { TaskMentionsComponent } from './task-other/task-mentions/task-mentions.component';
 
 const routes: Routes = [
   { path: 'list', component: TaskListComponent, title: 'Task List', resolve: { tasks: tasksResolver } },

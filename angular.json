@@ -23,6 +23,7 @@
 				"build": {
 					"builder": "@angular-devkit/build-angular:application",
 					"options": {
+    					"sourceMap": false,
 						"aot": true,
 						"optimization": true,
 						"outputPath": "dist/advanced-task-management-system",
@@ -48,6 +49,10 @@
 					},
 					"configurations": {
 						"production": {
+							"optimization": true,
+							"sourceMap": false,
+							"namedChunks": false,
+							"extractLicenses": true,
 							"budgets": [
 								{
 									"type": "initial",

@@ -1,5 +1,5 @@
 import { CanActivateFn, Router } from '@angular/router';
-import { AuthenticationService } from '../../_services/authentication.service';
+import { AuthenticationService } from '../../_services/authentication/authentication.service';
 import { inject } from '@angular/core';
 
 export const slashRoute: CanActivateFn = (route, state) => {

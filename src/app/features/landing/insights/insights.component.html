@@ -1,4 +1,5 @@
 <div class="container-fluid">
+	<ng-container *ngIf="hasTasks$ | async; else noTasks">
 	<div class="row mt-4">
 		<div class="col-md-6">
 			<div class="card">
@@ -73,4 +74,13 @@
 			</div>
 		</div>
 	</div>
+</ng-container>
+
+<ng-template #noTasks>
+    <div class="row mt-4">
+      <div class="col">
+            <p class="text-center">{{ 'NO_TASKS' | translate }}</p>
+      </div>
+    </div>
+  </ng-template>
 </div>

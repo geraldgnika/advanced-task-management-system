@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 import { RegisterPayload } from '../../../core/types/payloads/authentication/register-payload.interface';
 import { UserRoles } from '../../../core/types/enums/authentication/user-roles';
 import { clearAuthenticationError } from '../../../shared/_store/authentication/authentication.actions';
-import { AuthenticationService } from '../../../core/_services/authentication.service';
+import { AuthenticationService } from '../../../core/_services/authentication/authentication.service';
 
 @Component({
 	selector: 'app-register',

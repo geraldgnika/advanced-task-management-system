@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { LanguageService } from '../../../core/_services/language.service';
-import { LocaleService } from '../../../core/_services/locale.service';
+import { LanguageService } from '../../../core/_services/i18n/language.service';
+import { LocaleService } from '../../../core/_services/i18n/locale.service';
 
 interface LanguageOption {
   code: string;

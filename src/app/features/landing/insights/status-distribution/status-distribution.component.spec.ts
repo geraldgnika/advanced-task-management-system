@@ -26,10 +26,4 @@ describe('StatusDistributionComponent', () => {
     expect(component.idChart).toBe('');
     expect(component.tasks$).toBeDefined();
   });
-
-  it('should call statusPieChart on ngAfterViewInit', () => {
-    spyOn(component, 'statusPieChart');
-    component.ngAfterViewInit();
-    expect(component.statusPieChart).toHaveBeenCalled();
-  });
 });

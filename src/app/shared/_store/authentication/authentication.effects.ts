@@ -3,7 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, exhaustMap, map, switchMap, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import * as AuthenticationActions from './authentication.actions';
-import { AuthenticationService } from '../../../core/_services/authentication.service';
+import { AuthenticationService } from '../../../core/_services/authentication/authentication.service';
 import { Router } from '@angular/router';
 import { LoginPayload } from '../../../core/types/payloads/authentication/login-payload.interface';
 import { RegisterPayload } from '../../../core/types/payloads/authentication/register-payload.interface';

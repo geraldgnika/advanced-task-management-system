@@ -1,0 +1,152 @@
+<ng-container *ngIf="task$ | async as task; else loading">
+	<div class="row">
+		<div class="col-md-8 m-auto task-wrapper">
+			<h2 class="mb-3">
+				<span class="cursor-pointer" (click)="goBack()">&larr;&nbsp;</span
+				>{{ task.title | capitalizeFirstLetter }}
+			</h2>
+			<p class="text-muted">- {{ 'BY' | translate }} <span class="text-primary">{{ task.username! | formatUsername }}</span></p>
+			<div class="d-inline-flex w-full margin-bottom-15">
+				<div class="margin-right-20">
+					<label class="fw-medium"><span>{{ 'STATUS' | translate }}:</span></label>
+					<div class="d-flex align-items-center">
+						<div
+							class="status-circle"
+							[ngClass]="{
+								'status-circle-pending': task.status === 'pending',
+								'status-circle-doing': task.status === 'doing',
+								'status-circle-reviewing': task.status === 'reviewing',
+								'status-circle-completed': task.status === 'completed'
+							}"
+						></div>
+						<span>{{ task.status | translateEnum:'status' | capitalizeFirstLetter }}</span>
+					</div>
+				</div>
+				<div>
+					<label class="fw-medium"><span>{{ 'PRIORITY' | translate }}:</span></label>
+					<div class="d-flex align-items-center">
+						<div
+							class="status-circle"
+							[ngClass]="{
+								'status-circle-low': task.priority === 'low',
+								'status-circle-medium': task.priority === 'medium',
+								'status-circle-high': task.priority === 'high'
+							}"
+						></div>
+						<span>{{ task.priority | translateEnum:'priority' | capitalizeFirstLetter }}</span>
+					</div>
+				</div>
+			</div>
+			<div *ngIf="task.description" class="description-area">
+				<p class="text-justify">{{ task.description }}</p>
+			</div>
+			<div class="row mt-2">
+				<div class="col-md-2">
+					<label class="fw-medium"><span>{{ 'DUE' | translate }}:</span></label>
+					<div class="d-flex align-items-center">
+						<span>{{ formatDate(task.dueDate) }}</span>
+					</div>
+				</div>
+				<div class="col-md-2">
+					<label class="fw-medium"><span>{{ 'CREATED' | translate }}:</span></label>
+					<div class="d-flex align-items-center">
+						<span>{{ formatDate(task.createdDate) }}</span>
+					</div>
+				</div>
+				<div class="col-md-2">
+					<label class="fw-medium"><span>{{ 'UPDATED' | translate }}:</span></label>
+					<div class="d-flex align-items-center">
+						<span>{{ formatDate(task.updatedDate) }}</span>
+					</div>
+				</div>
+				<div class="col-md-2">
+					<div class="d-flex align-items-center">
+						<span *ngIf="task.assignedTo && task.assignedTo.length > 0">
+							<span class="fw-medium">{{ 'ASSIGNED_TO' | translate }}:</span>
+							<span class="text-primary"> {{ task.assignedTo | formatUsernames }} </span>
+						</span>
+					</div>
+				</div>
+			</div>
+			<div class="mt-4 float-end w-fit">
+				<button class="btn btn-sm btn-link me-2" (click)="goToTaskUpdate(task.id)">
+					<i class="bi bi-pencil btn-list btn-edit"></i> {{ 'UPDATE' | translate }}
+				</button>
+				<app-task-delete [taskId]="task.id" [taskTitle]="task.title"></app-task-delete>
+			</div>
+		</div>
+	</div>
+	<div class="row mt-3">
+		<div class="col-md-8 m-auto task-wrapper">
+			<h5 class="mb-3">{{ 'ATTCH' | translate }}:</h5>
+			<div class="d-inline-flex w-full" *ngIf="task.attachment">
+				<img src="./attachment.jpg" class="attachment-img" />
+				<div class="w-full attachment-box">
+					<p class="mr-auto">{{ task.attachment }}</p>
+					<button
+						class="btn btn-link btn-del-attachment"
+						(click)="deleteAttachment()"
+					>
+						&times;
+					</button>
+				</div>
+			</div>
+			<div class="" *ngIf="!task.attachment">
+				<label for="attachment" class="form-label">{{ 'CHOOSE_ATTCH' | translate }}:</label>
+  <div class="input-group">
+    <input type="file" class="form-control d-none" id="attachment" (change)="onFileSelected($event)" #fileInput>
+    <label class="input-group-text btn btn-group" for="attachment">
+      {{ 'CHOOSE_FILE' | translate }}
+    </label>
+    <input type="text" class="form-control" [value]="fileName || ('NO_FILE_CHOSEN' | translate)" readonly>
+    <button class="btn btn-group" type="button" (click)="fileInput.click()">
+      <i class="bi bi-folder2-open"></i>
+    </button>
+  </div>
+			</div>
+		</div>
+	</div>
+	<div class="row mt-3">
+		<div class="col-md-8 m-auto comments-wrapper">
+			<h5 class="mb-0">{{ 'COMM' | translate }}:</h5>
+			<span class="card-subtitle text-muted fs-6"><i>{{ 'TYPE_@' | translate }}</i></span>
+			<div class="w-full mt-3">
+				<div class="input-group mb-3">
+					<input type="text" #commentInput class="form-control comment-input-field" placeholder="{{ 'WRITE_COMM_HERE' | translate }}" aria-label="Write your comment here..." aria-describedby="button-addon2" [(ngModel)]="newComment" (keyup)="handleAtSymbol($event)">
+					<div class="mention-box" *ngIf="showMentionBox && filteredUsernames.length > 0">
+						<ul class="mention-ul">
+							<li class="mention-li" *ngFor="let username of filteredUsernames"
+								(click)="selectUsername(username)">
+								{{ username | formatUsername }}
+							</li>
+						</ul>
+					</div>
+					<div class="input-group-append">
+						<button class="btn btn-outline-secondary" type="button" id="button-addon2" (click)="postComment()">{{ 'POST' | translate }}</button>
+					</div>
+				</div>
+			</div>
+			<div class="w-full" *ngIf="task.comments.length !== 0">
+				<ul class="comments-ul">
+					<li *ngFor="let comment of task.comments">
+						<div class="d-inline-flex w-full">
+							<p class="mr-auto">
+								<span class="fw-medium text-primary">{{ (comment.username | formatUsername) }}</span
+								>: 
+								<span [innerHTML]="highlightUsername(comment.body)"></span>
+							</p>
+							<button *ngIf="(currentUser$ | async)?.username === comment.username" class="btn btn-link btn-del-attachment" (click)="deleteComment(comment.id)">&times;</button>
+						</div>
+					</li>
+				</ul>
+			</div>
+			<div class="w-full" *ngIf="task.comments.length === 0">
+				<p class="w-full m-auto text-center">{{ 'NO_COMM_HERE' | translate }}</p>
+			</div>
+		</div>
+	</div>
+</ng-container>
+
+<ng-template #loading>
+	<p class="mt-3">{{ 'LOADING' | translate }}</p>
+</ng-template>

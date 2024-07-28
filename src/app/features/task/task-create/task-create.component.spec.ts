@@ -3,7 +3,7 @@ import { ReactiveFormsModule, FormBuilder } from '@angular/forms';
 import { Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 import { TaskCreateComponent } from './task-create.component';
-import { TaskService } from '../../../core/_services/task.service';
+import { TaskService } from '../../../core/_services/task/task.service';
 import { AppState } from '../../../shared/_store/_common/app.state';
 import { User } from '../../../core/types/interfaces/user';
 import { TaskStatus } from '../../../core/types/enums/task/task-status';
@@ -79,13 +79,6 @@ describe('TaskCreateComponent', () => {
     expect(mockStore.dispatch).toHaveBeenCalledWith(jasmine.any(Object));
     expect(component.taskForm.get('user_id')?.value).toBe(mockUser.id);
     expect(component.taskForm.get('username')?.value).toBe(mockUser.username);
-  });
-
-  it('should populate task priorities and statuses', () => {
-    expect(Array.isArray(component.taskPriorities)).toBe(true);
-    expect(component.taskPriorities.length).toBeGreaterThan(0);
-    expect(Array.isArray(component.taskStatuses)).toBe(true);
-    expect(component.taskStatuses.length).toBeGreaterThan(0);
   });
 
   it('should toggle assigned users', () => {

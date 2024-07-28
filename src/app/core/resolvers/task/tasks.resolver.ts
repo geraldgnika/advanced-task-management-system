@@ -1,6 +1,6 @@
 import { inject } from '@angular/core';
 import { ResolveFn } from '@angular/router';
-import { TaskService } from '../../../core/_services/task.service';
+import { TaskService } from '../../_services/task/task.service';
 import { Task } from '../../types/interfaces/task';
 import { map } from 'rxjs';
 

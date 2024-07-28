@@ -1,4 +1,4 @@
-import { NgModule, LOCALE_ID } from '@angular/core';
+import { NgModule, LOCALE_ID, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -34,6 +34,7 @@ export function getTranslatedEnum(value: string, translationKeys: { [key: string
 import localeDe from '@angular/common/locales/de';
 import localeEn from '@angular/common/locales/en';
 import localeSq from '@angular/common/locales/sq';
+import { GlobalErrorHandler } from './core/error-handlers/error-handler.service';
 
 registerLocaleData(localeDe, 'de-DE');
 registerLocaleData(localeEn, 'en-US');
@@ -65,6 +66,7 @@ registerLocaleData(localeSq, 'sq-AL');
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production })
   ],
   providers: [
+    { provide: ErrorHandler, useClass: GlobalErrorHandler },
     DatePipe,
     { provide: LOCALE_ID, useValue: 'en-US' },
     provideHttpClient(withInterceptors([ authenticationInterceptor ])),

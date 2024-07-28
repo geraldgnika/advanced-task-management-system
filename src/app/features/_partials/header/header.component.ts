@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthenticationService } from '../../../core/_services/authentication.service';
+import { AuthenticationService } from '../../../core/_services/authentication/authentication.service';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../shared/_store/_common/app.state';
 import * as UserActions from '../../../shared/_store/authentication/authentication.actions';

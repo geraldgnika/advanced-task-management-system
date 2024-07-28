@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import { HeaderComponent } from './header.component';
-import { AuthenticationService } from '../../../core/_services/authentication.service';
+import { AuthenticationService } from '../../../core/_services/authentication/authentication.service';
 import { AppState } from '../../../shared/_store/_common/app.state';
 import * as UserActions from '../../../shared/_store/authentication/authentication.actions';
 import { User } from '../../../core/types/interfaces/user';
