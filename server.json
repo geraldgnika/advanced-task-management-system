@@ -32,6 +32,17 @@
         "canManageTasks": true,
         "canViewInsights": false
       }
+    },
+    {
+      "id": "_ic0hcjy",
+      "full_name": "qukla_nika",
+      "username": "Qukla",
+      "password": "123456",
+      "role": "projectManager",
+      "permissions": {
+        "canManageTasks": true,
+        "canViewInsights": true
+      }
     }
   ],
   "tasks": [
@@ -39,7 +50,7 @@
       "id": "tufmwtr",
       "title": "Fix Django REST Serializers",
       "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-      "status": "doing",
+      "status": "completed",
       "priority": "low",
       "createdDate": "2024-07-24",
       "updatedDate": "2024-07-24",
@@ -66,11 +77,6 @@
         {
           "id": "cbxhtaq",
           "body": "gagagagagagagaga",
-          "username": "gerald_nika"
-        },
-        {
-          "id": "nhs0g16",
-          "body": "dsgfdfgfdgdgfdgfdgdf",
           "username": "gerald_nika"
         },
         {
@@ -189,7 +195,7 @@
       "id": "fgv8i07",
       "title": "aaa",
       "description": "",
-      "status": "pending",
+      "status": "doing",
       "priority": "low",
       "createdDate": "2024-07-25",
       "updatedDate": "2024-07-25",
@@ -227,6 +233,10 @@
           "id": "ej5d0ee",
           "body": "sdf",
           "username": "gerald_nika"
+        },
+        {
+          "body": "o @andi_nika ca bone",
+          "username": "Qukla"
         }
       ],
       "attachment": "Configure VS Code for Go and GoLand and C++ and other things you need from now on.txt",

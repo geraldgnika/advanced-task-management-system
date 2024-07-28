@@ -9,7 +9,7 @@ import { TaskService } from '../../../core/_services/task.service';
 export class TaskEffects {
   constructor(private actions$: Actions, private taskService: TaskService) {}
 
-  // Load Taska
+  // Load Tasks
   loadTasks$ = createEffect(() =>
     this.actions$.pipe(
       ofType(TaskActions.loadTasks),

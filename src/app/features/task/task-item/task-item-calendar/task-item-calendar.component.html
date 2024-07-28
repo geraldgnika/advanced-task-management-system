@@ -4,7 +4,7 @@
       <span class="h5 mb-0">{{ getTranslatedMonth(currentMonth) }} {{ currentMonth | date : "yyyy" }}</span>
       <button class="btn btn-light" (click)="nextMonth()">{{ 'NEXT_MONTH' | translate }}</button>
     </div>
-    <div class="calendar-body card-body">
+    <div class="calendar-body card-body border-0 p-0">
       <div class="row">
         <div class="col-md-12">
           <div class="calendar-row" *ngFor="let week of weeks">
