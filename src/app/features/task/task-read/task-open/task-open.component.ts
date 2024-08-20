@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { map, Observable, of, Subject, Subscription, takeUntil } from 'rxjs';
+import { first, forkJoin, map, Observable, of, Subject, Subscription, takeUntil, tap } from 'rxjs';
 import { LocaleService } from '../../../../core/_services/i18n/locale.service';
 import { TaskService } from '../../../../core/_services/task/task.service';
 import { Task } from '../../../../core/types/interfaces/task';
@@ -218,44 +218,36 @@ export class TaskOpenComponent implements OnInit, OnDestroy {
   }
 
   postComment(): void {
-    this.task$!.subscribe((task) => {
-      if (!task) {
-        return;
-      }
-
-      this.task = task;
-    });
-
-    this.currentUser$!.subscribe((user) => {
-      if (!user) {
-        return;
-      }
-
-      this.user = user;
-    });
-
-    this.taskService.generateUniqueCommentId().subscribe((newId) => {
-      if (!newId) {
-        return;
-      }
-
-      this.newId = newId;
-    });
-
-    const updatedTask = {
-      ...this.task,
-      comments: [
-        ...this.task.comments,
-        {
-          id: this.newId,
+    forkJoin({
+      task: this.task$!.pipe(first()),
+      user: this.currentUser$!.pipe(first()),
+      newId: this.taskService.generateUniqueCommentId()
+    }).pipe(
+      tap(({ task, user, newId }) => {
+        if (!task || !user || !newId) {
+          throw new Error('Missing required data');
+        }
+  
+        const newComment = {
+          id: newId,
           body: this.newComment,
-          username: this.user.username,
-        },
-      ],
-    };
-
-    this.store.dispatch(TaskActions.updateTask({ task: updatedTask }));
-    this.newComment = '';
-    this.store.dispatch(TaskActions.loadTask({ id: this.task.id }));
+          username: user.username,
+        };
+  
+        const updatedTask = {
+          ...task,
+          comments: [...task.comments, newComment],
+        };
+  
+        this.store.dispatch(TaskActions.updateTask({ task: updatedTask }));
+        this.store.dispatch(TaskActions.updateTaskSuccess({ task: updatedTask }));
+  
+        this.newComment = '';
+      })
+    ).subscribe({
+      error: (error) => {
+        console.error('Error posting comment:', error);
+      }
+    });
   }
 }

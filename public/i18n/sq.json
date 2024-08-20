@@ -116,5 +116,15 @@
   "CHOOSE_FILE": "Zgjidhni Skedarin",
   "NO_FILE_CHOSEN": "Asnjë Skedar i Zgjedhur",
   "LOADING": "Duke u ngarkuar...",
-  "ERROR": "Dështoi :/"
+  "ERROR": "Dështoi :/",
+  "STH_WRONG": "Ups! Diçka shkoi keq",
+  "ERR_EXPLANATION": "Na vjen keq, por duket se kemi hasur në një gabim të papritur. Ekipi ynë është njoftuar dhe po punon për ta rregulluar.",
+  "ERR_SUGGESTION": "Ndërkohë, mund të provoni të rifreskoni faqen ose të ktheheni në faqen tonë kryesore.",
+  "RETURN_HOME": "Kthehu në Faqen Kryesore",
+  "TITLE_REQUIRED": "Titulli është i detyrueshëm!",
+  "STATUS_REQUIRED": "Statusi është i detyrueshëm!",
+  "DUE_DATE_REQUIRED": "Data e përfundimit është e detyrueshme!",
+  "PRIORITY_REQUIRED": "Prioriteti është i detyrueshëm!",
+  "ASSIGN_TO_REQUIRED": "Caktimi është i detyrueshëm!",
+  "DATE_MUST_BE_TODAY_OR_LATER": "Data duhet të jetë sot, ose më vonë!"
 }

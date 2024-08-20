@@ -6,7 +6,14 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormArray,
+  FormBuilder,
+  FormGroup,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
@@ -42,6 +49,7 @@ export class TaskUpdateComponent implements OnInit, OnDestroy {
   taskStatuses$: Observable<{ value: string; label: string }[]> = of();
   task: Task | undefined;
   private destroy$ = new Subject<void>();
+  minDate!: string;
 
   constructor(
     private fb: FormBuilder,
@@ -52,8 +60,10 @@ export class TaskUpdateComponent implements OnInit, OnDestroy {
     private cdr: ChangeDetectorRef,
     private route: ActivatedRoute
   ) {
+    this.minDate = new Date().toISOString().split('T')[0];
+
     this.taskForm = this.fb.group({
-      id: '',
+      id: [''],
       title: ['', Validators.required],
       description: [''],
       status: [TaskStatus.Pending, Validators.required],
@@ -61,7 +71,7 @@ export class TaskUpdateComponent implements OnInit, OnDestroy {
       createdDate: [''],
       updatedDate: [''],
       dueDate: ['', Validators.required],
-      assignedTo: this.fb.array([]),
+      assignedTo: this.fb.array([], Validators.required),
       comments: this.fb.array([]),
       attachment: [''],
       user_id: [''],
@@ -127,6 +137,8 @@ export class TaskUpdateComponent implements OnInit, OnDestroy {
     this.allUsers$ = this.store.select(AuthenticationSelectors.selectAllUsers);
 
     this.cdr.detectChanges();
+
+    this.taskForm.get('dueDate')?.addValidators(this.dateValidator());
   }
 
   ngOnDestroy(): void {
@@ -135,6 +147,14 @@ export class TaskUpdateComponent implements OnInit, OnDestroy {
   }
 
   saveTask(): void {
+    if (this.taskForm.invalid) {
+      Object.values(this.taskForm.controls).forEach((control) => {
+        control.markAsTouched();
+      });
+      this.cdr.detectChanges();
+      return;
+    }
+
     const currentDate = new Date().toISOString().slice(0, 10);
 
     const updatedFields = {
@@ -152,13 +172,24 @@ export class TaskUpdateComponent implements OnInit, OnDestroy {
     };
 
     this.store.dispatch(TaskActions.updateTask({ task }));
-
     this.store.dispatch(TaskActions.loadTasks());
-    this.router.navigate(['task/list']);
+
+    this.router.navigate(['/task/open', this.task!.id]);
   }
 
   goBack() {
     this._location.back();
+  }
+
+  dateValidator(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      const today = new Date(this.minDate);
+      const selectedDate = new Date(control.value);
+      if (selectedDate < today) {
+        return { dateInvalid: true };
+      }
+      return null;
+    };
   }
 
   patchTaskValues(): void {
@@ -201,5 +232,11 @@ export class TaskUpdateComponent implements OnInit, OnDestroy {
     } else {
       assignedToArray.removeAt(index);
     }
+    assignedToArray.updateValueAndValidity();
+    this.cdr.markForCheck();
+  }
+
+  get f() {
+    return this.taskForm.controls;
   }
 }

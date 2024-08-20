@@ -1,7 +1,7 @@
 <div class="w-full d-inline-flex">
   <h2 class="mb-4 mr-auto">
-    <span class="cursor-pointer" (click)="goBack()">&larr;&nbsp;</span
-    >{{ "CR_NEW_TSK" | translate }}
+    <span class="cursor-pointer" (click)="goBack()">&larr;&nbsp;</span>
+    {{ "CR_NEW_TSK" | translate }}
   </h2>
 </div>
 
@@ -17,8 +17,17 @@
           id="title"
           class="form-control"
           formControlName="title"
-          required
+          autofocus
+          [ngClass]="{ 'is-invalid': f['title'].touched && f['title'].invalid }"
         />
+        <div
+          *ngIf="f['title'].touched && f['title'].invalid"
+          class="invalid-feedback"
+        >
+          <div *ngIf="f['title'].errors?.['required']">
+            {{ "TITLE_REQUIRED" | translate }}
+          </div>
+        </div>
       </div>
       <div class="mb-3">
         <label for="status" class="form-label"
@@ -28,7 +37,9 @@
           id="status"
           class="form-select"
           formControlName="status"
-          required
+          [ngClass]="{
+            'is-invalid': f['status'].touched && f['status'].invalid
+          }"
         >
           <option
             *ngFor="let status of taskStatuses$ | async"
@@ -37,6 +48,14 @@
             {{ status.label }}
           </option>
         </select>
+        <div
+          *ngIf="f['status'].touched && f['status'].invalid"
+          class="invalid-feedback"
+        >
+          <div *ngIf="f['status'].errors?.['required']">
+            {{ "STATUS_REQUIRED" | translate }}
+          </div>
+        </div>
       </div>
       <div class="mb-3">
         <label for="dueDate" class="form-label"
@@ -47,8 +66,22 @@
           id="dueDate"
           class="form-control"
           formControlName="dueDate"
-          required
+          [min]="minDate"
+          [ngClass]="{
+            'is-invalid': f['dueDate'].touched && f['dueDate'].invalid
+          }"
         />
+        <div
+          *ngIf="f['dueDate'].touched && f['dueDate'].invalid"
+          class="invalid-feedback"
+        >
+          <div *ngIf="f['dueDate'].errors?.['required']">
+            {{ "DUE_DATE_REQUIRED" | translate }}
+          </div>
+          <div *ngIf="f['dueDate'].errors?.['dateInvalid']">
+            {{ "DATE_MUST_BE_TODAY_OR_LATER" | translate }}
+          </div>
+        </div>
       </div>
       <div class="mb-3">
         <label for="priority" class="form-label"
@@ -58,7 +91,9 @@
           id="priority"
           class="form-select"
           formControlName="priority"
-          required
+          [ngClass]="{
+            'is-invalid': f['priority'].touched && f['priority'].invalid
+          }"
         >
           <option
             *ngFor="let priority of taskPriorities$ | async"
@@ -67,11 +102,24 @@
             {{ priority.label }}
           </option>
         </select>
-      </div>
-      <div class="mb-3 assignToDiv border rounded p-3">
-        <label for="assignedTo" class="form-label"
-          >{{ "ASSIGN_TO" | translate }}:</label
+        <div
+          *ngIf="f['priority'].touched && f['priority'].invalid"
+          class="invalid-feedback"
         >
+          <div *ngIf="f['priority'].errors?.['required']">
+            {{ "PRIORITY_REQUIRED" | translate }}
+          </div>
+        </div>
+      </div>
+      <label for="assignedTo" class="form-label"
+        >* {{ "ASSIGN_TO" | translate }}:</label
+      >
+      <div
+        class="mb-3 assignToDiv border rounded p-3"
+        [ngClass]="{
+          'is-invalid': f['assignedTo'].touched && f['assignedTo'].invalid
+        }"
+      >
         <div style="max-height: 200px; overflow-y: auto">
           <div *ngFor="let user of allUsers$ | async" class="form-check">
             <input
@@ -102,6 +150,14 @@
               class="text-muted float-end"
               >{{ "DEV" | translate }}</span
             >
+          </div>
+        </div>
+        <div
+          *ngIf="f['assignedTo'].touched && f['assignedTo'].invalid"
+          class="invalid-feedback"
+        >
+          <div *ngIf="f['assignedTo'].errors?.['required']">
+            {{ "ASSIGN_TO_REQUIRED" | translate }}
           </div>
         </div>
       </div>

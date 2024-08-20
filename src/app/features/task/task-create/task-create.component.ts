@@ -8,12 +8,13 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable, of, Subject, switchMap } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { map, take, takeUntil, tap } from 'rxjs/operators';
 import { getTranslatedEnum } from '../../../app.module';
 import { TaskService } from '../../../core/_services/task/task.service';
 import {
@@ -47,6 +48,8 @@ export class TaskCreateComponent implements OnInit, OnDestroy {
   usn: string = '';
   private destroy$ = new Subject<void>();
   fileName: string = '';
+  taskId!: string;
+  minDate!: string;
 
   constructor(
     private fb: FormBuilder,
@@ -55,8 +58,11 @@ export class TaskCreateComponent implements OnInit, OnDestroy {
     private taskService: TaskService,
     private router: Router,
     private cdr: ChangeDetectorRef,
+    private actions$: Actions,
     private translateService: TranslateService
   ) {
+    this.minDate = new Date().toISOString().split('T')[0];
+
     this.taskForm = this.fb.group({
       id: '',
       title: ['', Validators.required],
@@ -66,7 +72,7 @@ export class TaskCreateComponent implements OnInit, OnDestroy {
       createdDate: [''],
       updatedDate: [''],
       dueDate: ['', Validators.required],
-      assignedTo: this.fb.array([]),
+      assignedTo: this.fb.array([], Validators.required),
       comments: this.fb.array([]),
       attachment: [''],
       user_id: [''],
@@ -127,6 +133,8 @@ export class TaskCreateComponent implements OnInit, OnDestroy {
     this.allUsers$ = this.store.select(AuthenticationSelectors.selectAllUsers);
 
     this.cdr.detectChanges();
+
+    this.taskForm.get('dueDate')?.addValidators(this.dateValidator());
   }
 
   @ViewChild('commentsTextarea') commentsTextarea!: ElementRef;
@@ -137,6 +145,14 @@ export class TaskCreateComponent implements OnInit, OnDestroy {
   }
 
   saveTask(): void {
+    if (this.taskForm.invalid) {
+      Object.values(this.taskForm.controls).forEach((control) => {
+        control.markAsTouched();
+      });
+      this.cdr.detectChanges();
+      return;
+    }
+
     const currentDate = new Date().toISOString().slice(0, 10);
 
     this.taskForm.patchValue({
@@ -148,6 +164,8 @@ export class TaskCreateComponent implements OnInit, OnDestroy {
       .generateUniqueId()
       .pipe(
         switchMap((taskId) => {
+          this.taskId = taskId;
+
           const task: Task = {
             ...this.taskForm.value,
             id: taskId,
@@ -158,7 +176,7 @@ export class TaskCreateComponent implements OnInit, OnDestroy {
 
           if (this.commentsTextarea.nativeElement.value.trim() !== '') {
             return this.taskService.generateUniqueCommentId().pipe(
-              switchMap((commentId) => {
+              map((commentId) => {
                 const newComment: Comment = {
                   id: commentId,
                   body: this.commentsTextarea.nativeElement.value,
@@ -167,23 +185,38 @@ export class TaskCreateComponent implements OnInit, OnDestroy {
 
                 task.comments.push(newComment);
 
-                return of(task);
+                return task;
               })
             );
           } else {
             return of(task);
           }
-        })
+        }),
+        tap((task) => {
+          this.store.dispatch(TaskActions.addTask({ task }));
+        }),
+        switchMap(() =>
+          this.actions$.pipe(ofType(TaskActions.addTaskSuccess), take(1))
+        )
       )
-      .subscribe((task) => {
-        this.store.dispatch(TaskActions.addTask({ task }));
-        this.store.dispatch(TaskActions.loadTasks());
-        this.router.navigate(['task/list']);
+      .subscribe(() => {
+        this.router.navigate(['/task/open', this.taskId]);
       });
   }
 
   goBack() {
     this._location.back();
+  }
+
+  dateValidator(): ValidatorFn {
+    return (control: AbstractControl): {[key: string]: any} | null => {
+      const today = new Date(this.minDate);
+      const selectedDate = new Date(control.value);
+      if (selectedDate < today) {
+        return { 'dateInvalid': true };
+      }
+      return null;
+    };
   }
 
   toggleAssignedTo(userId: string): void {
@@ -195,6 +228,12 @@ export class TaskCreateComponent implements OnInit, OnDestroy {
     } else {
       assignedToArray.removeAt(index);
     }
+
+    assignedToArray.updateValueAndValidity();
+  }
+
+  get f() {
+    return this.taskForm.controls;
   }
 
   onFileSelected(event: Event): void {

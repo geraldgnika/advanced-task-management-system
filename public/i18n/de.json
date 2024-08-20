@@ -116,5 +116,15 @@
   "CHOOSE_FILE": "Datei auswählen",
   "NO_FILE_CHOSEN": "Keine Datei ausgewählt",
   "LOADING": "Wird geladen...",
-  "ERROR": "Fehler :/"
+  "ERROR": "Fehler :/",
+  "STH_WRONG": "Hoppla! Etwas ist schiefgelaufen",
+  "ERR_EXPLANATION": "Es tut uns leid, aber es scheint, als wäre ein unerwarteter Fehler aufgetreten. Unser Team wurde benachrichtigt und arbeitet an der Behebung.",
+  "ERR_SUGGESTION": "In der Zwischenzeit können Sie versuchen, die Seite zu aktualisieren oder auf unsere Startseite zurückzukehren.",
+  "RETURN_HOME": "Zur Startseite zurückkehren",
+  "TITLE_REQUIRED": "Titel ist erforderlich!",
+  "STATUS_REQUIRED": "Status ist erforderlich!",
+  "DUE_DATE_REQUIRED": "Fälligkeitsdatum ist erforderlich!",
+  "PRIORITY_REQUIRED": "Priorität ist erforderlich!",
+  "ASSIGN_TO_REQUIRED": "Zuweisung ist erforderlich!",
+  "DATE_MUST_BE_TODAY_OR_LATER": "Das Datum muss heute, oder später sein!"
 }

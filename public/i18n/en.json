@@ -116,5 +116,15 @@
   "CHOOSE_FILE": "Choose File",
   "NO_FILE_CHOSEN": "No File Chosen",
   "LOADING": "Loading...",
-  "ERROR": "Error :/"
+  "ERROR": "Error :/",
+  "STH_WRONG": "Oops! Something went wrong",
+  "ERR_EXPLANATION": "We're sorry, but it seems like we've encountered an unexpected error. Our team has been notified and is working on fixing it.",
+  "ERR_SUGGESTION": "In the meantime, you can try refreshing the page or returning to our homepage.",
+  "RETURN_HOME": "Return to Homepage",
+  "TITLE_REQUIRED": "Title is required!",
+  "STATUS_REQUIRED": "Status is required!",
+  "DUE_DATE_REQUIRED": "Due date is required!",
+  "PRIORITY_REQUIRED": "Priority is required!",
+  "ASSIGN_TO_REQUIRED": "Assign to is required!",
+  "DATE_MUST_BE_TODAY_OR_LATER": "Date must be today, or later!"
 }

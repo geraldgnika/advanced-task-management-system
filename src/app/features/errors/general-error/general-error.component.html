@@ -7,17 +7,15 @@
         class="img-fluid mb-4"
         style="max-height: 200px"
       />
-      <h1 class="display-4 mb-4">Oops! Something went wrong</h1>
+      <h1 class="display-4 mb-4">{{ "STH_WRONG" | translate }}</h1>
       <p class="lead mb-4">
-        We're sorry, but it seems like we've encountered an unexpected error.
-        Our team has been notified and is working on fixing it.
+        {{ "ERR_EXPLANATION" | translate }}
       </p>
       <p class="mb-4">
-        In the meantime, you can try refreshing the page or returning to our
-        homepage.
+        {{ "ERR_SUGGESTION" | translate }}
       </p>
       <a (click)="goToHomepage()" class="btn btn-primary btn-lg">
-        <i class="bi bi-house-door me-2"></i>Return to Homepage
+        <i class="bi bi-house-door me-2"></i>{{ "RETURN_HOME" | translate }}
       </a>
     </div>
   </div>
