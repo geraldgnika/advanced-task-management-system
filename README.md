@@ -61,7 +61,6 @@ To get a local copy up and running, follow these steps:
 
    Password: 123456 for all of them.
 
-
 ## Testing
 1. To run tests, use the following commands:
     ```bash
