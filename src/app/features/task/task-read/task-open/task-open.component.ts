@@ -9,7 +9,8 @@ import {
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { first, forkJoin, map, Observable, of, Subject, Subscription, takeUntil, tap } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
+import { switchMap, take, takeUntil, tap } from 'rxjs/operators';
 import { LocaleService } from '../../../../core/_services/i18n/locale.service';
 import { TaskService } from '../../../../core/_services/task/task.service';
 import { Task } from '../../../../core/types/interfaces/task';
@@ -30,20 +31,16 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TaskOpenComponent implements OnInit, OnDestroy {
-  task$: Observable<Task | null> | undefined;
-  loading$: Observable<boolean> | undefined;
-  error$: Observable<any> | undefined;
-  task!: Task;
-  user!: User;
+  task$: Observable<Task | null>;
+  loading$: Observable<boolean>;
+  error$: Observable<any>;
   newComment: string = '';
-  currentUser$: Observable<User | null> = of();
+  currentUser$: Observable<User | null>;
   showMentionBox: boolean = false;
   filteredUsernames: string[] = [];
-  allUsers$: Observable<User[]> | undefined;
+  allUsers$: Observable<User[]>;
   allUsernames: string[] = [];
-  allUsersSubscription: Subscription | undefined;
   @ViewChild('commentInput') commentInput!: ElementRef<HTMLInputElement>;
-  newId!: string;
   locale: string = '';
   private destroy$ = new Subject<void>();
   fileName: string = '';
@@ -58,82 +55,89 @@ export class TaskOpenComponent implements OnInit, OnDestroy {
     private taskService: TaskService
   ) {
     this.currentUser$ = this.store.select('authentication', 'user');
-    this.store.dispatch(AuthenticationActions.loadCurrentUser());
+    this.task$ = this.store.select(selectSelectedTask);
+    this.loading$ = this.store.select(selectAllTasksLoading);
+    this.error$ = this.store.select(selectAllTasksError);
+    this.allUsers$ = this.store.select('authentication', 'users');
   }
 
   ngOnInit(): void {
+    this.store.dispatch(AuthenticationActions.loadCurrentUser());
+
     this.localeService.locale$
       .pipe(takeUntil(this.destroy$))
       .subscribe((locale) => {
         this.locale = locale;
       });
 
-    this.getTask();
-
-    this.allUsers$ = this.store.select('authentication', 'users');
-
-    this.allUsersSubscription = this.allUsers$
-      .pipe(map((users) => users.map((user) => user.username)))
-      .subscribe((usernames) => {
-        this.allUsernames = usernames;
-      });
-
-    this.store.dispatch(AuthenticationActions.loadUsers());
-  }
-
-  getTask() {
     const taskId = this.route.snapshot.params['id'];
     this.store.dispatch(TaskActions.loadTask({ id: taskId }));
 
-    this.task$ = this.store.select(selectSelectedTask);
-    this.loading$ = this.store.select(selectAllTasksLoading);
-    this.error$ = this.store.select(selectAllTasksError);
+    this.allUsers$.pipe(takeUntil(this.destroy$)).subscribe((users) => {
+      this.allUsernames = users.map((user) => user.username);
+    });
+
+    this.store.dispatch(AuthenticationActions.loadUsers());
   }
 
   goToTaskUpdate(id: string): void {
     this.router.navigate(['/task/update', id]);
   }
 
+  @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
+
   deleteAttachment(): void {
-    this.task$!.subscribe((task) => {
-      if (!task) {
-        return;
-      }
-
-      this.task = task;
-    });
-
-    const result = confirm(
-      `Are you sure you want to delete "${this.task.attachment}"?`
-    );
-
-    if (result && this.task.attachment) {
-      this.store.dispatch(TaskActions.deleteAttachment({ task: this.task }));
-      this.store.dispatch(TaskActions.loadTask({ id: this.task.id }));
-    }
-  }
+    this.task$
+      .pipe(
+        takeUntil(this.destroy$),
+        take(1),
+        tap((task) => {
+          if (task && task.attachment) {
+            const confirmation = confirm(`Are you sure you want to delete "${task.attachment}"?`);
+            if (confirmation) {
+              const updatedTask: Task = {
+                ...task,
+                attachment: null,
+              };
+              this.store.dispatch(TaskActions.updateTask({ task: updatedTask }));
+  
+              if (this.fileInput) {
+                this.fileInput.nativeElement.value = '';
+              }
+            }
+          }
+        })
+      )
+      .subscribe();
+  }  
 
   goBack() {
     this._location.back();
   }
 
   onFileSelected(event: Event): void {
-    this.task$!.subscribe((task) => {
-      if (!task) {
-        return;
-      }
-
-      this.task = task;
-    });
-
     const inputElement = event.target as HTMLInputElement;
     if (inputElement.files && inputElement.files.length > 0) {
       const file = inputElement.files[0];
       this.fileName = file.name;
-      this.store.dispatch(
-        TaskActions.updateAttachment({ task: this.task, filename: file.name })
-      );
-      this.store.dispatch(TaskActions.loadTask({ id: this.task.id }));
+      this.task$
+        .pipe(
+          takeUntil(this.destroy$),
+          take(1),
+          tap((task) => {
+            if (task) {
+              const updatedTask: Task = {
+                ...task,
+                attachment: file.name,
+              };
+              this.store.dispatch(
+                TaskActions.updateTask({ task: updatedTask })
+              );
+              inputElement.value = '';
+            }
+          })
+        )
+        .subscribe();
     }
   }
 
@@ -183,9 +187,6 @@ export class TaskOpenComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
-    if (this.allUsersSubscription) {
-      this.allUsersSubscription.unsubscribe();
-    }
   }
 
   formatDate(date: Date | string): string {
@@ -196,58 +197,51 @@ export class TaskOpenComponent implements OnInit, OnDestroy {
   }
 
   deleteComment(commentId: string): void {
-    this.task$!.subscribe((task) => {
-      if (!task) {
-        return;
-      }
-
-      this.task = task;
-
-      const updatedComments = task.comments.filter(
-        (comment) => comment.id !== commentId
-      );
-
-      const updatedTask: Task = {
-        ...task,
-        comments: updatedComments,
-      };
-
-      this.store.dispatch(TaskActions.updateTask({ task: updatedTask }));
-      this.store.dispatch(TaskActions.loadTask({ id: this.task.id }));
-    });
+    this.task$
+      .pipe(
+        takeUntil(this.destroy$),
+        tap((task) => {
+          if (task) {
+            const updatedTask: Task = {
+              ...task,
+              comments: task.comments.filter(
+                (comment) => comment.id !== commentId
+              ),
+            };
+            this.store.dispatch(TaskActions.updateTask({ task: updatedTask }));
+          }
+        })
+      )
+      .subscribe();
   }
 
   postComment(): void {
-    forkJoin({
-      task: this.task$!.pipe(first()),
-      user: this.currentUser$!.pipe(first()),
-      newId: this.taskService.generateUniqueCommentId()
-    }).pipe(
-      tap(({ task, user, newId }) => {
-        if (!task || !user || !newId) {
-          throw new Error('Missing required data');
-        }
-  
-        const newComment = {
-          id: newId,
-          body: this.newComment,
-          username: user.username,
-        };
-  
-        const updatedTask = {
-          ...task,
-          comments: [...task.comments, newComment],
-        };
-  
-        this.store.dispatch(TaskActions.updateTask({ task: updatedTask }));
-        this.store.dispatch(TaskActions.updateTaskSuccess({ task: updatedTask }));
-  
-        this.newComment = '';
-      })
-    ).subscribe({
-      error: (error) => {
-        console.error('Error posting comment:', error);
-      }
-    });
+    this.currentUser$
+      .pipe(
+        takeUntil(this.destroy$),
+        switchMap((user) => {
+          if (!user) throw new Error('No current user');
+          return this.task$.pipe(
+            tap((task) => {
+              if (task) {
+                const newComment = {
+                  id: Date.now().toString(), // Simple ID generation
+                  body: this.newComment,
+                  username: user.username,
+                };
+                const updatedTask: Task = {
+                  ...task,
+                  comments: [...task.comments, newComment],
+                };
+                this.store.dispatch(
+                  TaskActions.updateTask({ task: updatedTask })
+                );
+                this.newComment = '';
+              }
+            })
+          );
+        })
+      )
+      .subscribe();
   }
 }
