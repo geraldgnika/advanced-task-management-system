@@ -8,6 +8,7 @@ import {
   map,
   mergeMap,
   switchMap,
+  tap,
 } from 'rxjs/operators';
 import { TaskService } from '../../../core/_services/task/task.service';
 import * as TaskActions from './task.actions';
@@ -87,12 +88,11 @@ export class TaskEffects {
   deleteAttachment$ = createEffect(() =>
     this.actions$.pipe(
       ofType(TaskActions.deleteAttachment),
-      mergeMap((action) =>
-        this.taskService.deleteAttachment(action.task).pipe(
-          map((task) => TaskActions.deleteAttachmentSuccess({ task })),
-          catchError((error) =>
-            of(TaskActions.deleteAttachmentFailure({ error }))
-          )
+      switchMap(({ task }) =>
+        this.taskService.deleteAttachment(task).pipe(
+          tap(response => console.log('Delete attachment response:', response)),
+          map(() => TaskActions.deleteAttachmentSuccess({ task: task })),
+          catchError(error => of(TaskActions.deleteAttachmentFailure({ error })))
         )
       )
     )
@@ -102,17 +102,10 @@ export class TaskEffects {
   updateAttachment$ = createEffect(() =>
     this.actions$.pipe(
       ofType(TaskActions.updateAttachment),
-      mergeMap((action) =>
-        this.taskService.updateAttachment(action.task, action.filename).pipe(
-          map((task) =>
-            TaskActions.updateAttachmentSuccess({
-              task,
-              filename: action.filename,
-            })
-          ),
-          catchError((error) =>
-            of(TaskActions.updateAttachmentFailure({ error }))
-          )
+      switchMap(({ task, filename }) =>
+        this.taskService.updateAttachment(task, filename).pipe(
+          map(updatedTask => TaskActions.updateAttachmentSuccess({ task: updatedTask, filename: filename })),
+          catchError(error => of(TaskActions.updateAttachmentFailure({ error })))
         )
       )
     )
