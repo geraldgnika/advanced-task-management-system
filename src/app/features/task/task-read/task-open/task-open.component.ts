@@ -225,7 +225,7 @@ export class TaskOpenComponent implements OnInit, OnDestroy {
             tap((task) => {
               if (task) {
                 const newComment = {
-                  id: Date.now().toString(), // Simple ID generation
+                  id: Date.now().toString(),
                   body: this.newComment,
                   username: user.username,
                 };
