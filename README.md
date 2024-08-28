@@ -15,9 +15,6 @@ This project is an advanced task management system developed using Angular 18. I
   - [Contributing](#contributing)
   - [License](#license)
 
-## Project Overview
-The project focuses on enhancing user productivity and team efficiency through features like task collaboration, real-time updates and advanced search capabilities.
-
 ## Key Features
 - **User Authentication and Authorization**: Simulated JWT-based authentication with role-based access control (RBAC).
 - **Dashboard and Task Views**: Dynamic dashboard with task views in board, list, grid, and calendar formats.
