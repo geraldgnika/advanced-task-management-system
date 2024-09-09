@@ -28,6 +28,8 @@ This project is an advanced task management system developed using Angular 18. I
 - **Responsive Design**: Full responsiveness across devices for seamless user experience.
 
 ## Technical Requirements
+- **Node.js Version**: 20.17.0
+- - **Npm Version**: 9.0.0
 - **Angular Version**: 18.1.1
 - **State Management**: NgRx
 - **UI/UX Framework**: Bootstrap & Angular Material's CDK
