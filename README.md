@@ -5,7 +5,6 @@ This project is an advanced task management system developed using Angular 18. I
 ## Table of Contents
 - [Advanced Task Management System](#advanced-task-management-system)
   - [Table of Contents](#table-of-contents)
-  - [Project Overview](#project-overview)
   - [Key Features](#key-features)
   - [Technical Requirements](#technical-requirements)
   - [Getting Started](#getting-started)
