@@ -1,7 +1,8 @@
 # Advanced Task Management System
 
 This project is an advanced task management system developed using Angular 18. It aims to provide a comprehensive solution for task creation, assignment, tracking, and reporting, all on the frontend without requiring backend integration.
-https://github.com/geraldgnika/advanced-task-management-system/blob/main/presentation.mp4
+
+
 
 ## Table of Contents
 - [Advanced Task Management System](#advanced-task-management-system)
